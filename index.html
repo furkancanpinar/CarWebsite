@@ -1,12 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0;url=MainPage.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Redirecting…</title>
-  </head>
-  <body>
-    Redirecting to <a href="MainPage.html">MainPage.html</a>
-  </body>
- </html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameWise | Find Your Perfect Drive</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="dark">
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo-mark"></div>
+        <div>
+          <p class="brand-name">GameWise</p>
+          <p class="brand-tag">Precision Mobility</p>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <a href="#featured">Buy Cars</a>
+        <a href="#how-it-works">Sell Car</a>
+        <a href="#how-it-works">Financing</a>
+        <a href="#why-us">About</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+        </button>
+        <button class="button button-secondary">Login</button>
+        <button class="button button-primary">Sign Up</button>
+        <button class="icon-button theme-toggle" id="theme-toggle" aria-label="Toggle light mode">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm7.07 3.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 1 1-1.42 1.42L18.05 7.35a1 1 0 0 1 0-1.42zM22 11a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm-2.93 7.07a1 1 0 0 1 0 1.41l-1.42 1.42a1 1 0 1 1-1.42-1.42l1.42-1.42a1 1 0 0 1 1.42 0zM12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm-7.07-2.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1-1.42 1.42L5.93 16.5a1 1 0 0 1 0-1.42zM4 11a1 1 0 0 1-1-1H1a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm2.93-7.07a1 1 0 0 1 0 1.41L5.5 6.76A1 1 0 1 1 4.08 5.34l1.42-1.41z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-section">
+        <div class="hero-copy">
+          <span class="eyebrow">Curated for visionary drivers</span>
+          <h1>Find Your Perfect Drive</h1>
+          <p>Buy, sell, and finance luxury vehicles with confidence through a sleek market experience built for speed and clarity.</p>
+
+          <div class="hero-cta-group">
+            <button class="button button-primary">Browse Cars</button>
+            <button class="button button-secondary">Sell Your Car</button>
+          </div>
+
+          <div class="hero-search">
+            <div class="search-field">
+              <label for="vehicle-query">Make or model</label>
+              <input id="vehicle-query" type="text" placeholder="Search cars, brands, styles" />
+            </div>
+            <div class="search-field">
+              <label for="price-range">Price range</label>
+              <input id="price-range" type="text" placeholder="$30k - $80k" />
+            </div>
+            <button class="button button-accent">Search listings</button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card hero-card-top">
+            <p>Featured model</p>
+            <h2>Velocity GT</h2>
+            <span>$128,900</span>
+          </div>
+          <div class="hero-image"></div>
+          <div class="hero-card hero-card-bottom">
+            <p>Launch estimate</p>
+            <span>2.8s 0-60</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block" id="featured">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Featured</p>
+            <h2>Premium models ready to drive</h2>
+          </div>
+          <a class="text-link" href="#">View all cars</a>
+        </div>
+
+        <div class="car-grid">
+          <article class="car-card">
+            <div class="car-image placeholder-1"></div>
+            <div class="car-content">
+              <div>
+                <h3>Apex Phantom</h3>
+                <p class="car-price">$92,400</p>
+              </div>
+              <ul class="car-specs">
+                <li>12,600 mi</li>
+                <li>2024</li>
+                <li>Electric</li>
+              </ul>
+              <button class="button button-secondary-outline">View Details</button>
+            </div>
+          </article>
+
+          <article class="car-card">
+            <div class="car-image placeholder-2"></div>
+            <div class="car-content">
+              <div>
+                <h3>Nexa Aero</h3>
+                <p class="car-price">$74,900</p>
+              </div>
+              <ul class="car-specs">
+                <li>9,200 mi</li>
+                <li>2023</li>
+                <li>Hybrid</li>
+              </ul>
+              <button class="button button-secondary-outline">View Details</button>
+            </div>
+          </article>
+
+          <article class="car-card">
+            <div class="car-image placeholder-3"></div>
+            <div class="car-content">
+              <div>
+                <h3>R-Drive 9</h3>
+                <p class="car-price">$105,200</p>
+              </div>
+              <ul class="car-specs">
+                <li>5,800 mi</li>
+                <li>2025</li>
+                <li>Gasoline</li>
+              </ul>
+              <button class="button button-secondary-outline">View Details</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-block" id="how-it-works">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">How it works</p>
+            <h2>Three steps to your ideal car journey</h2>
+          </div>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-icon">1</div>
+            <h3>Buy a car</h3>
+            <p>Browse curated listings, compare features, and book a test drive in minutes.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon">2</div>
+            <h3>Sell a car</h3>
+            <p>Create a premium listing fast with expert pricing guidance and instant exposure.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon">3</div>
+            <h3>Get financing</h3>
+            <p>Access tailored plans and approval options to match your lifestyle and budget.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block" id="why-us">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Why choose us</p>
+            <h2>Trust, transparency, and premium service</h2>
+          </div>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <span class="trust-icon">🔒</span>
+            <h3>Secure payments</h3>
+            <p>Encrypted checkout with verified funding and buyer protection.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">🛡️</span>
+            <h3>Verified sellers</h3>
+            <p>Every listing is curated and reviewed for authenticity.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">⚡</span>
+            <h3>Fast listing</h3>
+            <p>Get your car live in minutes with easy submission tools.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">⭐</span>
+            <h3>Premium support</h3>
+            <p>Dedicated service for every buyer and seller experience.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-banner">
+        <div>
+          <p class="eyebrow">Ready to sell your car?</p>
+          <h2>List your car with confidence and reach buyers fast.</h2>
+        </div>
+        <button class="button button-accent">List Your Car</button>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Support</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="footer-meta">
+        <div class="social-links">
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Twitter</a>
+        </div>
+        <p>© 2026 GameWise. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    toggle.addEventListener('click', () => {
+      const nextTheme = body.dataset.theme === 'light' ? 'dark' : 'light';
+      body.dataset.theme = nextTheme;
+      toggle.setAttribute('aria-label', nextTheme === 'light' ? 'Toggle dark mode' : 'Toggle light mode');
+    });
+  </script>
+</body>
+</html>
