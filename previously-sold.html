@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Previously Sold Vehicles</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="dark">
+  <div class="page-shell">
+    <div class="top-bar">
+      <div class="top-bar-inner">
+        <div class="social">
+          <a href="#" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">TikTok</a>
+          <a href="#" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <div class="top-actions">
+          <button class="link-button" data-modal-target="opening-hours">Opening Hours</button>
+          <button class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
+        </div>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <div class="header-left">
+        <a class="brand" href="index.html">
+          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image" data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
+        </a>
+        <div class="search-inline">
+          <form role="search" class="search-form" onsubmit="return false;">
+            <label for="header-search" class="visually-hidden">Search</label>
+            <input id="header-search" type="search" placeholder="Search cars, brands" />
+            <button class="icon-button search-submit" aria-label="Search submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <a href="browse.html">Buy Cars</a>
+        <a href="sell.html">Sell Car</a>
+        <a class="nav-link active" href="previously-sold.html">Previously Sold Vehicles</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="button button-secondary">Login</button>
+        <button class="button button-primary">Sign Up</button>
+        <button class="icon-button theme-toggle" id="theme-toggle" aria-label="Toggle light mode">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm7.07 3.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 1 1-1.42 1.42L18.05 7.35a1 1 0 0 1 0-1.42zM22 11a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm-2.93 7.07a1 1 0 0 1 0 1.41l-1.42 1.42a1 1 0 1 1-1.42-1.42l1.42-1.42a1 1 0 0 1 1.42 0zM12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm-7.07-2.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1-1.42 1.42L5.93 16.5a1 1 0 0 1 0-1.42zM4 11a1 1 0 0 1-1-1H1a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm2.93-7.07a1 1 0 0 1 0 1.41L5.5 6.76A1 1 0 1 1 4.08 5.34l1.42-1.41z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-header">
+        <div>
+          <p class="breadcrumb">Home / Previously Sold</p>
+          <h1>Previously Sold Vehicles</h1>
+          <p>Explore the vehicles we've recently sold — curated archive of premium models.</p>
+        </div>
+        <div class="header-meta">
+          <div class="stat-card">
+            <span>Archive</span>
+            <p>Historic sold listings</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Sold</p>
+            <h2>Our Sold Collection</h2>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <input id="sold-search" class="filter-search" type="search" placeholder="Search make, model, year" aria-label="Search sold vehicles" />
+            <select id="sold-filter-year" class="filter-select" aria-label="Filter by year">
+              <option value="">All years</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="listings-grid sold-grid" id="sold-grid">
+          <article class="car-card sold-item" data-make="Tesla" data-model="Model S" data-year="2024" data-mileage="8000" data-sale-date="2026-05-10">
+            <div class="car-image" style="background-image:linear-gradient(180deg,#0f172a,#1e293b);">
+              <span class="badge sold">SOLD</span>
+            </div>
+            <div class="car-content">
+              <div class="car-title">
+                <div>
+                  <h3>Tesla Model S</h3>
+                  <p class="car-price">£95,000</p>
+                </div>
+                <p style="color:var(--muted)">8,000 mi • 2024</p>
+              </div>
+              <ul class="car-specs">
+                <li>8,000 mi</li>
+                <li>2024</li>
+                <li>Electric</li>
+              </ul>
+              <p class="car-muted">Sold on 10 May 2026 — pristine condition, full service history.</p>
+            </div>
+          </article>
+
+          <article class="car-card sold-item" data-make="Porsche" data-model="911" data-year="2023" data-mileage="4200" data-sale-date="2026-04-02">
+            <div class="car-image" style="background-image:linear-gradient(180deg,#141e2c,#18334d);">
+              <span class="badge sold">SOLD</span>
+            </div>
+            <div class="car-content">
+              <div class="car-title">
+                <div>
+                  <h3>Porsche 911</h3>
+                  <p class="car-price">£165,000</p>
+                </div>
+                <p style="color:var(--muted)">4,200 mi • 2023</p>
+              </div>
+              <ul class="car-specs">
+                <li>4,200 mi</li>
+                <li>2023</li>
+                <li>Petrol</li>
+              </ul>
+              <p class="car-muted">Sold on 2 Apr 2026 — collector-grade example.</p>
+            </div>
+          </article>
+
+          <article class="car-card sold-item" data-make="Range Rover" data-model="Sport" data-year="2022" data-mileage="15000" data-sale-date="2026-03-18">
+            <div class="car-image" style="background-image:linear-gradient(180deg,#201a33,#2c2b53);">
+              <span class="badge sold">SOLD</span>
+            </div>
+            <div class="car-content">
+              <div class="car-title">
+                <div>
+                  <h3>Range Rover Sport</h3>
+                  <p class="car-price">£78,000</p>
+                </div>
+                <p style="color:var(--muted)">15,000 mi • 2022</p>
+              </div>
+              <ul class="car-specs">
+                <li>15,000 mi</li>
+                <li>2022</li>
+                <li>Diesel</li>
+              </ul>
+              <p class="car-muted">Sold on 18 Mar 2026 — executive spec.</p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Support</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="scripts.js"></script>
+
+  <!-- Modals -->
+  <div class="modal" id="opening-hours" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="opening-hours-title">Opening Hours</h3>
+      <ul class="hours-list">
+        <li>Monday: 9:00 AM – 6:00 PM</li>
+        <li>Tuesday: 9:00 AM – 6:00 PM</li>
+        <li>Wednesday: 9:00 AM – 6:00 PM</li>
+        <li>Thursday: 9:00 AM – 6:00 PM</li>
+        <li>Friday: 9:00 AM – 6:00 PM</li>
+        <li>Saturday: 10:00 AM – 4:00 PM</li>
+        <li>Sunday: Closed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="get-in-touch" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="get-in-touch-title">Get In Touch</h3>
+      <div class="contact-list">
+        <p><strong>Phone:</strong> +44 20 7946 0958</p>
+        <p><strong>Email:</strong> hello@autex.example</p>
+        <p><strong>Address:</strong> 123 Premium Dr, London</p>
+        <p><strong>WhatsApp:</strong> +44 7700 900123</p>
+        <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

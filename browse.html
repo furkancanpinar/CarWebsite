@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameWise | Browse Cars</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="dark">
+  <div class="page-shell">
+      <div class="top-bar" aria-hidden="false">
+        <div class="top-bar-inner">
+          <div class="social">
+            <a href="#" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">Instagram</a>
+            <a href="#" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">TikTok</a>
+            <a href="#" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+          <div class="top-actions">
+            <button class="link-button" data-modal-target="opening-hours">Opening Hours</button>
+            <button class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
+          </div>
+        </div>
+      </div>
+
+      <header class="site-header">
+      <div class="header-left">
+        <a class="brand" href="index.html">
+          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image" data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexLogo.png" />
+        </a>
+        <div class="search-inline">
+          <form role="search" class="search-form" onsubmit="return false;">
+            <label for="header-search" class="visually-hidden">Search</label>
+            <input id="header-search" type="search" placeholder="Search cars, brands" />
+            <button class="icon-button search-submit" aria-label="Search submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <button class="mobile-search-button" aria-label="Open search" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+      </button>
+
+      <nav class="main-nav">
+        <a class="nav-link active" href="browse.html">Buy Cars</a>
+        <a href="sell.html">Sell Car</a>
+        <a href="previously-sold.html">Previously Sold Vehicles</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="button button-secondary">Login</button>
+        <button class="button button-primary">Sign Up</button>
+        <button class="icon-button theme-toggle" id="theme-toggle" aria-label="Toggle light mode">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm7.07 3.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 1 1-1.42 1.42L18.05 7.35a1 1 0 0 1 0-1.42zM22 11a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm-2.93 7.07a1 1 0 0 1 0 1.41l-1.42 1.42a1 1 0 1 1-1.42-1.42l1.42-1.42a1 1 0 0 1 1.42 0zM12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm-7.07-2.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1-1.42 1.42L5.93 16.5a1 1 0 0 1 0-1.42zM4 11a1 1 0 0 1-1-1H1a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm2.93-7.07a1 1 0 0 1 0 1.41L5.5 6.76A1 1 0 1 1 4.08 5.34l1.42-1.41z"/></svg>
+        </button>
+        <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-header">
+        <div>
+          <p class="breadcrumb">Home / Buy Cars</p>
+          <h1>Browse Cars</h1>
+          <p>Find your perfect vehicle from verified listings.</p>
+        </div>
+        <div class="header-meta">
+          <div class="stat-card">
+            <span>1,248</span>
+            <p>Verified listings</p>
+
+          </div>
+          <div class="stat-card">
+            <span>4.9</span>
+            <p>Seller rating</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="browse-layout">
+        <aside class="filter-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Filters</p>
+              <h2>Refine your search</h2>
+            </div>
+            <button class="button button-secondary-outline">Reset</button>
+          </div>
+
+          <div class="filter-group">
+            <label for="search-make">Search make or model</label>
+            <input id="search-make" type="text" placeholder="Tesla Model S, BMW M5" />
+          </div>
+
+          <div class="filter-group range-group">
+            <label for="price-range">Price range</label>
+            <div class="range-track">
+              <input id="price-range" type="range" min="20000" max="250000" value="85000" />
+              <div class="range-labels"><span>$20k</span><span>$250k</span></div>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Brand</label>
+            <div class="chip-list">
+              <button class="chip active">BMW</button>
+              <button class="chip">Tesla</button>
+              <button class="chip">Audi</button>
+              <button class="chip">Porsche</button>
+            </div>
+          </div>
+
+          <div class="filter-grid two-col">
+            <div class="filter-group">
+              <label>Year</label>
+              <select>
+                <option>2024+</option>
+                <option>2021–2023</option>
+                <option>2018–2020</option>
+                <option>2015–2017</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Fuel type</label>
+              <select>
+                <option>Electric</option>
+                <option>Hybrid</option>
+                <option>Petrol</option>
+                <option>Diesel</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-grid two-col">
+            <div class="filter-group">
+              <label>Mileage</label>
+              <select>
+                <option>Under 20k mi</option>
+                <option>20k–50k mi</option>
+                <option>50k–80k mi</option>
+                <option>80k+ mi</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Transmission</label>
+              <select>
+                <option>Automatic</option>
+                <option>Manual</option>
+                <option>Electric</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Location</label>
+            <input type="text" placeholder="San Francisco, CA" />
+          </div>
+
+          <div class="filter-toggle">
+            <span>Verified sellers only</span>
+            <button class="toggle-switch" aria-pressed="true"></button>
+          </div>
+        </aside>
+
+        <div class="listing-panel">
+          <div class="listing-topbar">
+            <div class="sort-group">
+              <p>Sort by</p>
+              <select>
+                <option>Recommended</option>
+                <option>Price low to high</option>
+                <option>Price high to low</option>
+                <option>Newest listings</option>
+                <option>Mileage lowest first</option>
+              </select>
+            </div>
+            <div class="saved-indicator">
+              <span>6 saved cars</span>
+            </div>
+          </div>
+
+          <div class="listings-grid">
+            <article class="car-card show-room">
+              <div class="car-image placeholder-1">
+                <button class="favorite-button" aria-label="Save car">♥</button>
+                <span class="badge verified">Verified</span>
+              </div>
+              <div class="car-content">
+                <div class="car-title">
+                  <h3>Model Name</h3>
+                  <p>Year • Type</p>
+                </div>
+                <p class="car-price">—</p>
+                <ul class="car-specs">
+                  <li>— mi</li>
+                  <li>—</li>
+                  <li>—</li>
+                </ul>
+                <div class="card-actions">
+                  <button class="button button-secondary-outline">View Details</button>
+                  <button class="button button-primary">Save</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="car-card show-room">
+              <div class="car-image placeholder-2">
+                <button class="favorite-button" aria-label="Save car">♥</button>
+                <span class="badge">Badge</span>
+              </div>
+              <div class="car-content">
+                <div class="car-title">
+                  <h3>Model Name</h3>
+                  <p>Year • Type</p>
+                </div>
+                <p class="car-price">—</p>
+                <ul class="car-specs">
+                  <li>— mi</li>
+                  <li>—</li>
+                  <li>—</li>
+                </ul>
+                <div class="card-actions">
+                  <button class="button button-secondary-outline">View Details</button>
+                  <button class="button button-primary">Save</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="car-card show-room">
+              <div class="car-image placeholder-3">
+                <button class="favorite-button" aria-label="Save car">♥</button>
+                <span class="badge">Badge</span>
+              </div>
+              <div class="car-content">
+                <div class="car-title">
+                  <h3>Model Name</h3>
+                  <p>Year • Type</p>
+                </div>
+                <p class="car-price">—</p>
+                <ul class="car-specs">
+                  <li>— mi</li>
+                  <li>—</li>
+                  <li>—</li>
+                </ul>
+                <div class="card-actions">
+                  <button class="button button-secondary-outline">View Details</button>
+                  <button class="button button-primary">Save</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="car-card show-room">
+              <div class="car-image placeholder-4">
+                <button class="favorite-button" aria-label="Save car">♥</button>
+                <span class="badge">Badge</span>
+              </div>
+              <div class="car-content">
+                <div class="car-title">
+                  <h3>Model Name</h3>
+                  <p>Year • Type</p>
+                </div>
+                <p class="car-price">—</p>
+                <ul class="car-specs">
+                  <li>— mi</li>
+                  <li>—</li>
+                  <li>—</li>
+                </ul>
+                <div class="card-actions">
+                  <button class="button button-secondary-outline">View Details</button>
+                  <button class="button button-primary">Save</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="car-card show-room">
+              <div class="car-image placeholder-5">
+                <button class="favorite-button" aria-label="Save car">♥</button>
+                <span class="badge">Badge</span>
+              </div>
+              <div class="car-content">
+                <div class="car-title">
+                  <h3>Model Name</h3>
+                  <p>Year • Type</p>
+                </div>
+                <p class="car-price">—</p>
+                <ul class="car-specs">
+                  <li>— mi</li>
+                  <li>—</li>
+                  <li>—</li>
+                </ul>
+                <div class="card-actions">
+                  <button class="button button-secondary-outline">View Details</button>
+                  <button class="button button-primary">Save</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="car-card show-room">
+              <div class="car-image placeholder-6">
+                <button class="favorite-button" aria-label="Save car">♥</button>
+                <span class="badge">Badge</span>
+              </div>
+              <div class="car-content">
+                <div class="car-title">
+                  <h3>Model Name</h3>
+                  <p>Year • Type</p>
+                </div>
+                <p class="car-price">—</p>
+                <ul class="car-specs">
+                  <li>— mi</li>
+                  <li>—</li>
+                  <li>—</li>
+                </ul>
+                <div class="card-actions">
+                  <button class="button button-secondary-outline">View Details</button>
+                  <button class="button button-primary">Save</button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="pagination">
+            <button class="page-button active">1</button>
+            <button class="page-button">2</button>
+            <button class="page-button">3</button>
+            <button class="page-button">Next</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="scripts.js"></script>
+  <!-- Modals -->
+  <div class="modal" id="opening-hours" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="opening-hours-title">Opening Hours</h3>
+      <ul class="hours-list">
+        <li>Monday: 9:00 AM – 6:00 PM</li>
+        <li>Tuesday: 9:00 AM – 6:00 PM</li>
+        <li>Wednesday: 9:00 AM – 6:00 PM</li>
+        <li>Thursday: 9:00 AM – 6:00 PM</li>
+        <li>Friday: 9:00 AM – 6:00 PM</li>
+        <li>Saturday: 10:00 AM – 4:00 PM</li>
+        <li>Sunday: Closed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="get-in-touch" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="get-in-touch-title">Get In Touch</h3>
+      <div class="contact-list">
+        <p><strong>Phone:</strong> +44 20 7946 0958</p>
+        <p><strong>Email:</strong> hello@autex.example</p>
+        <p><strong>Address:</strong> 123 Premium Dr, London</p>
+        <p><strong>WhatsApp:</strong> +44 7700 900123</p>
+        <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

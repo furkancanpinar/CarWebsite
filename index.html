@@ -8,30 +8,55 @@
 </head>
 <body data-theme="dark">
   <div class="page-shell">
+    <div class="top-bar" aria-hidden="false">
+      <div class="top-bar-inner">
+        <div class="social">
+          <a href="#" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">TikTok</a>
+          <a href="#" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
+        <div class="top-actions">
+          <button class="link-button" data-modal-target="opening-hours">Opening Hours</button>
+          <button class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
+        </div>
+      </div>
+
+      <button class="mobile-search-button" aria-label="Open search" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+      </button>
+    </div>
+
     <header class="site-header">
-      <div class="brand">
-        <div class="logo-mark"></div>
-        <div>
-          <p class="brand-name">GameWise</p>
-          <p class="brand-tag">Precision Mobility</p>
+      <div class="header-left">
+        <a class="brand" href="index.html">
+          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image" data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
+        </a>
+
+        <div class="search-inline">
+          <form role="search" class="search-form" onsubmit="return false;">
+            <label for="header-search" class="visually-hidden">Search</label>
+            <input id="header-search" type="search" placeholder="Search cars, brands" />
+            <button class="icon-button search-submit" aria-label="Search submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+            </button>
+          </form>
         </div>
       </div>
 
       <nav class="main-nav">
-        <a href="#featured">Buy Cars</a>
-        <a href="#how-it-works">Sell Car</a>
-        <a href="#how-it-works">Financing</a>
-        <a href="#why-us">About</a>
+        <a href="browse.html">Buy Cars</a>
+        <a href="sell.html">Sell Car</a>
+        <a href="previously-sold.html">Previously Sold Vehicles</a>
       </nav>
 
       <div class="header-actions">
-        <button class="icon-button" aria-label="Search">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
-        </button>
         <button class="button button-secondary">Login</button>
         <button class="button button-primary">Sign Up</button>
         <button class="icon-button theme-toggle" id="theme-toggle" aria-label="Toggle light mode">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm7.07 3.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 1 1-1.42 1.42L18.05 7.35a1 1 0 0 1 0-1.42zM22 11a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm-2.93 7.07a1 1 0 0 1 0 1.41l-1.42 1.42a1 1 0 1 1-1.42-1.42l1.42-1.42a1 1 0 0 1 1.42 0zM12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm-7.07-2.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1-1.42 1.42L5.93 16.5a1 1 0 0 1 0-1.42zM4 11a1 1 0 0 1-1-1H1a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm2.93-7.07a1 1 0 0 1 0 1.41L5.5 6.76A1 1 0 1 1 4.08 5.34l1.42-1.41z"/></svg>
+        </button>
+        <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </header>
@@ -47,7 +72,6 @@
             <button class="button button-primary">Browse Cars</button>
             <button class="button button-secondary">Sell Your Car</button>
           </div>
-
           <div class="hero-search">
             <div class="search-field">
               <label for="vehicle-query">Make or model</label>
@@ -55,7 +79,7 @@
             </div>
             <div class="search-field">
               <label for="price-range">Price range</label>
-              <input id="price-range" type="text" placeholder="$30k - $80k" />
+              <input id="price-range" type="text" placeholder="£30k - £80k" />
             </div>
             <button class="button button-accent">Search listings</button>
           </div>
@@ -64,13 +88,13 @@
         <div class="hero-visual">
           <div class="hero-card hero-card-top">
             <p>Featured model</p>
-            <h2>Velocity GT</h2>
-            <span>$128,900</span>
+            <h2>Model Name</h2>
+            <span>—</span>
           </div>
           <div class="hero-image"></div>
           <div class="hero-card hero-card-bottom">
             <p>Launch estimate</p>
-            <span>2.8s 0-60</span>
+            <span>—</span>
           </div>
         </div>
       </section>
@@ -89,13 +113,13 @@
             <div class="car-image placeholder-1"></div>
             <div class="car-content">
               <div>
-                <h3>Apex Phantom</h3>
-                <p class="car-price">$92,400</p>
+                <h3>Model Name</h3>
+                <p class="car-price">—</p>
               </div>
               <ul class="car-specs">
-                <li>12,600 mi</li>
-                <li>2024</li>
-                <li>Electric</li>
+                <li>— mi</li>
+                <li>Year</li>
+                <li>Type</li>
               </ul>
               <button class="button button-secondary-outline">View Details</button>
             </div>
@@ -105,13 +129,13 @@
             <div class="car-image placeholder-2"></div>
             <div class="car-content">
               <div>
-                <h3>Nexa Aero</h3>
-                <p class="car-price">$74,900</p>
+                <h3>Model Name</h3>
+                <p class="car-price">—</p>
               </div>
               <ul class="car-specs">
-                <li>9,200 mi</li>
-                <li>2023</li>
-                <li>Hybrid</li>
+                <li>— mi</li>
+                <li>Year</li>
+                <li>Type</li>
               </ul>
               <button class="button button-secondary-outline">View Details</button>
             </div>
@@ -121,13 +145,13 @@
             <div class="car-image placeholder-3"></div>
             <div class="car-content">
               <div>
-                <h3>R-Drive 9</h3>
-                <p class="car-price">$105,200</p>
+                <h3>Model Name</h3>
+                <p class="car-price">—</p>
               </div>
               <ul class="car-specs">
-                <li>5,800 mi</li>
-                <li>2025</li>
-                <li>Gasoline</li>
+                <li>— mi</li>
+                <li>Year</li>
+                <li>Type</li>
               </ul>
               <button class="button button-secondary-outline">View Details</button>
             </div>
@@ -221,14 +245,36 @@
     </footer>
   </div>
 
-  <script>
-    const toggle = document.getElementById('theme-toggle');
-    const body = document.body;
-    toggle.addEventListener('click', () => {
-      const nextTheme = body.dataset.theme === 'light' ? 'dark' : 'light';
-      body.dataset.theme = nextTheme;
-      toggle.setAttribute('aria-label', nextTheme === 'light' ? 'Toggle dark mode' : 'Toggle light mode');
-    });
-  </script>
+  <script src="scripts.js"></script>
+  <!-- Modals -->
+  <div class="modal" id="opening-hours" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="opening-hours-title">Opening Hours</h3>
+      <ul class="hours-list">
+        <li>Monday: 9:00 AM – 6:00 PM</li>
+        <li>Tuesday: 9:00 AM – 6:00 PM</li>
+        <li>Wednesday: 9:00 AM – 6:00 PM</li>
+        <li>Thursday: 9:00 AM – 6:00 PM</li>
+        <li>Friday: 9:00 AM – 6:00 PM</li>
+        <li>Saturday: 10:00 AM – 4:00 PM</li>
+        <li>Sunday: Closed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="get-in-touch" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="get-in-touch-title">Get In Touch</h3>
+      <div class="contact-list">
+        <p><strong>Phone:</strong> +44 20 7946 0958</p>
+        <p><strong>Email:</strong> hello@autex.example</p>
+        <p><strong>Address:</strong> 123 Premium Dr, London</p>
+        <p><strong>WhatsApp:</strong> +44 7700 900123</p>
+        <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
