@@ -37,6 +37,81 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Reserve scrollbar space to prevent layout shift when overflow is toggled (desktop) */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+/* Make hamburger visible on larger viewports and provide a desktop overlay menu */
+.hamburger-button { display: inline-flex !important; }
+
+/* Global mobile-menu styles so the hamburger toggles an overlay on desktop as well */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: calc(var(--topbar-height) + var(--header-height));
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  box-shadow: 0 -24px 48px rgba(0,0,0,0.45), 0 6px 18px rgba(0,0,0,0.25);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  padding: 28px 20px;
+  z-index: 1090;
+  overflow-y: auto;
+  backdrop-filter: blur(14px) saturate(1.15);
+  transition: transform 260ms cubic-bezier(.2,.9,.2,1), opacity 200ms ease;
+  transform: translateY(8px);
+  opacity: 0;
+}
+
+.site-header.menu-open + .mobile-menu {
+  display: block;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+/* Mobile menu internals (apply on all viewports so desktop overlay matches phone view) */
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.mobile-nav a {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  font-size: 1.02rem;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.mobile-menu-actions {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top: 6px;
+}
+
+#mobile-theme-toggle {
+  padding:10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(43,125,255,0.12), rgba(138,92,255,0.08));
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
 :root {
   --topbar-height: 34px;
   --header-height: 56px;
@@ -58,7 +133,8 @@ body[data-theme='dark'] {
 }
 
 body[data-theme='light'] {
-  background: linear-gradient(180deg,#ffffff 0%, #f8f9fa 50%, #eef1f4 100%);
+  /* Gradient from gray to white for light mode */
+  background: linear-gradient(180deg, #d1d5db 0%, #ffffff 100%);
 }
 
 /* Top thin header bar */
@@ -133,6 +209,39 @@ body::before {
   z-index: 1000;
   height: var(--header-height);
 }
+
+/* Modal styles (apply on all screen sizes) */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(2,6,23,0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+  z-index: 1200;
+}
+.modal[aria-hidden="false"], .modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-panel {
+  width: min(720px, calc(100% - 48px));
+  background: var(--surface-strong);
+  border-radius: 16px;
+  padding: 20px 22px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transform: translateY(8px);
+  max-height: 80vh;
+  overflow: auto;
+  position: relative;
+}
+.modal-panel:focus { outline: none; box-shadow: 0 20px 60px rgba(0,0,0,0.32); }
+.modal-panel h3 { margin:0 0 12px; }
+.modal-close { position:absolute; right:18px; top:10px; background:transparent; border:none; font-size:20px; color:var(--muted); cursor:pointer; }
+.hours-list, .contact-list { color:var(--muted); line-height:1.8; }
 
 .brand {
   display: flex;
@@ -297,13 +406,32 @@ body::before {
 }
 
 .hamburger-button {
-  display: none;
+  display: inline-flex;
   background: transparent;
   border: none;
   width: 40px;
   height: 40px;
   align-items: center;
   justify-content: center;
+}
+
+/* Hover and focus states for mobile menu items */
+.mobile-nav a:hover,
+.mobile-nav a:focus {
+  transform: translateX(6px);
+  box-shadow: 0 10px 30px rgba(16,24,40,0.4);
+  background: linear-gradient(90deg, rgba(87,226,255,0.06), rgba(138,92,255,0.04));
+  color: var(--accent-strong);
+}
+
+/* Larger touch targets for mobile */
+.mobile-menu .icon-button,
+.mobile-menu .button { min-height:48px; }
+
+/* Make the mobile menu appear as a glass panel on wide screens */
+@media (min-width: 900px) {
+  .mobile-menu { width: 420px; right: 28px; left: auto; border-radius: 16px; top: calc(var(--topbar-height) + 14px); bottom: auto; max-height: calc(100vh - 120px); }
+  .site-header.menu-open + .mobile-menu { transform: translateY(0); opacity:1; }
 }
 
 .mobile-search-button {
@@ -1184,39 +1312,6 @@ body::before {
     max-height: 34px;
   }
 
-/* Modal styles */
-.modal {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(2,6,23,0.6);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 220ms ease;
-  z-index: 1200;
-}
-.modal[aria-hidden="false"], .modal.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-.modal-panel {
-  width: min(720px, calc(100% - 48px));
-  background: var(--surface-strong);
-  border-radius: 16px;
-  padding: 20px 22px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  transform: translateY(8px);
-  max-height: 80vh;
-  overflow: auto;
-  position: relative;
-}
-.modal-panel:focus { outline: none; box-shadow: 0 20px 60px rgba(0,0,0,0.32); }
-.modal-panel h3 { margin:0 0 12px; }
-.modal-close { position:absolute; right:18px; top:10px; background:transparent; border:none; font-size:20px; color:var(--muted); cursor:pointer; }
-.hours-list, .contact-list { color:var(--muted); line-height:1.8; }
-
 /* Sold badge */
 .badge.sold {
   background: linear-gradient(90deg, rgba(255,0,0,0.16), rgba(255,0,0,0.08));
@@ -1246,6 +1341,8 @@ body::before {
     pointer-events: auto;
     overflow: visible;
   }
+
+  /* (mobile menu styles are moved to global scope so desktop overlay matches phone) */
 }
 
 @media (max-width: 520px) {

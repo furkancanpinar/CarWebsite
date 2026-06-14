@@ -8,7 +8,7 @@
 </head>
 <body data-theme="dark">
   <div class="page-shell">
-    <div class="top-bar">
+    <div class="top-bar" aria-hidden="false">
       <div class="top-bar-inner">
         <div class="social">
           <a href="#" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">Instagram</a>
@@ -20,6 +20,7 @@
           <button class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
         </div>
       </div>
+      
     </div>
 
     <header class="site-header">
@@ -47,11 +48,26 @@
       <div class="header-actions">
         <button class="button button-secondary">Login</button>
         <button class="button button-primary">Sign Up</button>
-        <button class="icon-button theme-toggle" id="theme-toggle" aria-label="Toggle light mode">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm7.07 3.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 1 1-1.42 1.42L18.05 7.35a1 1 0 0 1 0-1.42zM22 11a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm-2.93 7.07a1 1 0 0 1 0 1.41l-1.42 1.42a1 1 0 1 1-1.42-1.42l1.42-1.42a1 1 0 0 1 1.42 0zM12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm-7.07-2.93a1 1 0 0 1 1.41 0l1.42 1.42a1 1 0 0 1-1.42 1.42L5.93 16.5a1 1 0 0 1 0-1.42zM4 11a1 1 0 0 1-1-1H1a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm2.93-7.07a1 1 0 0 1 0 1.41L5.5 6.76A1 1 0 1 1 4.08 5.34l1.42-1.41z"/></svg>
+        <!-- theme toggle moved into the menu for desktop/hamburger UI -->
+        <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </header>
+
+    <!-- Mobile menu (shown when hamburger is toggled) -->
+    <div class="mobile-menu" aria-hidden="true">
+      <nav class="mobile-nav">
+        <a href="browse.html">Buy Cars</a>
+        <a href="sell.html">Sell Car</a>
+        <a href="previously-sold.html">Previously Sold Vehicles</a>
+      </nav>
+      <div class="mobile-menu-actions">
+        <button class="button button-secondary" id="mobile-login">Login</button>
+        <button class="button button-primary" id="mobile-signup">Sign Up</button>
+        <button class="icon-button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
+      </div>
+    </div>
 
     <main>
       <section class="page-header">

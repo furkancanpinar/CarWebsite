@@ -95,10 +95,12 @@
     function openModal(id){
       const m = document.getElementById(id);
       if(!m) return;
-      // save scroll and lock body
+      // save scroll position
       _savedScroll = window.scrollY || document.documentElement.scrollTop;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${_savedScroll}px`;
+      // lock scrolling by hiding overflow on the root element and preserve scrollbar width
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      // hide overflow on root; CSS `scrollbar-gutter: stable` reserves space
+      document.documentElement.style.overflow = 'hidden';
       document.body.classList.add('modal-open');
       m.setAttribute('aria-hidden','false');
       m.classList.add('open');
@@ -110,41 +112,98 @@
       if(!m) return;
       m.setAttribute('aria-hidden','true');
       m.classList.remove('open');
-      // restore body scroll
+      // restore scroll and remove locks
       document.body.classList.remove('modal-open');
-      document.body.style.position = '';
-      document.body.style.top = '';
+      document.documentElement.style.overflow = '';
       window.scrollTo(0, _savedScroll || 0);
     }
 
-    // Attach direct click handlers to modal trigger buttons
-    document.querySelectorAll('[data-modal-target]').forEach(btn=>{
-      btn.addEventListener('click', (e)=>{
-        const id = btn.getAttribute('data-modal-target');
-        if(id) openModal(id);
+    function initModalHandlers(){
+      // Attach direct click handlers to modal trigger buttons
+      document.querySelectorAll('[data-modal-target]').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          const id = btn.getAttribute('data-modal-target');
+          if(id) openModal(id);
+        });
       });
-    });
 
-    // Close buttons inside modals
-    document.querySelectorAll('.modal .modal-close').forEach(c=>{
-      c.addEventListener('click', (e)=>{
-        const modal = c.closest('.modal');
-        closeModal(modal);
+      // Close buttons inside modals
+      document.querySelectorAll('.modal .modal-close').forEach(c=>{
+        c.addEventListener('click', (e)=>{
+          const modal = c.closest('.modal');
+          closeModal(modal);
+        });
       });
-    });
 
-    // Click on modal backdrop closes (ensure event target is the modal element itself)
-    document.querySelectorAll('.modal').forEach(m=>{
-      m.addEventListener('click', (e)=>{
-        if(e.target === m) closeModal(m);
+      // Click on modal backdrop closes (ensure event target is the modal element itself)
+      document.querySelectorAll('.modal').forEach(m=>{
+        m.addEventListener('click', (e)=>{
+          if(e.target === m) closeModal(m);
+        });
       });
-    });
 
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){
-        document.querySelectorAll('.modal.open').forEach(m=> closeModal(m));
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          document.querySelectorAll('.modal.open').forEach(m=> closeModal(m));
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initModalHandlers);
+    } else {
+      initModalHandlers();
+    }
+  })();
+
+  // Mobile hamburger menu toggle and mobile theme toggle
+  (function(){
+    function initMobileMenu(){
+      const header = document.querySelector('.site-header');
+      const hamburger = document.querySelector('.hamburger-button');
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+      const mainThemeToggle = document.getElementById('theme-toggle');
+      if(!hamburger || !header || !mobileMenu) return;
+
+      function setMenuOpen(open){
+        header.classList.toggle('menu-open', open);
+        hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
       }
-    });
+
+      hamburger.addEventListener('click', ()=>{
+        const isOpen = header.classList.contains('menu-open');
+        setMenuOpen(!isOpen);
+      });
+
+      // Close mobile menu when clicking a nav link
+      mobileMenu.addEventListener('click', (e)=>{
+        const link = e.target.closest('a');
+        if(link) setMenuOpen(false);
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') setMenuOpen(false);
+      });
+
+      // mobile theme button toggles theme directly and close menu afterwards
+      if(mobileThemeToggle){
+        mobileThemeToggle.addEventListener('click', ()=>{
+          const next = body.dataset.theme === 'light' ? 'dark' : 'light';
+          setTheme(next);
+          // close menu so user isn't trapped inside it
+          setMenuOpen(false);
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMobileMenu);
+    } else {
+      initMobileMenu();
+    }
   })();
 
   // Previously Sold page: simple search + filter
