@@ -119,21 +119,30 @@
     }
 
     function initModalHandlers(){
-      // Attach direct click handlers to modal trigger buttons
-      document.querySelectorAll('[data-modal-target]').forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
+      // Delegated click handler for any element with data-modal-target
+      document.addEventListener('click', (e)=>{
+        const btn = e.target.closest('[data-modal-target]');
+        if(btn){
           const id = btn.getAttribute('data-modal-target');
-          if(id) openModal(id);
-        });
-      });
+          if(!id) return;
+          // Close any open modals first
+          document.querySelectorAll('.modal.open, .modal[aria-hidden="false"]').forEach(m=>{
+            if(m.id !== id) closeModal(m);
+          });
+          openModal(id);
+          return;
+        }
 
-      // Close buttons inside modals
-      document.querySelectorAll('.modal .modal-close').forEach(c=>{
-        c.addEventListener('click', (e)=>{
-          const modal = c.closest('.modal');
+        // modal close buttons
+        const close = e.target.closest('.modal .modal-close');
+        if(close){
+          const modal = close.closest('.modal');
           closeModal(modal);
-        });
-      });
+          return;
+        }
+
+        // backdrop click (handled below per-modal)
+      }, {passive:true});
 
       // Click on modal backdrop closes (ensure event target is the modal element itself)
       document.querySelectorAll('.modal').forEach(m=>{
@@ -142,6 +151,7 @@
         });
       });
 
+      // Escape closes all modals
       document.addEventListener('keydown', (e)=>{
         if(e.key === 'Escape'){
           document.querySelectorAll('.modal.open').forEach(m=> closeModal(m));

@@ -107,9 +107,9 @@ html {
 #mobile-theme-toggle {
   padding:10px 14px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(43,125,255,0.12), rgba(138,92,255,0.08));
+  background: rgba(255,255,255,0.06);
   color: var(--text);
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 :root {
@@ -243,6 +243,40 @@ body::before {
 .modal-close { position:absolute; right:18px; top:10px; background:transparent; border:none; font-size:20px; color:var(--muted); cursor:pointer; }
 .hours-list, .contact-list { color:var(--muted); line-height:1.8; }
 
+/* Auth form inside modals */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 6px;
+}
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.auth-form .actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.auth-form .actions .button {
+  min-width: 120px;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -357,29 +391,47 @@ body::before {
   flex-wrap: wrap;
 }
 
+.header-actions .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#theme-toggle {
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
 .button,
 .icon-button {
   border: none;
   cursor: pointer;
   border-radius: 14px;
   font: inherit;
-  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 
 .button {
   padding: 10px 16px;
   min-height: 40px;
   font-weight: 600;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 .button-primary {
-  background: linear-gradient(135deg, var(--accent), #8a5cff);
-  color: #030712;
-  box-shadow: 0 16px 30px rgba(87, 226, 255, 0.16);
+  /* Deprecated special primary color — keep consistent with other buttons */
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 .button-secondary {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.06);
   color: var(--text);
 }
 
@@ -452,9 +504,22 @@ body::before {
   .site-header { padding: 8px 12px; height: var(--header-height); }
 }
 
-.button:hover,
+.button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #030712;
+  box-shadow: 0 10px 30px rgba(16,24,40,0.35);
+}
+
 .icon-button:hover {
   transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(16,24,40,0.28);
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: #030712;
 }
 
 .button:focus-visible,
