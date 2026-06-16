@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GameWise | Sell Your Car</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameWise | Find Your Perfect Drive</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-theme="dark">
@@ -25,8 +25,9 @@
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
-          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image" data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexLogo.png" />
+          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image" data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
         </a>
+
         <div class="search-inline">
           <form role="search" class="search-form" onsubmit="return false;">
             <label for="header-search" class="visually-hidden">Search</label>
@@ -40,13 +41,14 @@
 
       <nav class="main-nav">
         <a href="browse.html">Buy Cars</a>
-        <a class="nav-link active" href="sell.html">Sell Car</a>
+        <a href="sell.html">Sell Car</a>
         <a href="previously-sold.html">Previously Sold Vehicles</a>
       </nav>
 
       <div class="header-actions">
         <button class="button button-secondary" data-modal-target="login-modal">Login</button>
-        <button class="button button-primary" data-modal-target="signup-modal">Sign Up</button>
+        <button class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
+        <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
         <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -62,100 +64,174 @@
       </nav>
       <div class="mobile-menu-actions">
         <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
-        <button class="button button-primary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
-        <button class="icon-button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
+        <button class="button button-secondary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
+        <button class="button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
       </div>
     </div>
 
     <main>
-      <section class="page-header">
-        <div>
-          <p class="breadcrumb">Home / Sell Car</p>
-          <h1>Sell Your Car</h1>
-          <p>List your vehicle quickly with expert pricing guidance and premium presentation.</p>
-        </div>
-        <div class="header-meta">
-          <div class="stat-card">
-            <span>Fast</span>
-            <p>Listings go live in minutes</p>
+      <section class="hero-section">
+        <div class="hero-copy">
+          <span class="eyebrow">Curated for visionary drivers</span>
+          <h1>Find Your Perfect Drive</h1>
+          <p>Buy, sell, and finance luxury vehicles with confidence through a sleek market experience built for speed and clarity.</p>
+
+          <div class="hero-cta-group">
+            <button class="button button-primary">Browse Cars</button>
+            <button class="button button-secondary">Sell Your Car</button>
           </div>
-          <div class="stat-card">
-            <span>Secure</span>
-            <p>Verified transactions</p>
+          <div class="hero-search">
+            <div class="search-field">
+              <label for="vehicle-query">Make or model</label>
+              <input id="vehicle-query" type="text" placeholder="Search cars, brands, styles" />
+            </div>
+            <div class="search-field">
+              <label for="price-range">Price range</label>
+              <input id="price-range" type="text" placeholder="£30k - £80k" />
+            </div>
+            <button class="button button-accent">Search listings</button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card hero-card-top">
+            <p>Featured model</p>
+            <h2>Model Name</h2>
+            <span>—</span>
+          </div>
+          <div class="hero-image"></div>
+          <div class="hero-card hero-card-bottom">
+            <p>Launch estimate</p>
+            <span>—</span>
           </div>
         </div>
       </section>
 
-      <section class="section-block">
+      <section class="section-block" id="featured">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Create a Listing</p>
-            <h2>List your car in three easy steps</h2>
+            <p class="eyebrow">Featured</p>
+            <h2>Premium models ready to drive</h2>
           </div>
+          <a class="text-link" href="#">View all cars</a>
         </div>
-        
-        <div class="browse-layout">
-          <aside class="filter-panel">
-            <div>
-              <p class="eyebrow">Listing preview</p>
-              <div class="stat-card" style="margin-top:12px;">
-                <p style="margin:0 0 8px; color:var(--muted);">Photos</p>
-                <div style="height:120px; border-radius:12px; background:rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; color:var(--muted);">Upload placeholder</div>
+
+        <div class="car-grid">
+          <article class="car-card">
+            <div class="car-image placeholder-1"></div>
+            <div class="car-content">
+              <div>
+                <h3>Model Name</h3>
+                <p class="car-price">—</p>
               </div>
+              <ul class="car-specs">
+                <li>— mi</li>
+                <li>Year</li>
+                <li>Type</li>
+              </ul>
+              <button class="button button-secondary-outline">View Details</button>
             </div>
-          </aside>
+          </article>
 
-          <div class="listing-panel">
-            <form class="panel-form" style="display:flex; flex-direction:column; gap:16px;">
-              <div class="filter-group">
-                <label for="make-model">Make & Model</label>
-                <input id="make-model" type="text" placeholder="e.g. Tesla Model 3" />
+          <article class="car-card">
+            <div class="car-image placeholder-2"></div>
+            <div class="car-content">
+              <div>
+                <h3>Model Name</h3>
+                <p class="car-price">—</p>
               </div>
+              <ul class="car-specs">
+                <li>— mi</li>
+                <li>Year</li>
+                <li>Type</li>
+              </ul>
+              <button class="button button-secondary-outline">View Details</button>
+            </div>
+          </article>
 
-              <div class="filter-grid two-col">
-                <div class="filter-group">
-                  <label for="year">Year</label>
-                  <select id="year">
-                    <option>2024</option>
-                    <option>2023</option>
-                    <option>2022</option>
-                    <option>2021</option>
-                  </select>
-                </div>
-                <div class="filter-group">
-                  <label for="mileage">Mileage</label>
-                  <input id="mileage" type="text" placeholder="e.g. 12,000 mi" />
-                </div>
+          <article class="car-card">
+            <div class="car-image placeholder-3"></div>
+            <div class="car-content">
+              <div>
+                <h3>Model Name</h3>
+                <p class="car-price">—</p>
               </div>
+              <ul class="car-specs">
+                <li>— mi</li>
+                <li>Year</li>
+                <li>Type</li>
+              </ul>
+              <button class="button button-secondary-outline">View Details</button>
+            </div>
+          </article>
+        </div>
+      </section>
 
-              <div class="filter-grid two-col">
-                <div class="filter-group">
-                  <label for="price">Asking Price</label>
-                  <input id="price" type="text" placeholder="$xx,xxx" />
-                </div>
-                <div class="filter-group">
-                  <label for="fuel">Fuel Type</label>
-                  <select id="fuel">
-                    <option>Electric</option>
-                    <option>Hybrid</option>
-                    <option>Petrol</option>
-                    <option>Diesel</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="filter-group">
-                <label for="description">Short description</label>
-                <textarea id="description" rows="5" placeholder="Add any details buyers should know"></textarea>
-              </div>
-
-              <div style="display:flex; gap:12px;">
-                <button class="button button-primary">List My Car</button>
-                <button class="button button-secondary">Save Draft</button>
-              </div>
-            </form>
+      <section class="section-block" id="how-it-works">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">How it works</p>
+            <h2>Three steps to your ideal car journey</h2>
           </div>
         </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-icon">1</div>
+            <h3>Buy a car</h3>
+            <p>Browse curated listings, compare features, and book a test drive in minutes.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon">2</div>
+            <h3>Sell a car</h3>
+            <p>Create a premium listing fast with expert pricing guidance and instant exposure.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-icon">3</div>
+            <h3>Get financing</h3>
+            <p>Access tailored plans and approval options to match your lifestyle and budget.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block" id="why-us">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Why choose us</p>
+            <h2>Trust, transparency, and premium service</h2>
+          </div>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <span class="trust-icon">🔒</span>
+            <h3>Secure payments</h3>
+            <p>Encrypted checkout with verified funding and buyer protection.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">🛡️</span>
+            <h3>Verified sellers</h3>
+            <p>Every listing is curated and reviewed for authenticity.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">⚡</span>
+            <h3>Fast listing</h3>
+            <p>Get your car live in minutes with easy submission tools.</p>
+          </div>
+          <div class="trust-card">
+            <span class="trust-icon">⭐</span>
+            <h3>Premium support</h3>
+            <p>Dedicated service for every buyer and seller experience.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-banner">
+        <div>
+          <p class="eyebrow">Ready to sell your car?</p>
+          <h2>List your car with confidence and reach buyers fast.</h2>
+        </div>
+        <button class="button button-accent">List Your Car</button>
       </section>
     </main>
 
@@ -178,7 +254,7 @@
   </div>
 
   <script src="scripts.js"></script>
-
+  <script type="module" src="firebase.js"></script>
   <!-- Modals -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
@@ -225,7 +301,6 @@
         <div class="actions">
           <button class="button">Log in</button>
           <button class="button button-secondary" data-modal-target="signup-modal">Sign up</button>
-          <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
         </div>
       </form>
     </div>
