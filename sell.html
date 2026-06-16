@@ -38,8 +38,6 @@
         </div>
       </div>
 
-      
-
       <nav class="main-nav">
         <a href="browse.html">Buy Cars</a>
         <a class="nav-link active" href="sell.html">Sell Car</a>
@@ -47,9 +45,8 @@
       </nav>
 
       <div class="header-actions">
-        <button class="button button-secondary">Login</button>
-        <button class="button button-primary">Sign Up</button>
-        <!-- theme toggle moved into the menu for desktop/hamburger UI -->
+        <button class="button button-secondary" data-modal-target="login-modal">Login</button>
+        <button class="button button-primary" data-modal-target="signup-modal">Sign Up</button>
         <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -64,8 +61,8 @@
         <a href="previously-sold.html">Previously Sold Vehicles</a>
       </nav>
       <div class="mobile-menu-actions">
-        <button class="button button-secondary" id="mobile-login">Login</button>
-        <button class="button button-primary" id="mobile-signup">Sign Up</button>
+        <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
+        <button class="button button-primary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
         <button class="icon-button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
       </div>
     </div>
@@ -81,7 +78,6 @@
           <div class="stat-card">
             <span>Fast</span>
             <p>Listings go live in minutes</p>
-
           </div>
           <div class="stat-card">
             <span>Secure</span>
@@ -162,39 +158,100 @@
         </div>
       </section>
     </main>
-  </div>
-    </div>
-      <script src="scripts.js"></script>
 
-    <!-- Modals -->
-    <div class="modal" id="opening-hours" aria-hidden="true">
-      <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
-        <button class="modal-close" aria-label="Close">×</button>
-        <h3 id="opening-hours-title">Opening Hours</h3>
-        <ul class="hours-list">
-          <li>Monday: 9:00 AM – 6:00 PM</li>
-          <li>Tuesday: 9:00 AM – 6:00 PM</li>
-          <li>Wednesday: 9:00 AM – 6:00 PM</li>
-          <li>Thursday: 9:00 AM – 6:00 PM</li>
-          <li>Friday: 9:00 AM – 6:00 PM</li>
-          <li>Saturday: 10:00 AM – 4:00 PM</li>
-          <li>Sunday: Closed</li>
-        </ul>
+    <footer class="site-footer">
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Support</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
       </div>
-    </div>
-
-    <div class="modal" id="get-in-touch" aria-hidden="true">
-      <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
-        <button class="modal-close" aria-label="Close">×</button>
-        <h3 id="get-in-touch-title">Get In Touch</h3>
-        <div class="contact-list">
-          <p><strong>Phone:</strong> +44 20 7946 0958</p>
-          <p><strong>Email:</strong> hello@autex.example</p>
-          <p><strong>Address:</strong> 123 Premium Dr, London</p>
-          <p><strong>WhatsApp:</strong> +44 7700 900123</p>
-          <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
+      <div class="footer-meta">
+        <div class="social-links">
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Twitter</a>
         </div>
+        <p>© 2026 GameWise. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="scripts.js"></script>
+
+  <!-- Modals -->
+  <div class="modal" id="opening-hours" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="opening-hours-title">Opening Hours</h3>
+      <ul class="hours-list">
+        <li>Monday: 9:00 AM – 6:00 PM</li>
+        <li>Tuesday: 9:00 AM – 6:00 PM</li>
+        <li>Wednesday: 9:00 AM – 6:00 PM</li>
+        <li>Thursday: 9:00 AM – 6:00 PM</li>
+        <li>Friday: 9:00 AM – 6:00 PM</li>
+        <li>Saturday: 10:00 AM – 4:00 PM</li>
+        <li>Sunday: Closed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="get-in-touch" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="get-in-touch-title">Get In Touch</h3>
+      <div class="contact-list">
+        <p><strong>Phone:</strong> +44 20 7946 0958</p>
+        <p><strong>Email:</strong> hello@autex.example</p>
+        <p><strong>Address:</strong> 123 Premium Dr, London</p>
+        <p><strong>WhatsApp:</strong> +44 7700 900123</p>
+        <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
       </div>
     </div>
-  </body>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="login-modal" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="login-title">Log In</h3>
+      <form class="auth-form" onsubmit="return false;">
+        <label>Email
+          <input type="email" required placeholder="you@example.com" />
+        </label>
+        <label>Password
+          <input type="password" required placeholder="••••••••" />
+        </label>
+        <div class="actions">
+          <button class="button">Log in</button>
+          <button class="button button-secondary" data-modal-target="signup-modal">Sign up</button>
+          <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div class="modal" id="signup-modal" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="signup-title">Sign Up</h3>
+      <form class="auth-form" onsubmit="return false;">
+        <label>Name
+          <input type="text" required placeholder="Your name" />
+        </label>
+        <label>Email
+          <input type="email" required placeholder="you@example.com" />
+        </label>
+        <label>Password
+          <input type="password" required placeholder="Create a password" />
+        </label>
+        <div class="actions">
+          <button class="button">Create account</button>
+          <button class="button button-secondary" data-modal-target="login-modal">Have an account?</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
 </html>
