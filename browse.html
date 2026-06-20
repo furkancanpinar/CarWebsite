@@ -201,144 +201,11 @@
           </div>
 
           <div class="listings-grid">
-            <article class="car-card show-room">
-              <div class="car-image placeholder-1">
-                <button class="favorite-button" aria-label="Save car">♥</button>
-                <span class="badge verified">Verified</span>
-              </div>
-              <div class="car-content">
-                <div class="car-title">
-                  <h3>Model Name</h3>
-                  <p>Year • Type</p>
-                </div>
-                <p class="car-price">—</p>
-                <ul class="car-specs">
-                  <li>— mi</li>
-                  <li>—</li>
-                  <li>—</li>
-                </ul>
-                <div class="card-actions">
-                  <button class="button button-secondary-outline">View Details</button>
-                  <button class="button button-primary">Save</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="car-card show-room">
-              <div class="car-image placeholder-2">
-                <button class="favorite-button" aria-label="Save car">♥</button>
-                <span class="badge">Badge</span>
-              </div>
-              <div class="car-content">
-                <div class="car-title">
-                  <h3>Model Name</h3>
-                  <p>Year • Type</p>
-                </div>
-                <p class="car-price">—</p>
-                <ul class="car-specs">
-                  <li>— mi</li>
-                  <li>—</li>
-                  <li>—</li>
-                </ul>
-                <div class="card-actions">
-                  <button class="button button-secondary-outline">View Details</button>
-                  <button class="button button-primary">Save</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="car-card show-room">
-              <div class="car-image placeholder-3">
-                <button class="favorite-button" aria-label="Save car">♥</button>
-                <span class="badge">Badge</span>
-              </div>
-              <div class="car-content">
-                <div class="car-title">
-                  <h3>Model Name</h3>
-                  <p>Year • Type</p>
-                </div>
-                <p class="car-price">—</p>
-                <ul class="car-specs">
-                  <li>— mi</li>
-                  <li>—</li>
-                  <li>—</li>
-                </ul>
-                <div class="card-actions">
-                  <button class="button button-secondary-outline">View Details</button>
-                  <button class="button button-primary">Save</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="car-card show-room">
-              <div class="car-image placeholder-4">
-                <button class="favorite-button" aria-label="Save car">♥</button>
-                <span class="badge">Badge</span>
-              </div>
-              <div class="car-content">
-                <div class="car-title">
-                  <h3>Model Name</h3>
-                  <p>Year • Type</p>
-                </div>
-                <p class="car-price">—</p>
-                <ul class="car-specs">
-                  <li>— mi</li>
-                  <li>—</li>
-                  <li>—</li>
-                </ul>
-                <div class="card-actions">
-                  <button class="button button-secondary-outline">View Details</button>
-                  <button class="button button-primary">Save</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="car-card show-room">
-              <div class="car-image placeholder-5">
-                <button class="favorite-button" aria-label="Save car">♥</button>
-                <span class="badge">Badge</span>
-              </div>
-              <div class="car-content">
-                <div class="car-title">
-                  <h3>Model Name</h3>
-                  <p>Year • Type</p>
-                </div>
-                <p class="car-price">—</p>
-                <ul class="car-specs">
-                  <li>— mi</li>
-                  <li>—</li>
-                  <li>—</li>
-                </ul>
-                <div class="card-actions">
-                  <button class="button button-secondary-outline">View Details</button>
-                  <button class="button button-primary">Save</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="car-card show-room">
-              <div class="car-image placeholder-6">
-                <button class="favorite-button" aria-label="Save car">♥</button>
-                <span class="badge">Badge</span>
-              </div>
-              <div class="car-content">
-                <div class="car-title">
-                  <h3>Model Name</h3>
-                  <p>Year • Type</p>
-                </div>
-                <p class="car-price">—</p>
-                <ul class="car-specs">
-                  <li>— mi</li>
-                  <li>—</li>
-                  <li>—</li>
-                </ul>
-                <div class="card-actions">
-                  <button class="button button-secondary-outline">View Details</button>
-                  <button class="button button-primary">Save</button>
-                </div>
-              </div>
-            </article>
+            <div style="grid-column:1/-1; text-align:center; padding:60px; color:var(--muted);">
+              Loading cars from database...
+            </div>
           </div>
+
 
           <div class="pagination">
             <button class="page-button active">1</button>
@@ -368,7 +235,6 @@
     </footer>
   </div>
 
-  <script src="scripts.js"></script>
   <script type="module" src="firebase.js"></script>
   <!-- Modals -->
   <div class="modal" id="opening-hours" aria-hidden="true">
@@ -444,6 +310,10 @@
       </form>
     </div>
   </div>
+  <script src="scripts.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="admin-link.js"></script>
+
 </body>
 
 </html>

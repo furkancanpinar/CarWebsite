@@ -106,8 +106,8 @@
         <div class="admin-stats-grid">
           <div class="step-card">
             <div class="step-icon">👥</div>
-            <h3>1,248</h3>
-            <p>Total users <span class="admin-trend up">+12%</span></p>
+            <h3 id="stat-total-users">—</h3>
+            <p>Total users <span class="admin-trend up">Live</span></p>
           </div>
           <div class="step-card">
             <div class="step-icon">🚗</div>
@@ -124,6 +124,77 @@
             <h3>£2.4M</h3>
             <p>Sales (30 days) <span class="admin-trend up">+23%</span></p>
           </div>
+        </div>
+      </section>
+      <!-- Create New Listing -->
+      <section class="section-block" id="create-listing">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Add</p>
+            <h2>Create New Listing</h2>
+          </div>
+        </div>
+
+        <div class="filter-panel">
+          <form id="create-listing-form" class="auth-form" style="gap:16px;">
+            <div class="filter-grid two-col">
+              <label>Title *
+                <input type="text" id="listing-title" required placeholder="e.g. BMW M4 Competition">
+              </label>
+              <label>Make *
+                <input type="text" id="listing-make" required placeholder="BMW">
+              </label>
+            </div>
+
+            <div class="filter-grid two-col">
+              <label>Model *
+                <input type="text" id="listing-model" required placeholder="M4">
+              </label>
+              <label>Year *
+                <input type="number" id="listing-year" required min="1900" max="2030" placeholder="2023">
+              </label>
+            </div>
+
+            <div class="filter-grid two-col">
+              <label>Price (£) *
+                <input type="number" id="listing-price" required min="0" placeholder="78500">
+              </label>
+              <label>Mileage (mi)
+                <input type="number" id="listing-mileage" min="0" placeholder="8400">
+              </label>
+            </div>
+
+            <div class="filter-grid two-col">
+              <label>Fuel Type
+                <select id="listing-fuel">
+                  <option>Petrol</option>
+                  <option>Diesel</option>
+                  <option>Electric</option>
+                  <option>Hybrid</option>
+                </select>
+              </label>
+              <label>Transmission
+                <select id="listing-transmission">
+                  <option>Automatic</option>
+                  <option>Manual</option>
+                </select>
+              </label>
+            </div>
+
+            <label>Description
+              <textarea id="listing-description" rows="3" placeholder="Optional description..."></textarea>
+            </label>
+
+            <label>Car Image *
+              <input type="file" id="listing-image" required accept="image/*">
+            </label>
+
+            <p id="listing-form-status" style="color:var(--muted); margin:0;"></p>
+
+            <div class="actions">
+              <button type="submit" class="button">Create Listing</button>
+            </div>
+          </form>
         </div>
       </section>
 
@@ -160,119 +231,9 @@
               </tr>
             </thead>
             <tbody id="users-tbody">
-              <tr data-role="Admin" data-name="Sarah Chen" data-email="sarah@gamewise.com">
-                <td>
-                  <div class="admin-user-cell">
-                    <div class="admin-avatar">SC</div>
-                    <div>
-                      <p class="admin-user-name">Sarah Chen</p>
-                      <p class="admin-user-id">#USR-001</p>
-                    </div>
-                  </div>
-                </td>
-                <td>sarah@gamewise.com</td>
-                <td><span class="admin-badge admin">Admin</span></td>
-                <td>Jan 2025</td>
-                <td>—</td>
-                <td><span class="admin-badge active">Active</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn" data-action="view-user">View</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-role="Seller" data-name="Marcus Reid" data-email="marcus@reidmotors.com">
-                <td>
-                  <div class="admin-user-cell">
-                    <div class="admin-avatar">MR</div>
-                    <div>
-                      <p class="admin-user-name">Marcus Reid</p>
-                      <p class="admin-user-id">#USR-042</p>
-                    </div>
-                  </div>
-                </td>
-                <td>marcus@reidmotors.com</td>
-                <td><span class="admin-badge seller">Seller</span></td>
-                <td>Mar 2025</td>
-                <td>8</td>
-                <td><span class="admin-badge active">Active</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn" data-action="view-user">View</button>
-                    <button class="admin-action-btn danger" data-action="suspend-user">Suspend</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-role="Seller" data-name="Elena Vasquez" data-email="elena@vluxauto.com">
-                <td>
-                  <div class="admin-user-cell">
-                    <div class="admin-avatar">EV</div>
-                    <div>
-                      <p class="admin-user-name">Elena Vasquez</p>
-                      <p class="admin-user-id">#USR-089</p>
-                    </div>
-                  </div>
-                </td>
-                <td>elena@vluxauto.com</td>
-                <td><span class="admin-badge seller">Seller</span></td>
-                <td>May 2025</td>
-                <td>14</td>
-                <td><span class="admin-badge active">Active</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn" data-action="view-user">View</button>
-                    <button class="admin-action-btn danger" data-action="suspend-user">Suspend</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-role="Buyer" data-name="James Whitfield" data-email="j.whitfield@email.com">
-                <td>
-                  <div class="admin-user-cell">
-                    <div class="admin-avatar">JW</div>
-                    <div>
-                      <p class="admin-user-name">James Whitfield</p>
-                      <p class="admin-user-id">#USR-156</p>
-                    </div>
-                  </div>
-                </td>
-                <td>j.whitfield@email.com</td>
-                <td><span class="admin-badge buyer">Buyer</span></td>
-                <td>Aug 2025</td>
-                <td>0</td>
-                <td><span class="admin-badge active">Active</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn" data-action="view-user">View</button>
-                    <button class="admin-action-btn danger" data-action="suspend-user">Suspend</button>
-                    <button class="admin-action-btn danger" data-action="delete-user">Delete</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-role="Seller" data-name="Tom Bradley" data-email="t.bradley@email.com">
-                <td>
-                  <div class="admin-user-cell">
-                    <div class="admin-avatar">TB</div>
-                    <div>
-                      <p class="admin-user-name">Tom Bradley</p>
-                      <p class="admin-user-id">#USR-201</p>
-                    </div>
-                  </div>
-                </td>
-                <td>t.bradley@email.com</td>
-                <td><span class="admin-badge seller">Seller</span></td>
-                <td>Oct 2025</td>
-                <td>3</td>
-                <td><span class="admin-badge suspended">Suspended</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn" data-action="view-user">View</button>
-                    <button class="admin-action-btn" data-action="reactivate-user">Reactivate</button>
-                    <button class="admin-action-btn danger" data-action="delete-user">Delete</button>
-                  </div>
+              <tr id="users-loading-row">
+                <td colspan="7" style="text-align:center; padding:40px; color:var(--muted);">
+                  Loading users from database...
                 </td>
               </tr>
             </tbody>
@@ -491,7 +452,7 @@
     </footer>
   </div>
 
-  <!-- ✅ Regular script first (no modules, no imports) -->
+  <!-- ✅ Plain script first -->
   <script src="scripts.js"></script>
 
   <!-- ✅ Modals -->
@@ -569,8 +530,26 @@
     </div>
   </div>
 
-  <!-- ✅ Firebase + admin guard as a MODULE (separate file is cleanest) -->
+  <!-- ✅ Confirm modal for admin actions -->
+  <div class="modal" id="confirm-modal" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h3 id="confirm-title">Are you sure?</h3>
+      <p id="confirm-message" style="color:var(--muted); margin-bottom:20px;"></p>
+      <div class="actions">
+        <button type="button" class="button button-secondary" id="confirm-no">Cancel</button>
+        <button type="button" class="button" id="confirm-yes">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Module scripts -->
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="admin-link.js"></script>
   <script type="module" src="admin-guard.js"></script>
+  <script type="module" src="admin-users.js"></script>
+  <script type="module" src="admin-listings.js"></script>
+  
 </body>
 
 </html>

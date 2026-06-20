@@ -1,13 +1,33 @@
-// Firebase (CDN version for plain HTML/JS)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
-import { 
-  getAuth, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword 
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+// firebase.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc,
+  updateDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCTU-OyTtNPSe99xtl681yAKfPNayHyNg0",
   authDomain: "autexlogs.firebaseapp.com",
@@ -18,60 +38,78 @@ const firebaseConfig = {
   measurementId: "G-TMNFSVBMTV"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+try { getAnalytics(app); } catch(e) { /* analytics optional */ }
+
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 
-// --- AUTHENTICATION LOGIC ---
+// Firestore helpers
+export { doc, getDoc, setDoc, deleteDoc, updateDoc, collection, getDocs, query, where, orderBy };
 
-// 1. Sign Up Handler
+// Storage helpers
+export { ref, uploadBytes, getDownloadURL };
+
+// Auth helpers
+export { onAuthStateChanged, signOut };
+
+// ---- Sign Up ----
 const signupForm = document.getElementById('signup-form');
 if (signupForm) {
-  signupForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Stop page refresh
-
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('signup-name').value;
     const email = document.getElementById('signup-email').value;
     const password = document.getElementById('signup-password').value;
-    // Note: To save the "Name", you would typically use updateProfile(auth.currentUser, { displayName: name })
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert("Account created successfully! Welcome " + user.email);
-        
-        // Optional: Close modal automatically if your scripts.js supports it
-        signupForm.reset();
-        document.getElementById('signup-modal').setAttribute('aria-hidden', 'true');
-      })
-      .catch((error) => {
-        console.error("Signup Error:", error.message);
-        alert("Signup failed: " + error.message);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email,
+        role: "Buyer",
+        status: "Active",
+        listings: 0,
+        joinedAt: new Date()
       });
+      alert("Account created! Welcome " + name);
+      signupForm.reset();
+      document.getElementById('signup-modal').setAttribute('aria-hidden', 'true');
+    } catch (error) {
+      console.error("Signup Error:", error);
+      alert("Signup failed: " + error.message);
+    }
   });
 }
 
-// 2. Log In Handler
+// ---- Log In ----
 const loginForm = document.getElementById('login-form');
 if (loginForm) {
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault(); // Stop page refresh
-
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        alert("Logged in successfully! Hello, " + user.email);
-        
-        // Optional: Close modal automatically
-        loginForm.reset();
-        document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
-      })
-      .catch((error) => {
-        console.error("Login Error:", error.message);
-        alert("Login failed: " + error.message);
-      });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert("Logged in!");
+      loginForm.reset();
+      document.getElementById('login-modal').setAttribute('aria-hidden', 'true');
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Login failed: " + error.message);
+    }
   });
 }
+
+// ---- Global Logout Helper ----
+window.firebaseLogout = async function() {
+  try {
+    await signOut(auth);
+    window.location.href = "index.html";
+  } catch (err) {
+    console.error(err);
+  }
+};
