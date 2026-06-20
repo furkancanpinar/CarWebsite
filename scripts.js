@@ -1,33 +1,9 @@
 (function(){
   const body = document.body;
 
-  if (!body.dataset.theme) body.dataset.theme = 'dark';
+  // ✅ Theme handling moved to theme.js (loads from localStorage)
 
-  const brandImg = document.querySelector('.brand-image');
-  const themeToggle = document.getElementById('theme-toggle');
-
-  function applyLogo(){
-    if (!brandImg) return;
-    const light = brandImg.getAttribute('data-light');
-    const dark = brandImg.getAttribute('data-dark');
-    brandImg.src = body.dataset.theme === 'light' ? (light || brandImg.src) : (dark || brandImg.src);
-  }
-
-  function setTheme(next){
-    body.dataset.theme = next;
-    if(themeToggle) themeToggle.setAttribute('aria-label', next === 'light' ? 'Toggle dark mode' : 'Toggle light mode');
-    applyLogo();
-  }
-
-  if (themeToggle) {
-    themeToggle.addEventListener('click', ()=>{
-      const next = body.dataset.theme === 'light' ? 'dark' : 'light';
-      setTheme(next);
-    });
-  }
-
-  applyLogo();
-
+  // Mobile header collapse/expand
   (function(){
     const header = document.querySelector('.site-header');
     if(!header) return;
@@ -39,6 +15,7 @@
     window.addEventListener('resize', resetHeaderState);
   })();
 
+  // Toggle switches and favorite buttons
   (function(){
     document.addEventListener('click', (e)=>{
       const ts = e.target.closest('.toggle-switch');
@@ -64,6 +41,7 @@
     window.addEventListener('resize', enlargeHitTargets);
   })();
 
+  // Modal handling
   (function(){
     let _savedScroll = 0;
     function openModal(id){
@@ -124,12 +102,12 @@
     }
   })();
 
+  // Mobile hamburger menu
   (function(){
     function initMobileMenu(){
       const header = document.querySelector('.site-header');
       const hamburger = document.querySelector('.hamburger-button');
       const mobileMenu = document.querySelector('.mobile-menu');
-      const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
       if(!hamburger || !header || !mobileMenu) {
         console.error('Mobile menu elements missing!');
         return;
@@ -164,14 +142,6 @@
       document.addEventListener('keydown', (e)=>{
         if(e.key === 'Escape') setMenuOpen(false);
       });
-
-      if(mobileThemeToggle){
-        mobileThemeToggle.addEventListener('click', ()=>{
-          const next = body.dataset.theme === 'light' ? 'dark' : 'light';
-          setTheme(next);
-          setMenuOpen(false);
-        });
-      }
     }
 
     if (document.readyState === 'loading') {
@@ -181,6 +151,7 @@
     }
   })();
 
+  // Sold page filters
   (function(){
     const search = document.getElementById('sold-search');
     const year = document.getElementById('sold-filter-year');
@@ -206,6 +177,9 @@
 
 })();
 
+/* ============================================================
+   ADMIN DASHBOARD
+   ============================================================ */
 (function adminModule() {
   if (!document.getElementById('users-tbody')) return;
 
