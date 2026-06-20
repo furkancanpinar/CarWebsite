@@ -424,3 +424,59 @@
     btn.addEventListener('click', closeConfirmModal);
   });
 })();
+
+// admin-check.js
+import { auth, db } from "./firebase.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+async function checkIfAdmin(user) {
+  const snap = await getDoc(doc(db, "admins", user.uid));
+  return snap.exists();
+}
+
+// Attach to BOTH the desktop nav link and the mobile nav link
+function bindAdminLink(link) {
+  if (!link) return;
+  link.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const user = auth.currentUser;
+
+    if (!user) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const isAdmin = await checkIfAdmin(user);
+    if (isAdmin) {
+      window.location.href = "admin.html";
+    } else {
+      alert("You are not an admin.");
+    }
+  });
+}
+
+bindAdminLink(document.querySelector(".admin-link"));         // desktop nav
+bindAdminLink(document.getElementById("admin-link"));         // mobile nav
+
+
+// firebase.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 👇 Replace this with YOUR Firebase config (from Project Settings → Your apps)
+const firebaseConfig = {
+  apiKey: "AIzaSyCTU-OyTtNPSe99xtl681yAKfPNayHyNg0",
+  authDomain: "autexlogs.firebaseapp.com",
+  projectId: "autexlogs",
+  storageBucket: "autexlogs.firebasestorage.app",
+  messagingSenderId: "51671319885",
+  appId: "1:51671319885:web:b12595c4b18902547c6304",
+};
+
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+  

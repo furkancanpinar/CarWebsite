@@ -49,6 +49,7 @@
         <a href="browse.html">Buy Cars</a>
         <a href="sell.html">Sell Car</a>
         <a href="previously-sold.html">Previously Sold Vehicles</a>
+        <a class="nav-link admin-link" href="#">Admin</a>
       </nav>
 
       <div class="header-actions">
@@ -70,6 +71,7 @@
         <a href="browse.html">Buy Cars</a>
         <a href="sell.html">Sell Car</a>
         <a href="previously-sold.html">Previously Sold Vehicles</a>
+        <a class="admin-link" href="#">Admin</a>
       </nav>
       <div class="mobile-menu-actions">
         <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
@@ -339,6 +341,30 @@
       </form>
     </div>
   </div>
+  <!-- Admin Login Modal -->
+  <div class="modal" id="admin-modal" aria-hidden="true">
+    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true">
+      <button class="modal-close" aria-label="Close">×</button>
+
+      <h3>Admin Access</h3>
+
+      <form id="admin-login-form" class="auth-form">
+        <label>Username
+          <input type="text" id="admin-username" required placeholder="Admin username" />
+        </label>
+
+        <label>Password
+          <input type="password" id="admin-password" required placeholder="Admin password" />
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="button">
+            Enter Admin Panel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 
-</html>
+</html> 

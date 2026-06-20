@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GameWise | Admin Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body data-theme="dark">
   <div class="page-shell">
     <div class="top-bar" aria-hidden="false">
@@ -25,14 +27,18 @@
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
-          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image" data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
+          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image"
+            data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
         </a>
         <div class="search-inline">
           <form role="search" class="search-form" onsubmit="return false;">
             <label for="header-search" class="visually-hidden">Search</label>
             <input id="header-search" type="search" placeholder="Search cars, brands" />
             <button class="icon-button search-submit" aria-label="Search submit">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
+              </svg>
             </button>
           </form>
         </div>
@@ -42,7 +48,7 @@
         <a href="browse.html">Buy Cars</a>
         <a href="sell.html">Sell Car</a>
         <a href="previously-sold.html">Previously Sold Vehicles</a>
-        <a class="nav-link active" href="admin.html">Admin</a>
+        <a class="nav-link admin-link" href="#">Admin</a>
       </nav>
 
       <div class="header-actions">
@@ -50,7 +56,10 @@
         <button class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
         <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
         <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
         </button>
       </div>
     </header>
@@ -61,7 +70,7 @@
         <a href="browse.html">Buy Cars</a>
         <a href="sell.html">Sell Car</a>
         <a href="previously-sold.html">Previously Sold Vehicles</a>
-        <a href="admin.html">Admin</a>
+        <a href="#" id="admin-link">Admin</a>
       </nav>
       <div class="mobile-menu-actions">
         <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
@@ -126,7 +135,8 @@
             <h2>User Management</h2>
           </div>
           <div class="admin-filters">
-            <input id="user-search" class="filter-search" type="search" placeholder="Search by name or email" aria-label="Search users" />
+            <input id="user-search" class="filter-search" type="search" placeholder="Search by name or email"
+              aria-label="Search users" />
             <select id="user-filter-role" class="filter-select" aria-label="Filter by role">
               <option value="">All roles</option>
               <option>Admin</option>
@@ -481,9 +491,10 @@
     </footer>
   </div>
 
+  <!-- ✅ Regular script first (no modules, no imports) -->
   <script src="scripts.js"></script>
 
-  <!-- Modals -->
+  <!-- ✅ Modals -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
       <button class="modal-close" aria-label="Close">×</button>
@@ -519,16 +530,16 @@
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
       <button class="modal-close" aria-label="Close">×</button>
       <h3 id="login-title">Log In</h3>
-      <form class="auth-form" onsubmit="return false;">
+      <form id="login-form" class="auth-form">
         <label>Email
-          <input type="email" required placeholder="you@example.com" />
+          <input type="email" id="login-email" required placeholder="you@example.com" />
         </label>
         <label>Password
-          <input type="password" required placeholder="••••••••" />
+          <input type="password" id="login-password" required placeholder="••••••••" />
         </label>
         <div class="actions">
-          <button class="button">Log in</button>
-          <button class="button button-secondary" data-modal-target="signup-modal">Sign up</button>
+          <button type="submit" class="button">Log in</button>
+          <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign up</button>
         </div>
       </form>
     </div>
@@ -539,35 +550,27 @@
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
       <button class="modal-close" aria-label="Close">×</button>
       <h3 id="signup-title">Sign Up</h3>
-      <form class="auth-form" onsubmit="return false;">
+      <form id="signup-form" class="auth-form">
         <label>Name
-          <input type="text" required placeholder="Your name" />
+          <input type="text" id="signup-name" required placeholder="Your name" />
         </label>
         <label>Email
-          <input type="email" required placeholder="you@example.com" />
+          <input type="email" id="signup-email" required placeholder="you@example.com" />
         </label>
         <label>Password
-          <input type="password" required placeholder="Create a password" />
+          <input type="password" id="signup-password" required placeholder="Create a password" />
         </label>
         <div class="actions">
-          <button class="button">Create account</button>
-          <button class="button button-secondary" data-modal-target="login-modal">Have an account?</button>
+          <button type="submit" class="button">Create account</button>
+          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an
+            account?</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Confirm Action Modal -->
-  <div class="modal" id="confirm-modal" aria-hidden="true">
-    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-      <button class="modal-close" aria-label="Close">×</button>
-      <h3 id="confirm-title">Confirm Action</h3>
-      <p id="confirm-message" class="contact-list" style="margin: 0 0 20px;">Are you sure?</p>
-      <div style="display: flex; gap: 12px; justify-content: flex-end;">
-        <button class="button button-secondary" data-action="cancel">Cancel</button>
-        <button class="button" id="confirm-yes">Confirm</button>
-      </div>
-    </div>
-  </div>
+  <!-- ✅ Firebase + admin guard as a MODULE (separate file is cleanest) -->
+  <script type="module" src="admin-guard.js"></script>
 </body>
+
 </html>
