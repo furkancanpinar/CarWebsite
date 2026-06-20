@@ -1,23 +1,65 @@
 // admin-listings.js
-import { auth, db, storage, doc, setDoc, collection, getDocs, ref, uploadBytes, getDownloadURL } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { auth, db, doc, setDoc, collection, getDocs, onAuthStateChanged } from "./firebase.js";
 
+// ===== Cloudinary Upload =====
+async function uploadToCloudinary(file) {
+  const cloudName = document.getElementById('cloudinary-cloud-name').value;
+  const uploadPreset = document.getElementById('cloudinary-upload-preset').value;
+
+  if (!cloudName || !uploadPreset) {
+    throw new Error('Cloudinary not configured');
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', uploadPreset);
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    { method: 'POST', body: formData }
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error?.message || 'Upload failed');
+  }
+
+  const data = await response.json();
+  return data.secure_url;
+}
+
+// ===== Auth Setup =====
 onAuthStateChanged(auth, async (user) => {
   if (!user) return;
 
   const form = document.getElementById('create-listing-form');
   if (!form) return;
 
-  // Verify admin
-  const adminSnap = await doc(db, "admins", user.uid);
-  // (skip strict check for now since getDoc needs the snap)
-
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     await createListing(user);
   });
+
+  // Image preview when selected
+  const imageInput = document.getElementById('listing-image');
+  if (imageInput) {
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const preview = document.getElementById('upload-preview');
+      const img = document.getElementById('preview-img');
+      const status = document.getElementById('upload-status');
+      img.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+      status.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB) — click Create to upload`;
+    });
+  }
+
+  // Load existing listings
+  await loadListings();
 });
 
+// ===== Create Listing =====
 async function createListing(user) {
   const submitBtn = document.querySelector('#create-listing-form button[type="submit"]');
   const statusEl = document.getElementById('listing-form-status');
@@ -25,56 +67,52 @@ async function createListing(user) {
   try {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Uploading...';
-    if (statusEl) statusEl.textContent = 'Uploading image...';
+    if (statusEl) statusEl.textContent = '⬆️ Uploading image to Cloudinary...';
 
-    // 1. Get form values
+    // Get form values
     const title = document.getElementById('listing-title').value.trim();
     const make = document.getElementById('listing-make').value.trim();
     const model = document.getElementById('listing-model').value.trim();
     const year = parseInt(document.getElementById('listing-year').value);
     const price = parseFloat(document.getElementById('listing-price').value);
-    const mileage = parseInt(document.getElementById('listing-mileage').value);
+    const mileage = parseInt(document.getElementById('listing-mileage').value) || 0;
     const fuel = document.getElementById('listing-fuel').value;
     const transmission = document.getElementById('listing-transmission').value;
     const description = document.getElementById('listing-description').value.trim();
     const imageFile = document.getElementById('listing-image').files[0];
 
-    // 2. Validate
     if (!title || !make || !model || !year || !price || !imageFile) {
       throw new Error('Please fill in all required fields and select an image');
     }
 
-    // 3. Upload image to Firebase Storage
+    // Upload to Cloudinary
+    const imageUrl = await uploadToCloudinary(imageFile);
+    if (statusEl) statusEl.textContent = '💾 Saving to database...';
+
+    // Save to Firestore
     const listingId = 'listing_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-    const imageRef = ref(storage, `listings/${listingId}/${imageFile.name}`);
-    await uploadBytes(imageRef, imageFile);
-    const imageUrl = await getDownloadURL(imageRef);
-
-    if (statusEl) statusEl.textContent = 'Saving listing...';
-
-    // 4. Save listing to Firestore
     await setDoc(doc(db, "listings", listingId), {
       title: title,
       make: make,
       model: model,
       year: year,
       price: price,
-      mileage: mileage || 0,
+      mileage: mileage,
       fuel: fuel,
       transmission: transmission,
       description: description,
       imageUrl: imageUrl,
       status: 'pending',
       sellerId: user.uid,
-      sellerName: user.displayName || user.email,
+      sellerName: user.email,
       createdAt: new Date()
     });
 
     if (statusEl) statusEl.textContent = '✅ Listing created!';
-    alert('✅ Listing created! It will appear once approved.');
+    alert('✅ Listing created! Approve it in the list below.');
 
-    // Reset form
     document.getElementById('create-listing-form').reset();
+    document.getElementById('upload-preview').style.display = 'none';
     await loadListings();
 
   } catch (err) {
@@ -87,6 +125,7 @@ async function createListing(user) {
   }
 }
 
+// ===== Load Listings =====
 async function loadListings() {
   const tbody = document.getElementById('listings-tbody');
   if (!tbody) return;
@@ -159,13 +198,6 @@ function escapeHtml(str) {
   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// Load listings on page load
-if (document.getElementById('listings-tbody')) {
-  onAuthStateChanged(auth, (user) => {
-    if (user) loadListings();
-  });
-}
-
 // Approve/Reject/Delete handlers
 document.addEventListener('click', async (e) => {
   const btn = e.target.closest('[data-action]');
@@ -173,14 +205,12 @@ document.addEventListener('click', async (e) => {
   const action = btn.dataset.action;
   const id = btn.dataset.id;
   if (!id) return;
-
   if (!['approve-listing', 'reject-listing', 'delete-listing'].includes(action)) return;
 
   if (!confirm(`Are you sure you want to ${action.replace('-listing', '')} this listing?`)) return;
 
   try {
-    const { updateDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
-    const { deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+    const { updateDoc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
 
     if (action === 'delete-listing') {
       await deleteDoc(doc(db, "listings", id));

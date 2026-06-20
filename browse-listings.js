@@ -2,10 +2,10 @@
 import { db, collection, getDocs, query, where } from "./firebase.js";
 
 async function loadApprovedListings() {
-  const grid = document.querySelector('.listings-grid');
+  const grid = document.getElementById('listings-grid');
   if (!grid) return;
 
-  grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px; color:var(--muted);">Loading cars...</div>`;
+  grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px; color:var(--muted);">Loading cars from database...</div>`;
 
   try {
     // Get only approved listings
@@ -33,8 +33,8 @@ async function loadApprovedListings() {
     });
 
     // Update the count in page header
-    const statEl = document.querySelector('.stat-card span');
-    if (statEl) statEl.textContent = count.toLocaleString();
+    const countEl = document.getElementById('listings-count');
+    if (countEl) countEl.textContent = count.toLocaleString();
 
   } catch (err) {
     console.error('Error loading listings:', err);
@@ -55,7 +55,7 @@ function buildCarCard(id, car) {
     : `background: linear-gradient(160deg, #1e293b 0%, #334155 100%);`;
 
   return `
-    <article class="car-card" data-id="${id}" data-make="${escapeHtml(car.make || '')}" data-model="${escapeHtml(car.model || '')}" data-year="${year}" data-fuel="${escapeHtml(fuel)}" data-price="${car.price || 0}">
+    <article class="car-card show-room" data-id="${id}" data-make="${escapeHtml(car.make || '')}" data-model="${escapeHtml(car.model || '')}" data-year="${year}" data-fuel="${escapeHtml(fuel)}" data-price="${car.price || 0}">
       <div class="car-image" style="${imageStyle}">
         <button class="favorite-button" aria-label="Save car">♥</button>
         <span class="badge verified">Available</span>

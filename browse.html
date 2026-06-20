@@ -64,7 +64,7 @@
       </div>
     </header>
 
-    <!-- Mobile menu (shown when hamburger is toggled) -->
+    <!-- Mobile menu -->
     <div class="mobile-menu" aria-hidden="true">
       <nav class="mobile-nav">
         <a href="browse.html">Buy Cars</a>
@@ -88,8 +88,8 @@
         </div>
         <div class="header-meta">
           <div class="stat-card">
-            <span>1,248</span>
-            <p>Verified listings</p>
+            <span id="listings-count">0</span>
+            <p>Available listings</p>
           </div>
           <div class="stat-card">
             <span>4.9</span>
@@ -196,16 +196,16 @@
               </select>
             </div>
             <div class="saved-indicator">
-              <span>6 saved cars</span>
+              <span>0 saved cars</span>
             </div>
           </div>
 
-          <div class="listings-grid">
+          <!-- ✅ THIS IS WHERE REAL LISTINGS LOAD -->
+          <div class="listings-grid" id="listings-grid">
             <div style="grid-column:1/-1; text-align:center; padding:60px; color:var(--muted);">
               Loading cars from database...
             </div>
           </div>
-
 
           <div class="pagination">
             <button class="page-button active">1</button>
@@ -235,8 +235,10 @@
     </footer>
   </div>
 
-  <script type="module" src="firebase.js"></script>
-  <!-- Modals -->
+  <!-- ✅ Plain script first -->
+  <script src="scripts.js"></script>
+
+  <!-- ✅ Modals -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
       <button class="modal-close" aria-label="Close">×</button>
@@ -310,10 +312,11 @@
       </form>
     </div>
   </div>
-  <script src="scripts.js"></script>
+
+  <!-- ✅ Module scripts (only ONCE each) -->
   <script type="module" src="firebase.js"></script>
   <script type="module" src="admin-link.js"></script>
-
+  <script type="module" src="browse-listings.js"></script>
 </body>
 
 </html>

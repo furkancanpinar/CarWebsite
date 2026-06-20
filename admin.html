@@ -126,7 +126,8 @@
           </div>
         </div>
       </section>
-      <!-- Create New Listing -->
+
+      <!-- ✅ UPDATED: Create New Listing with Cloudinary -->
       <section class="section-block" id="create-listing">
         <div class="section-heading">
           <div>
@@ -185,8 +186,13 @@
               <textarea id="listing-description" rows="3" placeholder="Optional description..."></textarea>
             </label>
 
+            <!-- ✅ UPDATED: Image upload with preview -->
             <label>Car Image *
               <input type="file" id="listing-image" required accept="image/*">
+              <div id="upload-preview" style="margin-top:8px; display:none;">
+                <img id="preview-img" style="max-width:200px; border-radius:12px; border:1px solid var(--border);">
+                <p id="upload-status" style="color:var(--muted); margin:8px 0 0; font-size:0.9rem;"></p>
+              </div>
             </label>
 
             <p id="listing-form-status" style="color:var(--muted); margin:0;"></p>
@@ -194,6 +200,10 @@
             <div class="actions">
               <button type="submit" class="button">Create Listing</button>
             </div>
+
+            <!-- ✅ NEW: Cloudinary config (hidden) -->
+            <input type="hidden" id="cloudinary-cloud-name" value="dpxhcifjq">
+            <input type="hidden" id="cloudinary-upload-preset" value="car_listings">
           </form>
         </div>
       </section>
@@ -271,113 +281,9 @@
               </tr>
             </thead>
             <tbody id="listings-tbody">
-              <tr data-status="pending">
-                <td>
-                  <div class="admin-listing-cell">
-                    <div class="admin-listing-thumb placeholder-1"></div>
-                    <div>
-                      <p class="admin-listing-title">BMW M4 Competition</p>
-                      <p class="admin-listing-meta">2023 • 8,400 mi • Petrol</p>
-                    </div>
-                  </div>
-                </td>
-                <td>Marcus Reid</td>
-                <td>£78,500</td>
-                <td>2 hours ago</td>
-                <td><span class="admin-badge pending">Pending</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn success" data-action="approve-listing">Approve</button>
-                    <button class="admin-action-btn danger" data-action="reject-listing">Reject</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-status="pending">
-                <td>
-                  <div class="admin-listing-cell">
-                    <div class="admin-listing-thumb placeholder-2"></div>
-                    <div>
-                      <p class="admin-listing-title">Audi RS6 Avant</p>
-                      <p class="admin-listing-meta">2024 • 3,200 mi • Petrol</p>
-                    </div>
-                  </div>
-                </td>
-                <td>Elena Vasquez</td>
-                <td>£112,000</td>
-                <td>5 hours ago</td>
-                <td><span class="admin-badge pending">Pending</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn success" data-action="approve-listing">Approve</button>
-                    <button class="admin-action-btn danger" data-action="reject-listing">Reject</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-status="pending">
-                <td>
-                  <div class="admin-listing-cell">
-                    <div class="admin-listing-thumb placeholder-3"></div>
-                    <div>
-                      <p class="admin-listing-title">Tesla Model 3 Performance</p>
-                      <p class="admin-listing-meta">2024 • 1,800 mi • Electric</p>
-                    </div>
-                  </div>
-                </td>
-                <td>Marcus Reid</td>
-                <td>£52,000</td>
-                <td>1 day ago</td>
-                <td><span class="admin-badge pending">Pending</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn success" data-action="approve-listing">Approve</button>
-                    <button class="admin-action-btn danger" data-action="reject-listing">Reject</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-status="approved">
-                <td>
-                  <div class="admin-listing-cell">
-                    <div class="admin-listing-thumb placeholder-4"></div>
-                    <div>
-                      <p class="admin-listing-title">Porsche 911 Carrera S</p>
-                      <p class="admin-listing-meta">2023 • 6,100 mi • Petrol</p>
-                    </div>
-                  </div>
-                </td>
-                <td>Elena Vasquez</td>
-                <td>£135,000</td>
-                <td>3 days ago</td>
-                <td><span class="admin-badge approved">Approved</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn" data-action="view-listing">View</button>
-                    <button class="admin-action-btn danger" data-action="delete-listing">Delete</button>
-                  </div>
-                </td>
-              </tr>
-
-              <tr data-status="rejected">
-                <td>
-                  <div class="admin-listing-cell">
-                    <div class="admin-listing-thumb placeholder-5"></div>
-                    <div>
-                      <p class="admin-listing-title">Ford Focus ST</p>
-                      <p class="admin-listing-meta">2018 • 95,000 mi • Petrol</p>
-                    </div>
-                  </div>
-                </td>
-                <td>Tom Bradley</td>
-                <td>£14,500</td>
-                <td>4 days ago</td>
-                <td><span class="admin-badge rejected">Rejected</span></td>
-                <td>
-                  <div class="admin-actions">
-                    <button class="admin-action-btn" data-action="view-listing">View</button>
-                    <button class="admin-action-btn danger" data-action="delete-listing">Delete</button>
-                  </div>
+              <tr>
+                <td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">
+                  Loading listings from database...
                 </td>
               </tr>
             </tbody>
@@ -549,7 +455,6 @@
   <script type="module" src="admin-guard.js"></script>
   <script type="module" src="admin-users.js"></script>
   <script type="module" src="admin-listings.js"></script>
-  
 </body>
 
 </html>
