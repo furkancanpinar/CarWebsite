@@ -3,8 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Autex Motors | Drive With Confidence</title>
+  
+  <!-- ✅ Theme FIRST - prevents flash -->
+  <script src="theme.js"></script>
+  
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -30,30 +34,9 @@
           <img src="editables/images/AUtexNOBG.png" alt="Autex Motors" class="brand-image"
             data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
         </a>
-        <div class="search-inline">
-          <form role="search" class="search-form" onsubmit="return false;">
-            <label for="header-search" class="visually-hidden">Search</label>
-            <input id="header-search" type="search" placeholder="Search cars, brands" />
-            <button class="icon-button search-submit" aria-label="Search submit">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
-              </svg>
-            </button>
-          </form>
-        </div>
       </div>
 
-      <nav class="main-nav">
-        <a href="browse.html">Buy Cars</a>
-        <a href="previously-sold.html">Previously Sold</a>
-        <a class="nav-link admin-link" href="#">Admin</a>
-      </nav>
-
       <div class="header-actions">
-        <button class="button button-secondary" data-modal-target="login-modal">Login</button>
-        <button class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
-        <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
         <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -63,7 +46,7 @@
       </div>
     </header>
 
-    <!-- Mobile menu -->
+    <!-- Mobile menu (hidden by default) -->
     <div class="mobile-menu" aria-hidden="true">
       <nav class="mobile-nav">
         <a href="browse.html">Buy Cars</a>
@@ -78,18 +61,22 @@
     </div>
 
     <main>
-      <!-- ✅ NEW: Beautiful welcome banner with your Logo.jpeg -->
+      <!-- ✅ Mobile-optimized welcome banner -->
       <section class="welcome-banner" id="welcome-banner">
+        <div class="welcome-bg-decoration"></div>
         <div class="welcome-content">
-          <img src="editables/images/Logo.jpeg" alt="Autex Motors — Drive With Confidence" class="welcome-logo" 
-               onerror="this.parentElement.classList.add('logo-failed')" />
+          <div class="welcome-logo-wrapper">
+            <img src="editables/images/Logo.jpeg" alt="Autex Motors — Drive With Confidence" 
+                 class="welcome-logo" 
+                 onerror="this.parentElement.classList.add('logo-failed')" />
+          </div>
           <div class="welcome-overlay">
             <p class="eyebrow welcome-eyebrow">Curated for visionary drivers</p>
             <h1 class="welcome-title">Find Your Perfect Drive</h1>
             <p class="welcome-tagline">Quality used cars. Competitive prices. Excellent customer service.</p>
             <div class="welcome-cta">
-              <a href="browse.html" class="button button-accent">Browse Cars</a>
-              <button class="button button-secondary" data-modal-target="signup-modal">Create Account</button>
+              <a href="browse.html" class="button button-accent welcome-cta-primary">Browse Cars</a>
+              <button class="button button-secondary welcome-cta-secondary" data-modal-target="signup-modal">Sign Up</button>
             </div>
             <div class="welcome-stats">
               <div class="welcome-stat">
@@ -98,42 +85,42 @@
               </div>
               <div class="welcome-stat">
                 <span id="home-stat-users">—</span>
-                <p>Happy customers</p>
+                <p>Customers</p>
               </div>
               <div class="welcome-stat">
                 <span>4.9★</span>
-                <p>Seller rating</p>
+                <p>Rating</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Quick search section -->
+      <!-- Quick search -->
       <section class="quick-search-section">
         <div class="quick-search-card">
           <div class="quick-search-fields">
             <div class="quick-search-field">
               <label>Make or model</label>
-              <input id="home-search-make" type="text" placeholder="BMW M4, Tesla Model S..." />
+              <input id="home-search-make" type="text" placeholder="BMW M4, Tesla..." />
             </div>
             <div class="quick-search-field">
               <label>Max price (£)</label>
               <input id="home-search-price" type="number" placeholder="80000" />
             </div>
-            <a href="browse.html" class="button button-accent">Search</a>
+            <a href="browse.html" class="button button-accent quick-search-btn">Search</a>
           </div>
         </div>
       </section>
 
-      <!-- Featured Cars from Firestore -->
+      <!-- Featured Cars -->
       <section class="section-block" id="featured">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Featured</p>
             <h2>Premium models ready to drive</h2>
           </div>
-          <a class="text-link" href="browse.html">View all cars →</a>
+          <a class="text-link" href="browse.html">View all →</a>
         </div>
 
         <div class="car-grid" id="featured-cars-grid">
@@ -146,7 +133,7 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">How it works</p>
-            <h2>Three steps to your ideal car journey</h2>
+            <h2>Three steps to your ideal car</h2>
           </div>
         </div>
 
@@ -154,17 +141,17 @@
           <div class="step-card">
             <div class="step-icon">1</div>
             <h3>Browse cars</h3>
-            <p>Explore curated listings, compare features, and find your match from our verified inventory.</p>
+            <p>Explore curated listings and find your match from our verified inventory.</p>
           </div>
           <div class="step-card">
             <div class="step-icon">2</div>
             <h3>Contact seller</h3>
-            <p>Reach out instantly via WhatsApp or phone. Book a test drive at your convenience.</p>
+            <p>Reach out instantly via WhatsApp or phone. Book a test drive easily.</p>
           </div>
           <div class="step-card">
             <div class="step-icon">3</div>
             <h3>Drive home</h3>
-            <p>Secure payment, paper handling, and driving away in your new car — all made simple.</p>
+            <p>Secure payment and paper handling — driving away made simple.</p>
           </div>
         </div>
       </section>
@@ -174,7 +161,7 @@
         <div class="section-heading">
           <div>
             <p class="eyebrow">Why choose us</p>
-            <h2>Trust, transparency, and premium service</h2>
+            <h2>Trust, transparency, premium service</h2>
           </div>
         </div>
 
@@ -182,12 +169,12 @@
           <div class="trust-card">
             <span class="trust-icon">🔒</span>
             <h3>Secure payments</h3>
-            <p>Encrypted checkout with verified funding and buyer protection on every transaction.</p>
+            <p>Encrypted checkout with verified funding and buyer protection.</p>
           </div>
           <div class="trust-card">
             <span class="trust-icon">🛡️</span>
             <h3>Verified sellers</h3>
-            <p>Every listing is curated and reviewed for authenticity by our team.</p>
+            <p>Every listing is curated and reviewed for authenticity.</p>
           </div>
           <div class="trust-card">
             <span class="trust-icon">⚡</span>
@@ -204,11 +191,11 @@
 
       <!-- CTA Banner -->
       <section class="cta-banner">
-        <div>
+        <div class="cta-banner-content">
           <p class="eyebrow">Ready to find your next car?</p>
           <h2>Browse our verified listings and drive with confidence today.</h2>
         </div>
-        <a href="browse.html" class="button button-accent">Browse Cars</a>
+        <a href="browse.html" class="button button-accent cta-banner-btn">Browse Cars</a>
       </section>
     </main>
 
@@ -311,7 +298,6 @@
   <script type="module" src="admin-link.js"></script>
   <script type="module" src="auth-menu.js"></script>
   <script type="module" src="home-listings.js"></script>
-  <script src="theme.js"></script>
 </body>
 
 </html>
