@@ -2686,3 +2686,56 @@ body[data-theme='light'] .quick-search-field select:hover {
 .welcome-stats {
   z-index: 1 !important;
 }
+/* ============================================================
+   WELCOME LOGO — MOBILE FIX
+   ============================================================ */
+
+.welcome-logo {
+  max-width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Desktop - show at proper size */
+@media (min-width: 900px) {
+  .welcome-logo {
+    max-height: 320px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .welcome-logo {
+    max-height: 240px;
+  }
+}
+
+/* Mobile - MUCH bigger */
+@media (max-width: 760px) {
+  .welcome-logo {
+    max-height: 220px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .welcome-logo-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-logo {
+    max-height: 180px !important;
+    width: 100% !important;
+  }
+}
+
