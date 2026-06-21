@@ -3,8 +3,12 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>GameWise | Browse Cars</title>
+
+  <!-- ✅ Theme script FIRST in <head> -->
+  <script src="theme.js"></script>
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -27,33 +31,12 @@
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
-          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image"
+          <img src="editables/images/AUtexNOBG.png" alt="Autex Motors" class="brand-image"
             data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
         </a>
-        <div class="search-inline">
-          <form role="search" class="search-form" onsubmit="return false;">
-            <label for="header-search" class="visually-hidden">Search</label>
-            <input id="header-search" type="search" placeholder="Search cars, brands" />
-            <button class="icon-button search-submit" aria-label="Search submit">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
-              </svg>
-            </button>
-          </form>
-        </div>
       </div>
 
-      <nav class="main-nav">
-        <a class="nav-link active" href="browse.html">Buy Cars</a>
-        <a href="previously-sold.html">Previously Sold Vehicles</a>
-        <a class="nav-link admin-link" href="#">Admin</a>
-      </nav>
-
       <div class="header-actions">
-        <button class="button button-secondary" data-modal-target="login-modal">Login</button>
-        <button class="button button-primary" data-modal-target="signup-modal">Sign Up</button>
-        <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
         <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -67,12 +50,12 @@
     <div class="mobile-menu" aria-hidden="true">
       <nav class="mobile-nav">
         <a href="browse.html">Buy Cars</a>
-        <a href="previously-sold.html">Previously Sold Vehicles</a>
+        <a href="previously-sold.html">Previously Sold</a>
         <a href="#" id="admin-link">Admin</a>
       </nav>
       <div class="mobile-menu-actions">
         <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
-        <button class="button button-primary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
+        <button class="button button-secondary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
         <button class="button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
       </div>
     </div>
@@ -233,10 +216,9 @@
     </footer>
   </div>
 
-  <!-- ✅ Plain script first -->
   <script src="scripts.js"></script>
 
-  <!-- ✅ Modals -->
+  <!-- Modals -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
       <button class="modal-close" aria-label="Close">×</button>
@@ -322,9 +304,7 @@
   <script type="module" src="admin-link.js"></script>
   <script type="module" src="browse-listings.js"></script>
   <script type="module" src="auth-menu.js"></script>
-  <script src="theme.js"></script>
   <script type="module" src="auth-state.js"></script>
 </body>
-
 
 </html>
