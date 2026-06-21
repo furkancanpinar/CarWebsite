@@ -2687,3 +2687,66 @@ body[data-theme='light'] .quick-search-field select:hover {
   z-index: 1 !important;
 }
 
+/* ============================================================
+   WELCOME LOGO - BIGGER ON MOBILE
+   ============================================================ */
+
+.welcome-logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.welcome-logo {
+  /* Desktop sizes */
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 280px;
+  object-fit: contain;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* Desktop - keep large */
+@media (min-width: 1200px) {
+  .welcome-logo {
+    max-height: 320px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .welcome-logo {
+    max-height: 240px;
+  }
+}
+
+/* Mobile - FULL WIDTH for wide logos */
+@media (max-width: 760px) {
+  .welcome-logo-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .welcome-logo {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 200px !important;
+    object-fit: contain;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .welcome-logo {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 160px !important;
+  }
+}
