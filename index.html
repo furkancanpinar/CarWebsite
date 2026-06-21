@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Autex Motors | Drive With Confidence</title>
 
-  <!-- ✅ Theme FIRST - prevents flash -->
+  <!-- ✅ Theme script FIRST in <head> - prevents flash -->
   <script src="theme.js"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -80,11 +80,11 @@
             </div>
             <div class="welcome-stats">
               <div class="welcome-stat">
-                <span id="home-stat-cars">—</span>
+                <span id="home-stat-cars">0</span>
                 <p>Cars available</p>
               </div>
               <div class="welcome-stat">
-                <span id="home-stat-users">—</span>
+                <span id="home-stat-users">0</span>
                 <p>Customers</p>
               </div>
               <div class="welcome-stat">
@@ -113,7 +113,6 @@
         </div>
       </section>
 
-      <!-- Featured Cars -->
       <!-- Featured Cars Carousel -->
       <section class="section-block" id="featured">
         <div class="section-heading">
@@ -148,7 +147,6 @@
           <div class="carousel-dots" id="carousel-dots"></div>
         </div>
       </section>
-
 
       <!-- How it works -->
       <section class="section-block" id="how-it-works">
@@ -314,15 +312,14 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- ✅ Scripts at the very bottom, in CORRECT order -->
   <script src="scripts.js"></script>
   <script type="module" src="firebase.js"></script>
   <script type="module" src="admin-link.js"></script>
   <script type="module" src="auth-menu.js"></script>
   <script type="module" src="home-listings.js"></script>
-  <script src="theme.js"></script>
   <script type="module" src="home-carousel.js"></script>
-
+  <script src="theme.js"></script>
 </body>
 
 </html>

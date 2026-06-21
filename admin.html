@@ -3,8 +3,12 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>GameWise | Admin Dashboard</title>
+
+  <!-- ✅ Theme script FIRST -->
+  <script src="theme.js"></script>
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -27,33 +31,12 @@
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
-          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image"
+          <img src="editables/images/AUtexNOBG.png" alt="Autex Motors" class="brand-image"
             data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
         </a>
-        <div class="search-inline">
-          <form role="search" class="search-form" onsubmit="return false;">
-            <label for="header-search" class="visually-hidden">Search</label>
-            <input id="header-search" type="search" placeholder="Search cars, brands" />
-            <button class="icon-button search-submit" aria-label="Search submit">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
-              </svg>
-            </button>
-          </form>
-        </div>
       </div>
 
-      <nav class="main-nav">
-        <a href="browse.html">Buy Cars</a>
-        <a href="previously-sold.html">Previously Sold Vehicles</a>
-        <a class="nav-link admin-link" href="#">Admin</a>
-      </nav>
-
       <div class="header-actions">
-        <button class="button button-secondary" data-modal-target="login-modal">Login</button>
-        <button class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
-        <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
         <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -67,7 +50,7 @@
     <div class="mobile-menu" aria-hidden="true">
       <nav class="mobile-nav">
         <a href="browse.html">Buy Cars</a>
-        <a href="previously-sold.html">Previously Sold Vehicles</a>
+        <a href="previously-sold.html">Previously Sold</a>
         <a href="#" id="admin-link">Admin</a>
       </nav>
       <div class="mobile-menu-actions">
@@ -78,16 +61,15 @@
     </div>
 
     <main>
-      <section class="page-header">
-        <div>
-          <p class="breadcrumb">Home / Admin</p>
-          <h1>Admin Dashboard</h1>
-          <p>Manage users, listings, and platform activity.</p>
-        </div>
-        <div class="header-meta">
-          <div class="stat-card">
-            <span>Admin</span>
-            <p>Full platform access</p>
+      <!-- ✅ Welcome banner like index.html -->
+      <section class="admin-welcome">
+        <div class="admin-welcome-content">
+          <img src="editables/images/Logo.jpeg" alt="Autex Motors" class="admin-welcome-logo"
+               onerror="this.style.display='none'" />
+          <div class="admin-welcome-text">
+            <p class="eyebrow">Admin Control Center</p>
+            <h1>Autex Motors Dashboard</h1>
+            <p>Manage users, listings, and platform activity.</p>
           </div>
         </div>
       </section>
@@ -102,30 +84,42 @@
         </div>
 
         <div class="admin-stats-grid">
-          <div class="step-card">
-            <div class="step-icon">👥</div>
-            <h3 id="stat-total-users">—</h3>
-            <p>Total users <span class="admin-trend up">Live</span></p>
+          <div class="stat-card-modern">
+            <div class="stat-icon">👥</div>
+            <div>
+              <h3 id="stat-total-users">0</h3>
+              <p>Total users</p>
+              <span class="stat-trend up">Live</span>
+            </div>
           </div>
-          <div class="step-card">
-            <div class="step-icon">🚗</div>
-            <h3>342</h3>
-            <p>Active listings <span class="admin-trend up">+8%</span></p>
+          <div class="stat-card-modern">
+            <div class="stat-icon">🚗</div>
+            <div>
+              <h3 id="stat-active-listings">0</h3>
+              <p>Active listings</p>
+              <span class="stat-trend up">Live</span>
+            </div>
           </div>
-          <div class="step-card">
-            <div class="step-icon">⏳</div>
-            <h3>17</h3>
-            <p>Pending approval <span class="admin-trend warn">Review</span></p>
+          <div class="stat-card-modern">
+            <div class="stat-icon">⏳</div>
+            <div>
+              <h3 id="stat-pending">0</h3>
+              <p>Pending approval</p>
+              <span class="stat-trend warn">Review</span>
+            </div>
           </div>
-          <div class="step-card">
-            <div class="step-icon">💰</div>
-            <h3>£2.4M</h3>
-            <p>Sales (30 days) <span class="admin-trend up">+23%</span></p>
+          <div class="stat-card-modern">
+            <div class="stat-icon">💰</div>
+            <div>
+              <h3 id="stat-sold">0</h3>
+              <p>Cars sold</p>
+              <span class="stat-trend up">Archive</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ✅ UPDATED: Create New Listing with Cloudinary -->
+      <!-- Create New Listing -->
       <section class="section-block" id="create-listing">
         <div class="section-heading">
           <div>
@@ -184,7 +178,6 @@
               <textarea id="listing-description" rows="3" placeholder="Optional description..."></textarea>
             </label>
 
-            <!-- ✅ UPDATED: Image upload with preview -->
             <label>Car Image *
               <input type="file" id="listing-image" required accept="image/*">
               <div id="upload-preview" style="margin-top:8px; display:none;">
@@ -199,7 +192,6 @@
               <button type="submit" class="button">Create Listing</button>
             </div>
 
-            <!-- ✅ NEW: Cloudinary config (hidden) -->
             <input type="hidden" id="cloudinary-cloud-name" value="dpxhcifjq">
             <input type="hidden" id="cloudinary-upload-preset" value="car_listings">
           </form>
@@ -214,7 +206,7 @@
             <h2>User Management</h2>
           </div>
           <div class="admin-filters">
-            <input id="user-search" class="filter-search" type="search" placeholder="Search by name or email"
+            <input id="user-search" class="filter-search" type="search" placeholder="Search users..."
               aria-label="Search users" />
             <select id="user-filter-role" class="filter-select" aria-label="Filter by role">
               <option value="">All roles</option>
@@ -233,14 +225,13 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Joined</th>
-                <th>Listings</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="users-tbody">
               <tr id="users-loading-row">
-                <td colspan="7" style="text-align:center; padding:40px; color:var(--muted);">
+                <td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">
                   Loading users from database...
                 </td>
               </tr>
@@ -249,7 +240,7 @@
         </div>
       </section>
 
-      <!-- Listing Management -->
+      <!-- Listing Management with Mark as Sold -->
       <section class="section-block" id="listings">
         <div class="section-heading">
           <div>
@@ -288,54 +279,6 @@
           </table>
         </div>
       </section>
-
-      <!-- Recent Activity -->
-      <section class="section-block" id="activity">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Activity</p>
-            <h2>Recent Activity</h2>
-          </div>
-        </div>
-
-        <div class="steps-grid" style="grid-template-columns: 1fr;">
-          <div class="step-card admin-activity-item">
-            <div class="step-icon success">✓</div>
-            <div>
-              <h3 style="font-size: 1rem; margin: 0 0 6px;">Sarah Chen approved listing "Mercedes G63 AMG"</h3>
-              <p>15 minutes ago</p>
-            </div>
-          </div>
-          <div class="step-card admin-activity-item">
-            <div class="step-icon">+</div>
-            <div>
-              <h3 style="font-size: 1rem; margin: 0 0 6px;">New seller registered: Elena Vasquez</h3>
-              <p>1 hour ago</p>
-            </div>
-          </div>
-          <div class="step-card admin-activity-item">
-            <div class="step-icon warn">!</div>
-            <div>
-              <h3 style="font-size: 1rem; margin: 0 0 6px;">Marcus Reid submitted "BMW M4 Competition" for review</h3>
-              <p>2 hours ago</p>
-            </div>
-          </div>
-          <div class="step-card admin-activity-item">
-            <div class="step-icon danger">×</div>
-            <div>
-              <h3 style="font-size: 1rem; margin: 0 0 6px;">Sarah Chen suspended user "Tom Bradley"</h3>
-              <p>5 hours ago</p>
-            </div>
-          </div>
-          <div class="step-card admin-activity-item">
-            <div class="step-icon success">✓</div>
-            <div>
-              <h3 style="font-size: 1rem; margin: 0 0 6px;">Sarah Chen approved listing "Porsche 911 Carrera S"</h3>
-              <p>3 days ago</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">
@@ -356,10 +299,7 @@
     </footer>
   </div>
 
-  <!-- ✅ Plain script first -->
-  <script src="scripts.js"></script>
-
-  <!-- ✅ Modals -->
+  <!-- Modals -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
       <button class="modal-close" aria-label="Close">×</button>
@@ -434,7 +374,7 @@
     </div>
   </div>
 
-  <!-- ✅ Confirm modal for admin actions -->
+  <!-- Confirm modal -->
   <div class="modal" id="confirm-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
       <button class="modal-close" aria-label="Close">×</button>
@@ -447,14 +387,16 @@
     </div>
   </div>
 
-  <!-- ✅ Module scripts -->
+  <!-- ✅ Scripts in correct order -->
+  <script src="scripts.js"></script>
   <script type="module" src="firebase.js"></script>
   <script type="module" src="admin-link.js"></script>
   <script type="module" src="admin-guard.js"></script>
   <script type="module" src="admin-users.js"></script>
   <script type="module" src="admin-listings.js"></script>
   <script type="module" src="auth-menu.js"></script>
-  <script src="theme.js"></script>
+  <script type="module" src="admin-stats.js"></script>
+  <script type="module" src="theme.js"></script>
 </body>
 
 </html>

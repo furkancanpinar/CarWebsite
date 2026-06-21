@@ -1,61 +1,89 @@
 // home-listings.js
-import { db, collection, getDocs, query, where, orderBy, limit } from "./firebase.js";
+import { db, collection, getDocs, query, where } from "./firebase.js";
 
 async function loadHomeStats() {
+  console.log('📊 home-listings.js loaded - starting stats fetch');
+  
   try {
-    // Get listings count
+    // Get approved listings count
     const listingsQuery = query(collection(db, "listings"), where("status", "==", "approved"));
     const listingsSnap = await getDocs(listingsQuery);
+    const carsCount = listingsSnap.size;
     
-    const carsEl = document.getElementById('home-stat-cars');
-    if (carsEl) carsEl.textContent = listingsSnap.size.toLocaleString();
+    console.log('📊 Approved cars found:', carsCount);
 
     // Get users count
     const usersSnap = await getDocs(collection(db, "users"));
+    const usersCount = usersSnap.size;
+    
+    console.log('📊 Users found:', usersCount);
+
+    // Update DOM
+    const carsEl = document.getElementById('home-stat-cars');
+    if (carsEl) {
+      carsEl.textContent = carsCount.toLocaleString();
+      console.log('✅ Updated home-stat-cars to:', carsCount);
+    } else {
+      console.error('❌ #home-stat-cars element NOT FOUND in DOM');
+    }
+
     const usersEl = document.getElementById('home-stat-users');
-    if (usersEl) usersEl.textContent = usersSnap.size.toLocaleString();
+    if (usersEl) {
+      usersEl.textContent = usersCount.toLocaleString();
+      console.log('✅ Updated home-stat-users to:', usersCount);
+    } else {
+      console.error('❌ #home-stat-users element NOT FOUND in DOM');
+    }
 
   } catch (err) {
-    console.error('Stats load failed:', err);
+    console.error('❌ Stats load FAILED:', err.message);
+    console.error('Full error:', err);
   }
 }
 
 async function loadFeaturedCars() {
   const grid = document.getElementById('featured-cars-grid');
-  if (!grid) return;
+  if (!grid) {
+    console.log('ℹ️ No featured-cars-grid found (carousel page)');
+    return;
+  }
 
   grid.innerHTML = '<div class="loading-message-modern">Loading featured cars...</div>';
 
   try {
-    // Get the latest 6 approved listings
     const q = query(
       collection(db, "listings"),
-      where("status", "==", "approved"),
-      limit(6)
+      where("status", "==", "approved")
     );
     const querySnapshot = await getDocs(q);
+    const cars = [];
+    querySnapshot.forEach(doc => cars.push({ id: doc.id, ...doc.data() }));
+    
+    // Pick 3 random cars for the grid (different from carousel)
+    const shuffled = cars.sort(() => Math.random() - 0.5).slice(0, 3);
 
     grid.innerHTML = '';
 
-    if (querySnapshot.empty) {
+    if (shuffled.length === 0) {
       grid.innerHTML = `
         <div class="loading-message-modern" style="grid-column:1/-1;">
           <p>No featured cars yet.</p>
-          <p style="font-size:0.9rem; margin-top:8px;">Check back soon — we're adding new listings every week!</p>
+          <p style="font-size:0.9rem; margin-top:8px;">Check back soon!</p>
         </div>
       `;
       return;
     }
 
-    querySnapshot.forEach((docSnap) => {
-      const car = docSnap.data();
-      const id = docSnap.id;
-      grid.insertAdjacentHTML('beforeend', buildCarCard(id, car));
+    shuffled.forEach((car) => {
+      const card = buildCarCard(car.id, car);
+      grid.insertAdjacentHTML('beforeend', card);
     });
+    
+    console.log('✅ Featured cars grid loaded:', shuffled.length, 'cars');
 
   } catch (err) {
-    console.error('Featured cars load failed:', err);
-    grid.innerHTML = `<div class="loading-message-modern" style="grid-column:1/-1; color:#f87171;">Error loading cars: ${err.message}</div>`;
+    console.error('❌ Featured cars load failed:', err);
+    grid.innerHTML = `<div class="loading-message-modern" style="grid-column:1/-1; color:#f87171;">Error: ${err.message}</div>`;
   }
 }
 

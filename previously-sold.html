@@ -3,8 +3,12 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Previously Sold Vehicles</title>
+
+  <!-- ✅ Theme script FIRST in <head> -->
+  <script src="theme.js"></script>
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -27,33 +31,12 @@
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
-          <img src="editables/images/AUtexNOBG.png" alt="Autex logo" class="brand-image"
+          <img src="editables/images/AUtexNOBG.png" alt="Autex Motors" class="brand-image"
             data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
         </a>
-        <div class="search-inline">
-          <form role="search" class="search-form" onsubmit="return false;">
-            <label for="header-search" class="visually-hidden">Search</label>
-            <input id="header-search" type="search" placeholder="Search cars, brands" />
-            <button class="icon-button search-submit" aria-label="Search submit">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M15.5 14h-.79l-.28-.27a6.57 6.57 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
-              </svg>
-            </button>
-          </form>
-        </div>
       </div>
 
-      <nav class="main-nav">
-        <a href="browse.html">Buy Cars</a>
-        <a class="nav-link active" href="previously-sold.html">Previously Sold Vehicles</a>
-        <a class="nav-link admin-link" href="#">Admin</a>
-      </nav>
-
       <div class="header-actions">
-        <button class="button button-secondary" data-modal-target="login-modal">Login</button>
-        <button class="button button-primary" data-modal-target="signup-modal">Sign Up</button>
-        <button class="button button-secondary" id="theme-toggle" aria-label="Toggle theme">Toggle theme</button>
         <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -63,31 +46,47 @@
       </div>
     </header>
 
-    <!-- Mobile menu (shown when hamburger is toggled) -->
+    <!-- Mobile menu -->
     <div class="mobile-menu" aria-hidden="true">
       <nav class="mobile-nav">
         <a href="browse.html">Buy Cars</a>
-        <a href="previously-sold.html">Previously Sold Vehicles</a>
-        <a href="#" id="admin-link">Admin</a>
+        <a href="previously-sold.html">Previously Sold</a>
+        <a id="admin-link" class="admin-link" href="#">Admin</a>
       </nav>
       <div class="mobile-menu-actions">
         <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
-        <button class="button button-primary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
+        <button class="button button-secondary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
         <button class="button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
       </div>
     </div>
 
     <main>
-      <section class="page-header">
-        <div>
-          <p class="breadcrumb">Home / Previously Sold</p>
-          <h1>Previously Sold Vehicles</h1>
-          <p>Explore the vehicles we've recently sold — curated archive of premium models.</p>
-        </div>
-        <div class="header-meta">
-          <div class="stat-card">
-            <span>Archive</span>
-            <p>Historic sold listings</p>
+      <!-- ✅ Welcome banner matching index.html -->
+      <section class="welcome-banner" id="welcome-banner">
+        <div class="welcome-bg-decoration"></div>
+        <div class="welcome-content">
+          <div class="welcome-logo-wrapper">
+            <img src="editables/images/Logo.jpeg" alt="Autex Motors — Drive With Confidence" class="welcome-logo"
+              onerror="this.parentElement.classList.add('logo-failed')" />
+          </div>
+          <div class="welcome-overlay">
+            <p class="eyebrow welcome-eyebrow">Archive of Excellence</p>
+            <h1 class="welcome-title">Previously Sold Vehicles</h1>
+            <p class="welcome-tagline">Browse our collection of successfully sold premium vehicles.</p>
+            <div class="welcome-stats">
+              <div class="welcome-stat">
+                <span id="sold-stat-total">—</span>
+                <p>Total sold</p>
+              </div>
+              <div class="welcome-stat">
+                <span id="sold-stat-value">—</span>
+                <p>Total value</p>
+              </div>
+              <div class="welcome-stat">
+                <span id="sold-stat-month">—</span>
+                <p>This month</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -95,88 +94,23 @@
       <section class="section-block">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Sold</p>
+            <p class="eyebrow">Archive</p>
             <h2>Our Sold Collection</h2>
           </div>
-          <div style="display:flex; gap:12px; align-items:center;">
+          <div class="admin-filters">
             <input id="sold-search" class="filter-search" type="search" placeholder="Search make, model, year"
               aria-label="Search sold vehicles" />
             <select id="sold-filter-year" class="filter-select" aria-label="Filter by year">
               <option value="">All years</option>
-              <option>2024</option>
-              <option>2023</option>
-              <option>2022</option>
             </select>
           </div>
         </div>
 
+        <!-- ✅ Empty grid — JS will populate it -->
         <div class="listings-grid sold-grid" id="sold-grid">
-          <article class="car-card sold-item" data-make="Tesla" data-model="Model S" data-year="2024"
-            data-mileage="8000" data-sale-date="2026-05-10">
-            <div class="car-image" style="background-image:linear-gradient(180deg,#0f172a,#1e293b);">
-              <span class="badge sold">SOLD</span>
-            </div>
-            <div class="car-content">
-              <div class="car-title">
-                <div>
-                  <h3>Tesla Model S</h3>
-                  <p class="car-price">£95,000</p>
-                </div>
-                <p style="color:var(--muted)">8,000 mi • 2024</p>
-              </div>
-              <ul class="car-specs">
-                <li>8,000 mi</li>
-                <li>2024</li>
-                <li>Electric</li>
-              </ul>
-              <p class="car-muted">Sold on 10 May 2026 — pristine condition, full service history.</p>
-            </div>
-          </article>
-
-          <article class="car-card sold-item" data-make="Porsche" data-model="911" data-year="2023" data-mileage="4200"
-            data-sale-date="2026-04-02">
-            <div class="car-image" style="background-image:linear-gradient(180deg,#141e2c,#18334d);">
-              <span class="badge sold">SOLD</span>
-            </div>
-            <div class="car-content">
-              <div class="car-title">
-                <div>
-                  <h3>Porsche 911</h3>
-                  <p class="car-price">£165,000</p>
-                </div>
-                <p style="color:var(--muted)">4,200 mi • 2023</p>
-              </div>
-              <ul class="car-specs">
-                <li>4,200 mi</li>
-                <li>2023</li>
-                <li>Petrol</li>
-              </ul>
-              <p class="car-muted">Sold on 2 Apr 2026 — collector-grade example.</p>
-            </div>
-          </article>
-
-          <article class="car-card sold-item" data-make="Range Rover" data-model="Sport" data-year="2022"
-            data-mileage="15000" data-sale-date="2026-03-18">
-            <div class="car-image" style="background-image:linear-gradient(180deg,#201a33,#2c2b53);">
-              <span class="badge sold">SOLD</span>
-            </div>
-            <div class="car-content">
-              <div class="car-title">
-                <div>
-                  <h3>Range Rover Sport</h3>
-                  <p class="car-price">£78,000</p>
-                </div>
-                <p style="color:var(--muted)">15,000 mi • 2022</p>
-              </div>
-              <ul class="car-specs">
-                <li>15,000 mi</li>
-                <li>2022</li>
-                <li>Diesel</li>
-              </ul>
-              <p class="car-muted">Sold on 18 Mar 2026 — executive spec.</p>
-            </div>
-          </article>
-
+          <div style="grid-column:1/-1; text-align:center; padding:60px; color:var(--muted);">
+            Loading sold vehicles...
+          </div>
         </div>
       </section>
     </main>
@@ -197,10 +131,7 @@
         <p>© 2026 GameWise. All rights reserved.</p>
       </div>
     </footer>
-
   </div>
-
-  <script type="module" src="firebase.js"></script>
 
   <!-- Modals -->
   <div class="modal" id="opening-hours" aria-hidden="true">
@@ -276,12 +207,13 @@
       </form>
     </div>
   </div>
+
+  <!-- ✅ Scripts at the very bottom, in correct order -->
   <script src="scripts.js"></script>
   <script type="module" src="firebase.js"></script>
   <script type="module" src="admin-link.js"></script>
   <script type="module" src="auth-menu.js"></script>
-  <script src="theme.js"></script>
-
+  <script type="module" src="sold-cars.js"></script>
 </body>
 
 </html>

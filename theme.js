@@ -2,7 +2,7 @@
 (function() {
   const THEME_KEY = 'gamewise-theme';
 
-  // Apply IMMEDIATELY before page renders (prevents flash)
+  // Apply IMMEDIATELY before page renders
   const stored = localStorage.getItem(THEME_KEY);
   if (stored === 'light' || stored === 'dark') {
     document.body.dataset.theme = stored;
@@ -10,7 +10,6 @@
     document.body.dataset.theme = 'dark';
   }
 
-  // Run when DOM is ready
   function init() {
     const body = document.body;
     const themeToggle = document.getElementById('theme-toggle');
@@ -18,8 +17,6 @@
     const brandImg = document.querySelector('.brand-image');
 
     console.log('🎨 Theme.js loaded. Current theme:', body.dataset.theme);
-    console.log('🎨 Theme toggle button found:', !!themeToggle);
-    console.log('🎨 Mobile theme toggle found:', !!mobileThemeToggle);
 
     function updateAriaLabels() {
       const isLight = body.dataset.theme === 'light';
@@ -32,7 +29,11 @@
     }
 
     function swapLogo() {
-      if (!brandImg) return;
+      // ✅ FIX: Check brandImg exists before accessing dataset
+      if (!brandImg) {
+        console.log('🎨 No .brand-image element on this page');
+        return;
+      }
       const light = brandImg.getAttribute('data-light');
       const dark = brandImg.getAttribute('data-dark');
       if (light && dark) {
@@ -50,21 +51,15 @@
       swapLogo();
     }
 
-    // Initial setup
     swapLogo();
     updateAriaLabels();
 
-    // Attach toggle handlers
     if (themeToggle) {
       themeToggle.addEventListener('click', toggleTheme);
-    } else {
-      console.warn('🎨 #theme-toggle button NOT found');
     }
-
     if (mobileThemeToggle) {
       mobileThemeToggle.addEventListener('click', function() {
         toggleTheme();
-        // Close mobile menu
         const header = document.querySelector('.site-header');
         if (header && header.classList.contains('menu-open')) {
           header.classList.remove('menu-open');
@@ -72,7 +67,6 @@
       });
     }
 
-    // Expose globally for debugging
     window.toggleTheme = toggleTheme;
     window.getCurrentTheme = function() { return body.dataset.theme; };
   }
