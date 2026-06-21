@@ -9,7 +9,7 @@ function updateAuthUI(user) {
   // Find ALL login/signup buttons across the page
   const loginButtons = document.querySelectorAll('[data-modal-target="login-modal"]');
   const signupButtons = document.querySelectorAll('[data-modal-target="signup-modal"]');
-  
+
   // Find the mobile versions too
   const mobileLogin = document.getElementById('mobile-login');
   const mobileSignup = document.getElementById('mobile-signup');
@@ -22,40 +22,42 @@ function updateAuthUI(user) {
     // Replace desktop login button with user menu
     loginButtons.forEach(btn => {
       if (btn.id === 'mobile-login') return; // skip mobile, handled separately
+      // ✅ CORRECT — no inline styles, CSS controls everything
       btn.outerHTML = `
-        <div class="user-menu-wrapper">
-          <button class="button user-menu-button" id="user-menu-toggle" aria-label="User menu">
-            <span class="user-avatar">${userInitial}</span>
-            <span class="user-email-short">${shortenEmail(userEmail)}</span>
-            <svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:currentColor;">
-              <path d="M7 10l5 5 5-5z"/>
-            </svg>
-          </button>
-          <div class="user-dropdown" id="user-dropdown" aria-hidden="true">
-            <div class="user-dropdown-header">
-              <div class="user-avatar-large">${userInitial}</div>
-              <div>
-                <p class="user-dropdown-name">${escapeHtml(userEmail)}</p>
-                <p class="user-dropdown-status">Signed in</p>
-              </div>
-            </div>
-            <div class="user-dropdown-divider"></div>
-            <a href="#" class="user-dropdown-item" id="my-listings-link">
-              <span>🚗</span> My Listings
-            </a>
-            <a href="#" class="user-dropdown-item" id="my-profile-link">
-              <span>👤</span> My Profile
-            </a>
-            <a href="#" class="user-dropdown-item" id="favorites-link">
-              <span>♥</span> Saved Cars
-            </a>
-            <div class="user-dropdown-divider"></div>
-            <button class="user-dropdown-item danger" id="logout-btn">
-              <span>↪</span> Log Out
-            </button>
-          </div>
+  <div class="user-menu-wrapper">
+    <button class="button user-menu-button" id="user-menu-toggle" aria-label="User menu">
+      <span class="user-avatar">${userInitial}</span>
+      <span class="user-email-short">${shortenEmail(userEmail)}</span>
+      <svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:currentColor;">
+        <path d="M7 10l5 5 5-5z"/>
+      </svg>
+    </button>
+    <div class="user-dropdown" id="user-dropdown" aria-hidden="true">
+      <div class="user-dropdown-header">
+        <div class="user-avatar-large">${userInitial}</div>
+        <div>
+          <p class="user-dropdown-name">${escapeHtml(userEmail)}</p>
+          <p class="user-dropdown-status">Signed in</p>
         </div>
-      `;
+      </div>
+      <div class="user-dropdown-divider"></div>
+      <a href="#" class="user-dropdown-item" id="my-listings-link">
+        <span>🚗</span> My Listings
+      </a>
+      <a href="#" class="user-dropdown-item" id="my-profile-link">
+        <span>👤</span> My Profile
+      </a>
+      <a href="#" class="user-dropdown-item" id="favorites-link">
+        <span>♥</span> Saved Cars
+      </a>
+      <div class="user-dropdown-divider"></div>
+      <button class="user-dropdown-item danger" id="logout-btn">
+        <span>↪</span> Log Out
+      </button>
+    </div>
+  </div>
+`;
+
     });
 
     // Hide desktop signup buttons when logged in
@@ -78,7 +80,7 @@ function updateAuthUI(user) {
 
     // Attach dropdown toggle handler
     attachDropdownHandlers();
-    
+
     // Attach logout handler
     attachLogoutHandlers();
 
@@ -102,7 +104,7 @@ function updateAuthUI(user) {
     if (mobileSignup) {
       mobileSignup.style.display = '';
     }
-    
+
     // Re-attach modal handlers since DOM changed
     if (typeof window.reInitModals === 'function') {
       window.reInitModals();
@@ -169,3 +171,4 @@ function attachLogoutHandlers() {
     });
   });
 }
+
