@@ -268,49 +268,57 @@
     </div>
   </div>
 
-  <!-- Login Modal -->
-  <div class="modal" id="login-modal" aria-hidden="true">
-    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
-      <button class="modal-close" aria-label="Close">×</button>
-      <h3 id="login-title">Log In</h3>
-      <form id="login-form" class="auth-form">
-        <label>Email
-          <input type="email" id="login-email" required placeholder="you@example.com" />
-        </label>
-        <label>Password
-          <input type="password" id="login-password" required placeholder="••••••••" />
-        </label>
-        <div class="actions">
-          <button type="submit" class="button">Log in</button>
-          <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign up</button>
-        </div>
-      </form>
-    </div>
+<!-- Login Modal -->
+<div class="modal" id="login-modal" aria-hidden="true">
+  <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <button class="modal-close" aria-label="Close">×</button>
+    <h3 id="login-title">Log In</h3>
+    <form id="login-form" class="auth-form" autocomplete="on">
+      <label>Email
+        <input type="email" id="login-email" required placeholder="you@example.com"
+          autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false"
+          data-form-type="login" data-lpignore="false" />
+      </label>
+      <label>Password
+        <input type="password" id="login-password" required placeholder="••••••••"
+          autocomplete="current-password" data-form-type="login" data-lpignore="false" />
+      </label>
+      <div class="actions">
+        <button type="submit" class="button">Log in</button>
+        <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign up</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <!-- Signup Modal -->
-  <div class="modal" id="signup-modal" aria-hidden="true">
-    <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
-      <button class="modal-close" aria-label="Close">×</button>
-      <h3 id="signup-title">Sign Up</h3>
-      <form id="signup-form" class="auth-form">
-        <label>Name
-          <input type="text" id="signup-name" required placeholder="Your name" />
-        </label>
-        <label>Email
-          <input type="email" id="signup-email" required placeholder="you@example.com" />
-        </label>
-        <label>Password
-          <input type="password" id="signup-password" required placeholder="Create a password" />
-        </label>
-        <div class="actions">
-          <button type="submit" class="button">Create account</button>
-          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an
-            account?</button>
-        </div>
-      </form>
-    </div>
+<!-- Signup Modal -->
+<div class="modal" id="signup-modal" aria-hidden="true">
+  <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+    <button class="modal-close" aria-label="Close">×</button>
+    <h3 id="signup-title">Sign Up</h3>
+    <form id="signup-form" class="auth-form" autocomplete="on">
+      <label>Name
+        <input type="text" id="signup-name" required placeholder="Your name"
+          autocomplete="name" data-form-type="signup" data-lpignore="false" />
+      </label>
+      <label>Email
+        <input type="email" id="signup-email" required placeholder="you@example.com"
+          autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false"
+          data-form-type="signup" data-lpignore="false" />
+      </label>
+      <label>Password
+        <input type="password" id="signup-password" required placeholder="Create a password"
+          autocomplete="new-password" data-form-type="signup" data-lpignore="false" />
+      </label>
+      <div class="actions">
+        <button type="submit" class="button">Create account</button>
+        <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an
+          account?</button>
+      </div>
+    </form>
   </div>
+</div>
+
 
   <!-- ✅ Scripts at the very bottom, in CORRECT order -->
   <script src="scripts.js"></script>
@@ -320,6 +328,7 @@
   <script type="module" src="home-listings.js"></script>
   <script type="module" src="home-carousel.js"></script>
   <script src="theme.js"></script>
+  <script type="module" src="auth-state.js"></script>
 </body>
 
 </html>

@@ -65,7 +65,7 @@
       <section class="admin-welcome">
         <div class="admin-welcome-content">
           <img src="editables/images/Logo.jpeg" alt="Autex Motors" class="admin-welcome-logo"
-               onerror="this.style.display='none'" />
+            onerror="this.style.display='none'" />
           <div class="admin-welcome-text">
             <p class="eyebrow">Admin Control Center</p>
             <h1>Autex Motors Dashboard</h1>
@@ -335,12 +335,14 @@
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
       <button class="modal-close" aria-label="Close">×</button>
       <h3 id="login-title">Log In</h3>
-      <form id="login-form" class="auth-form">
+      <form id="login-form" class="auth-form" autocomplete="on">
         <label>Email
-          <input type="email" id="login-email" required placeholder="you@example.com" />
+          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username"
+            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="login" data-lpignore="false" />
         </label>
         <label>Password
-          <input type="password" id="login-password" required placeholder="••••••••" />
+          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password"
+            data-form-type="login" data-lpignore="false" />
         </label>
         <div class="actions">
           <button type="submit" class="button">Log in</button>
@@ -355,15 +357,18 @@
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
       <button class="modal-close" aria-label="Close">×</button>
       <h3 id="signup-title">Sign Up</h3>
-      <form id="signup-form" class="auth-form">
+      <form id="signup-form" class="auth-form" autocomplete="on">
         <label>Name
-          <input type="text" id="signup-name" required placeholder="Your name" />
+          <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name"
+            data-form-type="signup" data-lpignore="false" />
         </label>
         <label>Email
-          <input type="email" id="signup-email" required placeholder="you@example.com" />
+          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email"
+            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="signup" data-lpignore="false" />
         </label>
         <label>Password
-          <input type="password" id="signup-password" required placeholder="Create a password" />
+          <input type="password" id="signup-password" required placeholder="Create a password"
+            autocomplete="new-password" data-form-type="signup" data-lpignore="false" />
         </label>
         <div class="actions">
           <button type="submit" class="button">Create account</button>
@@ -373,6 +378,7 @@
       </form>
     </div>
   </div>
+
 
   <!-- Confirm modal -->
   <div class="modal" id="confirm-modal" aria-hidden="true">
@@ -397,6 +403,7 @@
   <script type="module" src="auth-menu.js"></script>
   <script type="module" src="admin-stats.js"></script>
   <script type="module" src="theme.js"></script>
+  <script type="module" src="auth-state.js"></script>
 </body>
 
 </html>
