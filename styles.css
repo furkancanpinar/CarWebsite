@@ -1475,21 +1475,22 @@ body[data-theme='light'] .welcome-title {
 .logo-failed .welcome-logo { display: none; }
 .logo-failed .welcome-overlay { text-align: center; align-items: center; }
 
-/* ====================== QUICK SEARCH ====================== */
+/* ====================== QUICK SEARCH (FIXED) ====================== */
 .quick-search-section {
   margin: -20px 0 36px;
   position: relative;
-  z-index: 10;
+  z-index: 50; /* ensure it stacks above welcome banner */
 }
 
 .quick-search-card {
   background: var(--surface-strong);
   border: 1px solid var(--border);
   border-radius: 24px;
-  padding: 22px 24px;
+  padding: 24px 28px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
   position: relative;
-  overflow: hidden;
+  /* ✅ REMOVED overflow: hidden — this was clipping the dropdown */
+  overflow: visible;
 }
 
 .quick-search-card::before {
@@ -1501,128 +1502,27 @@ body[data-theme='light'] .welcome-title {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0.5;
+  pointer-events: none; /* don't block clicks */
 }
 
 .quick-search-fields {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
-  gap: 14px;
+  gap: 16px;
   align-items: end;
 }
 
-.quick-search-field { display: flex; flex-direction: column; gap: 8px; }
-.quick-search-field label { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
-
-.quick-search-field input {
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--surface-soft);
-  color: var(--text);
-  font-size: 0.95rem;
+/* ✅ Ensure dropdown always appears above other sections */
+.car-brand-dropdown {
+  position: relative;
+  width: 100%;
+  z-index: 60;
 }
 
-.quick-search-field input:focus { outline: none; border-color: var(--accent); }
-
-.quick-search-btn {
-  height: 46px;
-  padding: 0 24px;
-  white-space: nowrap;
+.car-brand-menu {
+  z-index: 9999; /* very high so nothing covers it */
 }
 
-.loading-message-modern {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-/* ====================== MOBILE RESPONSIVE ====================== */
-@media (max-width: 900px) {
-  .welcome-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-    padding: 32px 24px;
-  }
-  .welcome-logo { max-height: 180px; margin: 0 auto; }
-  .welcome-overlay { align-items: center; }
-  .welcome-stats { justify-content: center; }
-}
-
-@media (max-width: 760px) {
-  .welcome-banner {
-    min-height: auto;
-    margin-bottom: 24px;
-    border-radius: 24px;
-  }
-  
-  .welcome-content { padding: 24px 20px; gap: 20px; }
-  .welcome-logo { max-height: 140px; }
-  .welcome-title { font-size: 1.8rem !important; }
-  .welcome-tagline { font-size: 0.9rem !important; }
-  
-  .welcome-cta { flex-direction: column; width: 100%; }
-  .welcome-cta .button { width: 100%; min-width: 0; justify-content: center; padding: 14px 20px; }
-  
-  .welcome-stats { gap: 16px; flex-wrap: wrap; justify-content: center; }
-  .welcome-stat { flex: 1; min-width: 80px; text-align: center; }
-  .welcome-stat span { font-size: 1.3rem; }
-  
-  .welcome-stat:not(:last-child)::after { display: none; }
-  
-  .quick-search-section { margin: -16px 16px 24px; }
-  .quick-search-card { padding: 18px; border-radius: 18px; }
-  .quick-search-fields { grid-template-columns: 1fr; gap: 12px; }
-  .quick-search-btn { width: 100%; height: 48px; margin-top: 4px; }
-  
-  .section-block { padding: 0; margin-bottom: 32px; }
-  
-  .section-heading {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .section-heading h2 { font-size: 1.4rem; }
-  
-  .car-grid { grid-template-columns: 1fr; gap: 16px; }
-  
-  .steps-grid, .trust-grid { grid-template-columns: 1fr; gap: 12px; }
-  
-  .step-card, .trust-card { padding: 20px; }
-  
-  .step-icon { width: 44px; height: 44px; font-size: 1rem; margin-bottom: 14px; }
-  
-  .step-card h3, .trust-card h3 { font-size: 1rem; margin: 0 0 8px; }
-  
-  .step-card p, .trust-card p { font-size: 0.88rem; line-height: 1.5; }
-  
-  .trust-icon { width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 14px; }
-  
-  .cta-banner {
-    flex-direction: column;
-    text-align: center;
-    padding: 24px 20px;
-    gap: 16px;
-    border-radius: 20px;
-  }
-  
-  .cta-banner-content h2 { font-size: 1.25rem; line-height: 1.3; }
-  .cta-banner-btn { width: 100%; }
-  
-  .site-footer { flex-direction: column; align-items: flex-start; padding: 20px; gap: 16px; }
-  .footer-links, .social-links { gap: 16px; }
-  .page-shell { padding: 16px 16px 32px; }
-}
-
-@media (max-width: 480px) {
-  .welcome-content { padding: 24px 18px; }
-  .welcome-title { font-size: 1.5rem; }
-  .quick-search-section { margin: -16px 12px 24px; }
-  .page-shell { padding: 12px 12px 24px; }
-}
 
 /* ====================== CAROUSEL ====================== */
 .featured-carousel {
@@ -2097,4 +1997,692 @@ body[data-theme='light'] .admin-welcome-text h1 {
 @media (max-width: 760px) {
   .user-email-short { display: none; }
   .user-menu-button { padding: 8px !important; }
+}
+/* ============================================================
+   QUICK SEARCH — Modern Redesign
+   ============================================================ */
+
+.quick-search-section {
+  margin: -20px 0 36px;
+  position: relative;
+  z-index: 10;
+}
+
+.quick-search-card {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 24px 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-search-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+}
+
+.quick-search-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  align-items: end;
+}
+
+.quick-search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quick-search-field label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quick-search-field label::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.quick-search-field select {
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa2c0' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 40px;
+  transition: all 180ms ease;
+}
+
+.quick-search-field select:hover {
+  border-color: var(--accent);
+  background-color: var(--surface);
+}
+
+.quick-search-field select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+body[data-theme='light'] .quick-search-field select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7592' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+body[data-theme='light'] .quick-search-field select:hover {
+  background-color: rgba(37, 99, 235, 0.04);
+}
+
+.quick-search-btn {
+  height: 50px;
+  padding: 0 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 14px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 200ms ease;
+}
+
+.quick-search-btn::before {
+  content: '🔍';
+  font-size: 1.1rem;
+}
+
+.quick-search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(87, 226, 255, 0.35);
+}
+
+/* Mobile responsive */
+@media (max-width: 760px) {
+  .quick-search-section {
+    margin: -16px 16px 24px;
+  }
+
+  .quick-search-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .quick-search-fields {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .quick-search-field select {
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+
+  .quick-search-btn {
+    width: 100%;
+    height: 50px;
+    margin-top: 4px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-search-section {
+    margin: -16px 12px 24px;
+  }
+}
+/* ============================================================
+   SOCIAL LINKS WITH ICONS
+   ============================================================ */
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 180ms ease;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.social-icon:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+}
+
+.social-icon svg {
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   CUSTOM CAR BRAND DROPDOWN (with logos)
+   ============================================================ */
+
+.car-brand-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.car-brand-button {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  transition: all 180ms ease;
+  font-family: inherit;
+}
+
+.car-brand-button:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.car-brand-button:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.car-brand-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.car-brand-display-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  background: white;
+  padding: 2px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.car-brand-display-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.car-brand-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 200ms ease;
+}
+
+.car-brand-button[aria-expanded="true"] .car-brand-chevron {
+  transform: rotate(180deg);
+}
+
+.car-brand-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  padding: 6px;
+  z-index: 100;
+}
+
+.car-brand-menu.open {
+  display: block;
+}
+
+.car-brand-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.car-brand-option:hover {
+  background: var(--accent-soft);
+}
+
+.car-brand-option-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  background: white;
+  padding: 3px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+/* Scrollbar styling for dropdown menu */
+.car-brand-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.car-brand-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.car-brand-menu::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.car-brand-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+/* ============================================================
+   CUSTOM CAR BRAND DROPDOWN (with logos)
+   ============================================================ */
+
+.car-brand-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.car-brand-button {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  transition: all 180ms ease;
+  font-family: inherit;
+}
+
+.car-brand-button:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.car-brand-button:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.car-brand-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.car-brand-display-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  background: white;
+  padding: 2px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.car-brand-display-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.car-brand-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 200ms ease;
+}
+
+.car-brand-button[aria-expanded="true"] .car-brand-chevron {
+  transform: rotate(180deg);
+}
+
+.car-brand-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  padding: 6px;
+  z-index: 100;
+}
+
+.car-brand-menu.open {
+  display: block;
+}
+
+.car-brand-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.car-brand-option:hover {
+  background: var(--accent-soft);
+}
+
+.car-brand-option-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  background: white;
+  padding: 3px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+/* Scrollbar styling for dropdown menu */
+.car-brand-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.car-brand-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.car-brand-menu::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.car-brand-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+/* ============================================================
+   CAR BRAND DROPDOWN — Z-INDEX FIX
+   ============================================================ */
+
+/* ✅ THE KEY FIX: Quick search card needs lower z-index */
+.quick-search-section {
+  z-index: 5 !important;  /* Lower than dropdown */
+}
+
+.quick-search-card {
+  position: relative;
+  z-index: 5 !important;
+}
+
+/* ✅ Dropdown menu must be on top of EVERYTHING */
+.car-brand-dropdown {
+  position: relative !important;
+  z-index: 100 !important;
+}
+
+.car-brand-menu {
+  z-index: 9999 !important;
+  position: absolute !important;
+}
+
+/* ============================================================
+   CUSTOM CAR BRAND DROPDOWN STYLES
+   ============================================================ */
+
+.car-brand-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.car-brand-button {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  transition: all 180ms ease;
+  font-family: inherit;
+}
+
+.car-brand-button:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.car-brand-button:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.car-brand-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.car-brand-display-emoji {
+  font-size: 1.2rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.car-brand-display-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.car-brand-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 200ms ease;
+}
+
+.car-brand-button[aria-expanded="true"] .car-brand-chevron {
+  transform: rotate(180deg);
+}
+
+.car-brand-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  padding: 6px;
+  z-index: 9999;
+}
+
+.car-brand-menu.open {
+  display: block;
+}
+
+.car-brand-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 140ms ease;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.car-brand-option:hover {
+  background: var(--accent-soft);
+}
+
+.car-brand-option-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  background: white;
+  padding: 3px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.car-brand-option-emoji {
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* Scrollbar for dropdown */
+.car-brand-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.car-brand-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.car-brand-menu::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.car-brand-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+/* ============================================================
+   QUICK SEARCH DROPDOWN — Z-INDEX FIX
+   ============================================================ */
+
+/* Make sure the quick search card doesn't clip dropdowns */
+.quick-search-card {
+  overflow: visible !important;
+}
+
+/* The custom dropdown must be on top of everything */
+.quick-search-section {
+  position: relative;
+  z-index: 100;
+}
+
+.quick-search-card {
+  position: relative;
+  z-index: 100;
+}
+
+/* Dropdown menu must be absolute and on top */
+.car-brand-dropdown {
+  position: relative !important;
+  z-index: 9999 !important;
+}
+
+.car-brand-menu {
+  z-index: 99999 !important;
+  position: absolute !important;
+  top: calc(100% + 6px) !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+/* When dropdown is open, raise the parent */
+.car-brand-dropdown:has(.car-brand-menu.open) {
+  z-index: 99999 !important;
+}
+
+/* Also fix the section/block containing the quick search */
+.section-block:has(.quick-search-section) {
+  position: relative;
+  z-index: 100;
+}
+
+/* Make sure nothing else is above the dropdown */
+.welcome-banner,
+.welcome-content,
+.welcome-overlay,
+.welcome-stats {
+  z-index: 1 !important;
 }
