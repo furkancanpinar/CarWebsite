@@ -6,116 +6,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Autex Motors | Drive With Confidence</title>
 
-  <!-- ✅ Theme script FIRST in <head> - prevents flash -->
+  <!-- Theme bootstrap (sets data-theme ASAP, before body renders) -->
   <script src="theme.js"></script>
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body data-theme="dark">
   <div class="page-shell">
-    <div class="top-bar" aria-hidden="false">
+
+    <!-- Top bar -->
+    <div class="top-bar">
       <div class="top-bar-inner">
         <div class="social">
-          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email" target="_blank"
-            rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email us" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </svg>
             Email
           </a>
-          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok"
-            target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z" />
+          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z"/>
             </svg>
             TikTok
           </a>
           <a href="https://wa.me/447379197842" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
             </svg>
             WhatsApp
           </a>
         </div>
 
         <div class="top-actions">
-          <button class="link-button" data-modal-target="opening-hours">Opening Hours</button>
-          <button class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
+          <button type="button" class="link-button" data-modal-target="opening-hours">Opening Hours</button>
+          <button type="button" class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
         </div>
       </div>
     </div>
 
+    <!-- Header -->
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
           <img src="editables/images/AUtexNOBG.png" alt="Autex Motors" class="brand-image"
-            data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png" />
+            data-dark="editables/images/AUtexNOBG.png" data-light="editables/images/AutexWhite.png">
         </a>
       </div>
 
       <div class="header-actions">
-        <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
+        <button type="button" class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </div>
     </header>
 
-    <!-- Mobile menu (hidden by default) -->
-    <div class="mobile-menu" aria-hidden="true">
-      <nav class="mobile-nav">
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+      <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="browse.html">Buy Cars</a>
         <a href="previously-sold.html">Previously Sold</a>
-        <a id="admin-link" class="admin-link" href="#">Admin</a>
+        <a id="admin-link" href="#">Admin</a>
       </nav>
       <div class="mobile-menu-actions">
-        <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
-        <button class="button button-secondary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
-        <button class="button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
+        <button type="button" class="button button-secondary" data-modal-target="login-modal">Login</button>
+        <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
+        <button type="button" class="button" id="mobile-theme-toggle" aria-label="Toggle theme" aria-pressed="false">Toggle theme</button>
       </div>
     </div>
 
     <main>
-      <!-- ✅ Mobile-optimized welcome banner -->
       <section class="welcome-banner" id="welcome-banner">
-        <div class="welcome-bg-decoration"></div>
+        <div class="welcome-bg-decoration" aria-hidden="true"></div>
         <div class="welcome-content">
           <div class="welcome-logo-wrapper">
-            <img src="editables/images/Logo.jpeg" alt="Autex Motors — Drive With Confidence" class="welcome-logo"
-              onerror="this.parentElement.classList.add('logo-failed')" />
+            <img src="editables/images/Logo.jpeg" alt="Autex Motors — Drive With Confidence" class="welcome-logo" id="welcome-logo">
           </div>
-
           <div class="welcome-overlay">
             <p class="eyebrow welcome-eyebrow">Curated for visionary drivers</p>
             <h1 class="welcome-title">Find Your Perfect Drive</h1>
             <p class="welcome-tagline">Quality used cars. Competitive prices. Excellent customer service.</p>
             <div class="welcome-cta">
-              <a href="browse.html" class="button button-accent welcome-cta-primary">Browse Cars</a>
-              <button class="button button-secondary welcome-cta-secondary" data-modal-target="signup-modal">Sign
-                Up</button>
+              <a href="browse.html" class="button button-accent">Browse Cars</a>
+              <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
             </div>
             <div class="welcome-stats">
-              <div class="welcome-stat">
-                <span id="home-stat-cars">0</span>
-                <p>Cars available</p>
-              </div>
-              <div class="welcome-stat">
-                <span id="home-stat-users">0</span>
-                <p>Customers</p>
-              </div>
-              <div class="welcome-stat">
-                <span>4.9★</span>
-                <p>Rating</p>
-              </div>
+              <div class="welcome-stat"><span id="home-stat-cars">0</span><p>Cars available</p></div>
+              <div class="welcome-stat"><span id="home-stat-users">0</span><p>Customers</p></div>
+              <div class="welcome-stat"><span>4.9★</span><p>Rating</p></div>
             </div>
           </div>
         </div>
@@ -126,13 +107,13 @@
         <div class="quick-search-card">
           <div class="quick-search-fields">
             <div class="quick-search-field">
-              <label>Make</label>
-              <select id="home-search-make" class="car-brand-select" style="display:none;">
+              <label for="home-search-make">Make</label>
+              <select id="home-search-make">
                 <option value="">Any make</option>
               </select>
             </div>
             <div class="quick-search-field">
-              <label>Max price</label>
+              <label for="home-search-price">Max price</label>
               <select id="home-search-price">
                 <option value="">Any price</option>
                 <option value="20000">Under £20,000</option>
@@ -145,20 +126,13 @@
                 <option value="999999">£200,000+</option>
               </select>
             </div>
-            <button type="button" id="home-quick-search-btn" class="button button-accent quick-search-btn">
-              Search
-            </button>
+            <button type="button" id="home-quick-search-btn" class="button button-accent quick-search-btn">Search</button>
           </div>
         </div>
       </section>
 
-
-
-
-
-
-      <!-- Featured Cars Carousel -->
-      <section class="section-block" id="featured">
+      <!-- Featured carousel -->
+      <section class="section-block">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Featured</p>
@@ -168,123 +142,79 @@
         </div>
 
         <div class="featured-carousel" id="featured-carousel">
-          <button class="carousel-arrow carousel-arrow-prev" id="carousel-prev" aria-label="Previous slide">
+          <button type="button" class="carousel-arrow carousel-arrow-prev" id="carousel-prev" aria-label="Previous slide">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"
-                stroke-linejoin="round" />
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-
           <div class="carousel-window">
             <div class="carousel-track" id="carousel-track">
               <div class="carousel-loading">Loading featured cars...</div>
             </div>
           </div>
-
-          <button class="carousel-arrow carousel-arrow-next" id="carousel-next" aria-label="Next slide">
+          <button type="button" class="carousel-arrow carousel-arrow-next" id="carousel-next" aria-label="Next slide">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"
-                stroke-linejoin="round" />
+              <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-
           <div class="carousel-dots" id="carousel-dots"></div>
         </div>
       </section>
 
-      <!-- How it works -->
-      <section class="section-block" id="how-it-works">
+      <section class="section-block">
         <div class="section-heading">
-          <div>
-            <p class="eyebrow">How it works</p>
-            <h2>Three steps to your ideal car</h2>
-          </div>
+          <div><p class="eyebrow">How it works</p><h2>Three steps to your ideal car</h2></div>
         </div>
-
         <div class="steps-grid">
-          <div class="step-card">
-            <div class="step-icon">1</div>
-            <h3>Browse cars</h3>
-            <p>Explore curated listings and find your match from our verified inventory.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-icon">2</div>
-            <h3>Contact seller</h3>
-            <p>Reach out instantly via WhatsApp or phone. Book a test drive easily.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-icon">3</div>
-            <h3>Drive home</h3>
-            <p>Secure payment and paper handling — driving away made simple.</p>
-          </div>
+          <div class="step-card"><div class="step-icon" aria-hidden="true">1</div><h3>Browse cars</h3><p>Explore curated listings and find your match from our verified inventory.</p></div>
+          <div class="step-card"><div class="step-icon" aria-hidden="true">2</div><h3>Contact seller</h3><p>Reach out instantly via WhatsApp or phone. Book a test drive easily.</p></div>
+          <div class="step-card"><div class="step-icon" aria-hidden="true">3</div><h3>Drive home</h3><p>Secure payment and paper handling — driving away made simple.</p></div>
         </div>
       </section>
 
-      <!-- Why choose us -->
-      <section class="section-block" id="why-us">
+      <section class="section-block">
         <div class="section-heading">
-          <div>
-            <p class="eyebrow">Why choose us</p>
-            <h2>Trust, transparency, premium service</h2>
-          </div>
+          <div><p class="eyebrow">Why choose us</p><h2>Trust, transparency, premium service</h2></div>
         </div>
-
         <div class="trust-grid">
-          <div class="trust-card">
-            <span class="trust-icon">🔒</span>
-            <h3>Secure payments</h3>
-            <p>Encrypted checkout with verified funding and buyer protection.</p>
-          </div>
-          <div class="trust-card">
-            <span class="trust-icon">🛡️</span>
-            <h3>Verified sellers</h3>
-            <p>Every listing is curated and reviewed for authenticity.</p>
-          </div>
-          <div class="trust-card">
-            <span class="trust-icon">⚡</span>
-            <h3>Fast listing</h3>
-            <p>Get your car live in minutes with our easy submission tools.</p>
-          </div>
-          <div class="trust-card">
-            <span class="trust-icon">⭐</span>
-            <h3>Premium support</h3>
-            <p>Dedicated service for every buyer and seller, every step of the way.</p>
-          </div>
+          <div class="trust-card"><span class="trust-icon" aria-hidden="true">🔒</span><h3>Secure payments</h3><p>Encrypted checkout with verified funding and buyer protection.</p></div>
+          <div class="trust-card"><span class="trust-icon" aria-hidden="true">🛡️</span><h3>Verified sellers</h3><p>Every listing is curated and reviewed for authenticity.</p></div>
+          <div class="trust-card"><span class="trust-icon" aria-hidden="true">⚡</span><h3>Fast listing</h3><p>Get your car live in minutes with our easy submission tools.</p></div>
+          <div class="trust-card"><span class="trust-icon" aria-hidden="true">⭐</span><h3>Premium support</h3><p>Dedicated service for every buyer and seller, every step of the way.</p></div>
         </div>
       </section>
 
-      <!-- CTA Banner -->
       <section class="cta-banner">
         <div class="cta-banner-content">
           <p class="eyebrow">Ready to find your next car?</p>
           <h2>Browse our verified listings and drive with confidence today.</h2>
         </div>
-        <a href="browse.html" class="button button-accent cta-banner-btn">Browse Cars</a>
+        <a href="browse.html" class="button button-accent">Browse Cars</a>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer-links">
-        <a href="#">About</a>
-        <a href="#">Support</a>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Support</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
       </div>
       <div class="footer-meta">
         <div class="social-links">
-          <a href="#">Instagram</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">Twitter</a>
+          <a href="#" aria-label="Instagram (placeholder)">Instagram</a>
+          <a href="#" aria-label="LinkedIn (placeholder)">LinkedIn</a>
+          <a href="#" aria-label="Twitter (placeholder)">Twitter</a>
         </div>
-        <p>© 2026 GameWise. All rights reserved.</p>
+        <p>© 2026 Autex Motors. All rights reserved.</p>
       </div>
     </footer>
   </div>
 
-  <!-- Modals -->
+  <!-- Modals (BEFORE scripts so handlers bind correctly) -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="opening-hours-title">Opening Hours</h3>
       <ul class="hours-list">
         <li>Monday: 9:00 AM – 6:00 PM</li>
@@ -300,31 +230,28 @@
 
   <div class="modal" id="get-in-touch" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="get-in-touch-title">Get In Touch</h3>
       <div class="contact-list">
         <p><strong>Phone:</strong> +44 20 7946 0958</p>
         <p><strong>Email:</strong> hello@autex.example</p>
         <p><strong>Address:</strong> 123 Premium Dr, London</p>
         <p><strong>WhatsApp:</strong> +44 7700 900123</p>
-        <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
+        <div style="margin-top:12px;"><a class="button button-accent" href="contact.html">Contact Us</a></div>
       </div>
     </div>
   </div>
 
-  <!-- Login Modal -->
   <div class="modal" id="login-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="login-title">Log In</h3>
       <form id="login-form" class="auth-form" autocomplete="on">
-        <label>Email
-          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username"
-            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="login" data-lpignore="false" />
+        <label for="login-email">Email
+          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
-        <label>Password
-          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password"
-            data-form-type="login" data-lpignore="false" />
+        <label for="login-password">Password
+          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
         </label>
         <div class="actions">
           <button type="submit" class="button">Log in</button>
@@ -334,45 +261,38 @@
     </div>
   </div>
 
-  <!-- Signup Modal -->
   <div class="modal" id="signup-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="signup-title">Sign Up</h3>
       <form id="signup-form" class="auth-form" autocomplete="on">
-        <label>Name
-          <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name"
-            data-form-type="signup" data-lpignore="false" />
+        <label for="signup-name">Name
+          <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name">
         </label>
-        <label>Email
-          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email"
-            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="signup" data-lpignore="false" />
+        <label for="signup-email">Email
+          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
-        <label>Password
-          <input type="password" id="signup-password" required placeholder="Create a password"
-            autocomplete="new-password" data-form-type="signup" data-lpignore="false" />
+        <label for="signup-password">Password
+          <input type="password" id="signup-password" required placeholder="Create a password" autocomplete="new-password" minlength="6">
         </label>
         <div class="actions">
           <button type="submit" class="button">Create account</button>
-          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an
-            account?</button>
+          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an account?</button>
         </div>
       </form>
     </div>
   </div>
 
-
-  <!-- ✅ Scripts at the very bottom, in CORRECT order -->
+  <!-- Scripts: classic (sync) first, then modules (deferred automatically) -->
   <script src="scripts.js"></script>
   <script type="module" src="firebase.js"></script>
-  <script type="module" src="admin-link.js"></script>
+  <script type="module" src="auth-forms.js"></script> 
+  <script type="module" src="auth-state.js"></script>
   <script type="module" src="auth-menu.js"></script>
+  <script type="module" src="admin-link.js"></script>
+  <script type="module" src="quick-search.js"></script>
   <script type="module" src="home-listings.js"></script>
   <script type="module" src="home-carousel.js"></script>
-  <script src="theme.js"></script>
-  <script type="module" src="auth-state.js"></script>
-  <script type="module" src="quick-search.js"></script>
-
 </body>
 
 </html>

@@ -1,130 +1,251 @@
-// sold-cars.js
-import { db, collection, getDocs, query, orderBy } from "./firebase.js";
+// sold-cars.js — Display sold vehicles archive with pagination
+import { db, collection, getDocs } from "./firebase.js";
 
+// ============================================================
+// STATE
+// ============================================================
+let allSold = [];
+let filteredSold = [];
+const PAGE_SIZE = 6;
+let currentPage = 1;
+let lastFilterKey = '';
+
+// ============================================================
+// LOAD
+// ============================================================
 async function loadSoldCars() {
   const grid = document.getElementById('sold-grid');
   if (!grid) return;
 
-  grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:60px; color:var(--muted);">Loading sold vehicles from database...</div>';
+  grid.innerHTML = '<div class="loading-message-modern" style="grid-column:1/-1;">Loading sold vehicles...</div>';
 
   try {
-    console.log('📦 Loading sold cars from Firestore...');
-    
-    const q = query(collection(db, "sold"), orderBy("soldAt", "desc"));
-    const querySnapshot = await getDocs(q);
+    const snapshot = await getDocs(collection(db, "sold"));
+    allSold = [];
+    snapshot.forEach(doc => allSold.push(doc.data()));
 
-    console.log('📦 Found sold cars:', querySnapshot.size);
+    // Sort newest first (client-side, no Firestore index needed)
+    allSold.sort((a, b) => timeMs(b.soldAt) - timeMs(a.soldAt));
 
-    grid.innerHTML = '';
+    // Update top stats from full dataset (not affected by filters/pagination)
+    updateStats(allSold.length, totalValue(allSold), thisMonthCount(allSold));
 
-    if (querySnapshot.empty) {
+    if (allSold.length === 0) {
       grid.innerHTML = `
         <div style="grid-column:1/-1; text-align:center; padding:80px 20px;">
           <p style="color:var(--muted); font-size:1.15rem; margin:0 0 8px;">No sold vehicles yet.</p>
           <p style="color:var(--muted); font-size:0.9rem;">When admins mark cars as sold, they'll appear here.</p>
         </div>
       `;
-      updateSoldStats(0, 0, 0);
+      renderPagination(0);
       return;
     }
 
-    const allSold = [];
-    querySnapshot.forEach(doc => allSold.push(doc.data()));
-
     populateYearFilter(allSold);
-
-    allSold.forEach(car => {
-      grid.insertAdjacentHTML('beforeend', buildSoldCard(car));
-    });
-
-    const totalValue = allSold.reduce((sum, car) => sum + (car.price || 0), 0);
-    const thisMonth = allSold.filter(car => {
-      if (!car.soldAt) return false;
-      const saleDate = car.soldAt.toDate ? car.soldAt.toDate() : new Date(car.soldAt);
-      const now = new Date();
-      return saleDate.getMonth() === now.getMonth() && saleDate.getFullYear() === now.getFullYear();
-    }).length;
-    
-    updateSoldStats(allSold.length, totalValue, thisMonth);
-    setupSoldFilters();
-
-    console.log('✅ Sold cars loaded successfully');
-
+    bindFilters();
+    applyFilters();
   } catch (err) {
-    console.error('❌ Failed to load sold cars:', err);
-    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px; color:#f87171;">Error loading sold vehicles: ${err.message}</div>`;
+    console.error('Load sold cars error:', err);
+    grid.innerHTML = `<div class="loading-message-modern" style="grid-column:1/-1; color:#f87171;">Error: ${escapeHtml(err.message)}</div>`;
   }
+}
+
+// ============================================================
+// FILTERS
+// ============================================================
+function bindFilters() {
+  const search = document.getElementById('sold-search');
+  const year = document.getElementById('sold-filter-year');
+
+  if (search) search.addEventListener('input', applyFilters);
+  if (year) year.addEventListener('change', applyFilters);
+}
+
+function applyFilters() {
+  const search = (document.getElementById('sold-search')?.value || '').trim().toLowerCase();
+  const year = document.getElementById('sold-filter-year')?.value || '';
+
+  filteredSold = allSold.filter(car => {
+    const make = (car.make || '').toLowerCase();
+    const model = (car.model || '').toLowerCase();
+    const haystack = `${car.title || ''} ${make} ${model} ${car.year || ''}`.toLowerCase();
+
+    const matchesSearch = !search || haystack.includes(search);
+    const matchesYear = !year || String(car.year || '') === year;
+
+    return matchesSearch && matchesYear;
+  });
+
+  // If filters changed since last render, reset to page 1
+  const filterKey = `${search}|${year}`;
+  if (filterKey !== lastFilterKey) {
+    currentPage = 1;
+    lastFilterKey = filterKey;
+  }
+
+  const totalPages = Math.max(1, Math.ceil(filteredSold.length / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = filteredSold.slice(start, start + PAGE_SIZE);
+
+  renderListings(pageItems);
+  renderPagination(totalPages);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderListings(cars) {
+  const grid = document.getElementById('sold-grid');
+  if (!grid) return;
+
+  if (cars.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1; text-align:center; padding:60px 20px;">
+        <p style="color:var(--muted); font-size:1.15rem; margin:0 0 8px;">No sold vehicles match your search.</p>
+        <p style="color:var(--muted); font-size:0.9rem;">Try a different search term or year filter.</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = cars.map(buildSoldCard).join('');
 }
 
 function buildSoldCard(car) {
   const imageUrl = car.imageUrl || '';
-  const imageStyle = imageUrl 
-    ? `background-image:url('${imageUrl}'); background-size:cover; background-position:center;` 
+  const imageStyle = imageUrl
+    ? `background-image:url('${escapeAttr(imageUrl)}'); background-size:cover; background-position:center;`
     : `background: linear-gradient(135deg, #1e293b 0%, #334155 100%);`;
-  
+
   const title = car.title || `${car.make || ''} ${car.model || ''}`.trim() || 'Sold Vehicle';
-  const price = car.price ? `£${car.price.toLocaleString()}` : '—';
-  const mileage = car.mileage ? `${car.mileage.toLocaleString()} mi` : '— mi';
-  const year = car.year || '—';
-  const fuel = car.fuel || '—';
-  const saleDate = formatSaleDate(car.soldAt || car.saleDate);
-  const originalDesc = car.description ? `<p class="car-muted">${escapeHtml(car.description.substring(0, 100))}${car.description.length > 100 ? '...' : ''}</p>` : '';
+  const desc = car.description
+    ? `<p class="car-muted">${escapeHtml(car.description.substring(0, 100))}${car.description.length > 100 ? '...' : ''}</p>`
+    : '';
 
   return `
-    <article class="car-card sold-item" 
-             data-make="${escapeHtml(car.make || '')}" 
-             data-model="${escapeHtml(car.model || '')}" 
-             data-year="${year}"
-             data-fuel="${escapeHtml(fuel)}"
-             data-mileage="${car.mileage || 0}">
+    <article class="car-card sold-item"
+             data-make="${escapeAttr(car.make || '')}"
+             data-model="${escapeAttr(car.model || '')}"
+             data-year="${car.year || ''}">
       <div class="car-image" style="${imageStyle}">
         <span class="badge sold">SOLD</span>
       </div>
       <div class="car-content">
-        <div class="car-title">
-          <div>
-            <h3>${escapeHtml(title)}</h3>
-            <p class="car-price">${price}</p>
-          </div>
-        </div>
+        <h3>${escapeHtml(title)}</h3>
+        <p class="car-price">£${(car.price || 0).toLocaleString()}</p>
         <ul class="car-specs">
-          <li>${mileage}</li>
-          <li>${year}</li>
-          <li>${escapeHtml(fuel)}</li>
+          <li>${(car.mileage || 0).toLocaleString()} mi</li>
+          <li>${car.year || '—'}</li>
+          <li>${escapeHtml(car.fuel || '—')}</li>
         </ul>
-        <p class="car-muted">📅 Sold on ${saleDate}</p>
-        ${originalDesc}
+        <p class="car-muted">📅 Sold on ${formatSaleDate(car.soldAt)}</p>
+        ${desc}
       </div>
     </article>
   `;
 }
 
-function formatSaleDate(timestamp) {
-  try {
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    return date.toLocaleDateString('en-GB', { 
-      day: 'numeric', 
-      month: 'short', 
-      year: 'numeric' 
-    });
-  } catch {
-    return 'Recently';
+// ============================================================
+// PAGINATION
+// ============================================================
+function renderPagination(totalPages) {
+  const nav = document.getElementById('sold-pagination');
+  if (!nav) return;
+
+  if (totalPages <= 1) {
+    nav.innerHTML = '';
+    return;
   }
-}
 
-function populateYearFilter(cars) {
-  const filter = document.getElementById('sold-filter-year');
-  if (!filter) return;
+  const pages = buildPageList(currentPage, totalPages);
+  const parts = [];
 
-  const years = [...new Set(cars.map(c => c.year).filter(y => y))].sort((a, b) => b - a);
-  
-  filter.innerHTML = '<option value="">All years</option>';
-  years.forEach(year => {
-    filter.insertAdjacentHTML('beforeend', `<option value="${year}">${year}</option>`);
+  // Prev arrow
+  parts.push(`
+    <button type="button" class="page-button page-arrow" data-page="${currentPage - 1}"
+      ${currentPage === 1 ? 'disabled' : ''} aria-label="Previous page">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+      </svg>
+    </button>
+  `);
+
+  // Numbered buttons + ellipses
+  pages.forEach(p => {
+    if (p === '...') {
+      parts.push('<span class="page-ellipsis" aria-hidden="true">…</span>');
+    } else {
+      const isActive = p === currentPage;
+      parts.push(
+        `<button type="button" class="page-button ${isActive ? 'active' : ''}"
+          data-page="${p}" ${isActive ? 'aria-current="page"' : ''}>${p}</button>`
+      );
+    }
+  });
+
+  // Next arrow
+  parts.push(`
+    <button type="button" class="page-button page-arrow" data-page="${currentPage + 1}"
+      ${currentPage === totalPages ? 'disabled' : ''} aria-label="Next page">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+      </svg>
+    </button>
+  `);
+
+  nav.innerHTML = parts.join('');
+
+  // Wire clicks
+  nav.querySelectorAll('button[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = parseInt(btn.dataset.page, 10);
+      if (Number.isNaN(target) || target < 1 || target > totalPages) return;
+      if (target === currentPage) return;
+      currentPage = target;
+      applyFilters();
+      document.getElementById('sold-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   });
 }
 
-function updateSoldStats(total, value, monthCount) {
+function buildPageList(current, total) {
+  if (total <= 5) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  const pages = new Set();
+  pages.add(1);
+  pages.add(total);
+  pages.add(current);
+
+  if (current - 1 >= 1) pages.add(current - 1);
+  if (current + 1 <= total) pages.add(current + 1);
+
+  if (current <= 3) {
+    pages.add(2);
+    pages.add(3);
+  }
+
+  if (current >= total - 2) {
+    pages.add(total - 1);
+    pages.add(total - 2);
+  }
+
+  const sorted = [...pages].sort((a, b) => a - b);
+  const result = [];
+  for (let i = 0; i < sorted.length; i++) {
+    if (i > 0 && sorted[i] - sorted[i - 1] > 1) result.push('...');
+    result.push(sorted[i]);
+  }
+  return result;
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats(total, value, monthCount) {
   const totalEl = document.getElementById('sold-stat-total');
   const valueEl = document.getElementById('sold-stat-value');
   const monthEl = document.getElementById('sold-stat-month');
@@ -134,33 +255,60 @@ function updateSoldStats(total, value, monthCount) {
   if (monthEl) monthEl.textContent = monthCount.toLocaleString();
 }
 
-function setupSoldFilters() {
-  const search = document.getElementById('sold-search');
-  const year = document.getElementById('sold-filter-year');
+function totalValue(cars) {
+  return cars.reduce((sum, c) => sum + (c.price || 0), 0);
+}
 
-  function applyFilters() {
-    const q = search ? search.value.trim().toLowerCase() : '';
-    const y = year ? year.value : '';
-    
-    document.querySelectorAll('.sold-item').forEach(item => {
-      const make = (item.dataset.make || '').toLowerCase();
-      const model = (item.dataset.model || '').toLowerCase();
-      const itemYear = (item.dataset.year || '');
-      
-      const matchesQ = !q || make.includes(q) || model.includes(q) || `${make} ${model}`.includes(q);
-      const matchesY = !y || itemYear === y;
-      
-      item.style.display = (matchesQ && matchesY) ? '' : 'none';
-    });
+function thisMonthCount(cars) {
+  const now = new Date();
+  return cars.filter(car => {
+    const d = car.soldAt?.toDate?.() || new Date(car.soldAt);
+    return d && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }).length;
+}
+
+function populateYearFilter(cars) {
+  const filter = document.getElementById('sold-filter-year');
+  if (!filter) return;
+
+  const years = [...new Set(cars.map(c => c.year).filter(Boolean))].sort((a, b) => b - a);
+
+  filter.innerHTML = '<option value="">All years</option>' +
+    years.map(y => `<option value="${y}">${y}</option>`).join('');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function formatSaleDate(timestamp) {
+  if (!timestamp) return 'Recently';
+  try {
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  } catch {
+    return 'Recently';
   }
+}
 
-  if (search) search.addEventListener('input', applyFilters);
-  if (year) year.addEventListener('change', applyFilters);
+function timeMs(ts) {
+  if (!ts) return 0;
+  try { return ts.toDate ? ts.toDate().getTime() : new Date(ts).getTime(); }
+  catch { return 0; }
 }
 
 function escapeHtml(str) {
   if (!str) return '';
-  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
+function escapeAttr(str) {
+  return escapeHtml(str);
+}
+
+// ============================================================
+// BOOT
+// ============================================================
 loadSoldCars();

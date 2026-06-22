@@ -1,40 +1,38 @@
-// admin-stats.js
-import { db, collection, getDocs, query, where } from "./firebase.js";
+// admin-stats.js — Platform statistics for admin dashboard
+import { auth, db, collection, getDocs, query, where } from "./firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-async function loadAdminStats() {
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+
+  // Verify admin
+  const { doc, getDoc } = await import("./firebase.js");
+  const adminSnap = await getDoc(doc(db, "admins", user.uid));
+  if (!adminSnap.exists()) return;
+
+  await loadStats();
+});
+
+async function loadStats() {
   try {
-    // Users count
-    const usersSnap = await getDocs(collection(db, "users"));
-    const totalUsers = usersSnap.size;
+    // Run all queries in parallel
+    const [usersSnap, approvedSnap, pendingSnap, soldSnap] = await Promise.all([
+      getDocs(collection(db, "users")),
+      getDocs(query(collection(db, "listings"), where("status", "==", "approved"))),
+      getDocs(query(collection(db, "listings"), where("status", "==", "pending"))),
+      getDocs(collection(db, "sold"))
+    ]);
 
-    // Active (approved) listings
-    const approvedQ = query(collection(db, "listings"), where("status", "==", "approved"));
-    const approvedSnap = await getDocs(approvedQ);
-    const activeListings = approvedSnap.size;
-
-    // Pending listings
-    const pendingQ = query(collection(db, "listings"), where("status", "==", "pending"));
-    const pendingSnap = await getDocs(pendingQ);
-    const pending = pendingSnap.size;
-
-    // Sold cars
-    const soldSnap = await getDocs(collection(db, "sold"));
-    const sold = soldSnap.size;
-
-    // Update DOM
-    const setText = (id, val) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = val.toLocaleString();
-    };
-
-    setText('stat-total-users', totalUsers);
-    setText('stat-active-listings', activeListings);
-    setText('stat-pending', pending);
-    setText('stat-sold', sold);
-
+    setText('stat-total-users', usersSnap.size);
+    setText('stat-active-listings', approvedSnap.size);
+    setText('stat-pending', pendingSnap.size);
+    setText('stat-sold', soldSnap.size);
   } catch (err) {
     console.error('Stats load failed:', err);
   }
 }
 
-loadAdminStats();
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value.toLocaleString();
+}

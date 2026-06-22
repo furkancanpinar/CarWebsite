@@ -1,100 +1,108 @@
-// theme.js — Bulletproof theme handler
-(function() {
-  const THEME_KEY = 'gamewise-theme';
+// theme.js — Bulletproof theme handler with no FOUC
+(function () {
+  const THEME_KEY = 'autex-theme';
+  const VALID_THEMES = ['light', 'dark'];
+  const DEFAULT_THEME = 'dark';
 
-  // Apply theme as early as possible
+  // ─────────────────────────────────────────────────────────
+  // 1. Apply theme as EARLY as possible — runs synchronously
+  // ─────────────────────────────────────────────────────────
+  function readStoredTheme() {
+    try {
+      const stored = localStorage.getItem(THEME_KEY);
+      return VALID_THEMES.includes(stored) ? stored : DEFAULT_THEME;
+    } catch {
+      return DEFAULT_THEME;
+    }
+  }
+
+  // Inline script in <head> calls this BEFORE body parses
+  // (or we wait for DOMContentLoaded if loaded async)
   function applyTheme() {
     const body = document.body;
     if (!body) return false;
-
-    const stored = localStorage.getItem(THEME_KEY);
-    const theme = (stored === 'light' || stored === 'dark') ? stored : 'light';
+    const theme = readStoredTheme();
     body.dataset.theme = theme;
+    swapLogo(theme);
     return true;
   }
 
-  // Apply theme ASAP (handles both early and late body availability)
-  if (!applyTheme()) {
-    document.addEventListener('DOMContentLoaded', applyTheme);
+  function swapLogo(theme) {
+    const img = document.querySelector('.brand-image');
+    if (!img) return;
+    const src = img.dataset[theme];
+    if (src) img.src = src;
   }
 
-  // Setup toggle buttons
-  function setupToggle() {
+  // Try immediately (will fail if body not parsed yet)
+  if (!applyTheme()) {
+    // Try again on DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', applyTheme, { once: true });
+    } else {
+      applyTheme();
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 2. Wire up toggle buttons — runs after DOM is ready
+  // ─────────────────────────────────────────────────────────
+  function setupToggles() {
     const body = document.body;
     if (!body) return;
 
-    const themeToggle = document.getElementById('theme-toggle');
-    const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
-    const brandImg = document.querySelector('.brand-image');
+    const toggles = document.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
 
-    console.log('🎨 Theme initialized. Current:', body.dataset.theme);
-    console.log('🎨 Desktop toggle:', themeToggle ? '✓ found' : '✗ MISSING');
-    console.log('🎨 Mobile toggle:', mobileThemeToggle ? '✓ found' : '✗ MISSING');
-
-    function swapLogo() {
-      if (!brandImg) return;
-      const light = brandImg.getAttribute('data-light');
-      const dark = brandImg.getAttribute('data-dark');
-      if (light && dark) {
-        brandImg.src = body.dataset.theme === 'light' ? light : dark;
-      }
-    }
-
-    function updateAriaLabels() {
-      const isLight = body.dataset.theme === 'light';
-      if (themeToggle) themeToggle.setAttribute('aria-label', isLight ? 'Toggle dark mode' : 'Toggle light mode');
-      if (mobileThemeToggle) mobileThemeToggle.setAttribute('aria-label', isLight ? 'Toggle dark mode' : 'Toggle light mode');
-    }
-
-    function toggleTheme(e) {
-      if (e) {
+    toggles.forEach((btn) => {
+      // Remove any previously-attached handler by cloning
+      const fresh = btn.cloneNode(true);
+      btn.parentNode.replaceChild(fresh, btn);
+      fresh.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-      }
-      const current = body.dataset.theme || 'light';
-      const next = current === 'light' ? 'dark' : 'light';
-      body.dataset.theme = next;
-      localStorage.setItem(THEME_KEY, next);
-      console.log('🎨 Toggled to:', next);
-      updateAriaLabels();
-      swapLogo();
-    }
+        const next = body.dataset.theme === 'light' ? 'dark' : 'light';
+        body.dataset.theme = next;
+        try { localStorage.setItem(THEME_KEY, next); } catch {}
+        swapLogo(next);
+        updateAria(next);
 
-    // Initial setup
-    swapLogo();
-    updateAriaLabels();
-
-    // ✅ Attach desktop toggle (remove any existing handler first)
-    if (themeToggle) {
-      const newToggle = themeToggle.cloneNode(true);
-      themeToggle.parentNode.replaceChild(newToggle, themeToggle);
-      newToggle.addEventListener('click', toggleTheme);
-      console.log('✅ Desktop toggle wired');
-    }
-
-    // ✅ Attach mobile toggle
-    if (mobileThemeToggle) {
-      const newMobile = mobileThemeToggle.cloneNode(true);
-      mobileThemeToggle.parentNode.replaceChild(newMobile, mobileThemeToggle);
-      newMobile.addEventListener('click', function(e) {
-        toggleTheme(e);
+        // Close mobile menu if open
         const header = document.querySelector('.site-header');
-        if (header && header.classList.contains('menu-open')) {
-          header.classList.remove('menu-open');
-        }
+        if (header) header.classList.remove('menu-open');
       });
-      console.log('✅ Mobile toggle wired');
+    });
+
+    updateAria(body.dataset.theme);
+  }
+
+  function updateAria(theme) {
+    const isLight = theme === 'light';
+    document.querySelectorAll('#theme-toggle, #mobile-theme-toggle').forEach((btn) => {
+      btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+      btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 3. Cross-tab sync — theme updates instantly across tabs
+  // ─────────────────────────────────────────────────────────
+  window.addEventListener('storage', (e) => {
+    if (e.key === THEME_KEY && e.newValue) {
+      document.body.dataset.theme = e.newValue;
+      swapLogo(e.newValue);
+      updateAria(e.newValue);
     }
+  });
 
-    // Expose globally for debugging
-    window.toggleTheme = toggleTheme;
-    window.getCurrentTheme = function() { return body.dataset.theme; };
-  }
-
-  // Run when DOM is ready
+  // ─────────────────────────────────────────────────────────
+  // 4. Boot
+  // ─────────────────────────────────────────────────────────
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupToggle);
+    document.addEventListener('DOMContentLoaded', setupToggles, { once: true });
   } else {
-    setupToggle();
+    setupToggles();
   }
+
+  // Debug helper
+  window.getTheme = () => document.body.dataset.theme;
 })();

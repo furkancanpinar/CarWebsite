@@ -1,5 +1,4 @@
-// car-logos.js
-// Car brand logos using CDN (no need to host them)
+// car-logos.js — Car brand logos via Wikipedia CDN
 
 export const carLogos = {
   'BMW': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/BMW_logo_%28gray%29.svg/204px-BMW_logo_%28gray%29.svg.png',
@@ -21,7 +20,6 @@ export const carLogos = {
   'Rolls Royce': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Rolls-Royce_Motor_Cars_logo.svg/200px-Rolls-Royce_Motor_Cars_logo.svg.png',
   'Rolls-Royce': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Rolls-Royce_Motor_Cars_logo.svg/200px-Rolls-Royce_Motor_Cars_logo.svg.png',
   'Maserati': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Maserati_logo.svg/200px-Maserati_logo.svg.png',
-  'Ferrari': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Scuderia_Ferrari_Logo.svg/200px-Scuderia_Ferrari_Logo.svg.png',
   'McLaren': 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/McLaren_logo.svg/200px-McLaren_logo.svg.png',
   'Bugatti': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Bugatti_logo.svg/200px-Bugatti_logo.svg.png',
   'Aston Martin': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Aston_Martin_logo.svg/200px-Aston_Martin_logo.svg.png',
@@ -32,12 +30,9 @@ export const carLogos = {
   'Hyundai': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Hyundai_Motor_Company_logo.svg/200px-Hyundai_Motor_Company_logo.svg.png',
   'Kia': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Kia_logo.svg/200px-Kia_logo.svg.png',
   'Subaru': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Subaru_logo.svg/200px-Subaru_logo.svg.png',
-  'Lexus': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Lexus_division_logo.svg/200px-Lexus_division_logo.svg.png',
-  'Infiniti': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Infiniti_logo.svg/200px-Infiniti_logo.svg.png',
-  'Acura': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Acura_logo.svg/200px-Acura_logo.svg.png'
+  'Lexus': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Lexus_division_logo.svg/200px-Lexus_division_logo.svg.png'
 };
 
-// Get logo URL (case-insensitive)
 export function getCarLogo(make) {
   if (!make) return null;
   return carLogos[make] || carLogos[make.toLowerCase()] || carLogos[make.toUpperCase()] || null;

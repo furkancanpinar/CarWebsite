@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>GameWise | Browse Cars</title>
+  <title>Browse Cars | Autex Motors</title>
 
-  <!-- ✅ Theme script FIRST in <head> -->
+  <!-- Theme bootstrap -->
   <script src="theme.js"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -14,43 +14,38 @@
 
 <body data-theme="dark">
   <div class="page-shell">
-    <div class="top-bar" aria-hidden="false">
+
+    <!-- ==================== TOP BAR ==================== -->
+    <div class="top-bar">
       <div class="top-bar-inner">
         <div class="social">
-          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email" target="_blank"
-            rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email us" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </svg>
             Email
           </a>
-          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok"
-            target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z" />
+          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z"/>
             </svg>
             TikTok
           </a>
           <a href="https://wa.me/447379197842" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
             </svg>
             WhatsApp
           </a>
         </div>
         <div class="top-actions">
-          <button class="link-button" data-modal-target="opening-hours">Opening Hours</button>
-          <button class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
+          <button type="button" class="link-button" data-modal-target="opening-hours">Opening Hours</button>
+          <button type="button" class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
         </div>
       </div>
     </div>
 
+    <!-- ==================== HEADER ==================== -->
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
@@ -60,34 +55,33 @@
       </div>
 
       <div class="header-actions">
-        <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
+        <button type="button" class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
       </div>
     </header>
 
-    <!-- Mobile menu -->
-    <div class="mobile-menu" aria-hidden="true">
-      <nav class="mobile-nav">
+    <!-- ==================== MOBILE MENU ==================== -->
+    <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+      <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="browse.html">Buy Cars</a>
         <a href="previously-sold.html">Previously Sold</a>
-        <a href="#" id="admin-link">Admin</a>
+        <a id="admin-link" href="#">Admin</a>
       </nav>
       <div class="mobile-menu-actions">
-        <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
-        <button class="button button-secondary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
-        <button class="button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
+        <button type="button" class="button button-secondary" data-modal-target="login-modal">Login</button>
+        <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
+        <button type="button" class="button" id="mobile-theme-toggle" aria-label="Toggle theme" aria-pressed="false">Toggle theme</button>
       </div>
     </div>
 
     <main>
+      <!-- ==================== PAGE HEADER ==================== -->
       <section class="page-header">
         <div>
-          <p class="breadcrumb">Home / Buy Cars</p>
-          <h1>Browse Cars</h1>
+          <h1 id="page-title">Browse Cars</h1>
           <p>Find your perfect vehicle from verified listings.</p>
         </div>
         <div class="header-meta">
@@ -102,52 +96,58 @@
         </div>
       </section>
 
+      <!-- ==================== MOBILE FILTER TRIGGER ==================== -->
+      <button type="button" class="mobile-filter-trigger" id="mobile-filter-trigger" aria-controls="filter-panel" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+          <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/>
+        </svg>
+        <span>Filters</span>
+        <span class="mobile-filter-count" id="mobile-filter-count" hidden>0</span>
+      </button>
+
+      <!-- ==================== BROWSE LAYOUT ==================== -->
       <section class="browse-layout">
-        <aside class="filter-panel">
+
+        <!-- ==================== FILTER PANEL ==================== -->
+        <aside class="filter-panel" id="filter-panel" aria-hidden="false">
           <div class="panel-header">
             <div>
               <p class="eyebrow">Filters</p>
               <h2>Refine your search</h2>
             </div>
-            <button class="button button-secondary-outline">Reset</button>
+            <button type="button" class="filter-panel-close" id="filter-panel-close" aria-label="Close filters">×</button>
+            <button type="button" class="button button-secondary-outline" id="reset-filters">Reset</button>
           </div>
 
           <div class="filter-group">
             <label for="search-make">Search make or model</label>
-            <input id="search-make" type="text" placeholder="Tesla Model S, BMW M5" />
+            <input id="search-make" type="search" placeholder="Tesla Model S, BMW M5" />
           </div>
 
           <div class="filter-group range-group">
-            <label for="price-range">Price range</label>
-            <div class="range-track">
-              <input id="price-range" type="range" min="20000" max="250000" value="85000" />
-              <div class="range-labels"><span>$20k</span><span>$250k</span></div>
-            </div>
-          </div>
-
-          <div class="filter-group">
-            <label>Brand</label>
-            <div class="chip-list">
-              <button class="chip active">BMW</button>
-              <button class="chip">Tesla</button>
-              <button class="chip">Audi</button>
-              <button class="chip">Porsche</button>
+            <label for="price-range">Max price: <span id="price-range-value">£250k+</span></label>
+            <input id="price-range" type="range" min="20000" max="250000" value="250000" step="5000" />
+            <div class="range-labels">
+              <span>£20k</span>
+              <span>£250k</span>
             </div>
           </div>
 
           <div class="filter-grid two-col">
             <div class="filter-group">
-              <label>Year</label>
-              <select>
-                <option>2024+</option>
-                <option>2021–2023</option>
-                <option>2018–2020</option>
-                <option>2015–2017</option>
+              <label for="filter-year">Year</label>
+              <select id="filter-year" class="filter-select">
+                <option value="">Any year</option>
+                <option value="2024">2024+</option>
+                <option value="2021">2021–2023</option>
+                <option value="2018">2018–2020</option>
+                <option value="2015">2015–2017</option>
               </select>
             </div>
             <div class="filter-group">
-              <label>Fuel type</label>
-              <select>
+              <label for="filter-fuel">Fuel type</label>
+              <select id="filter-fuel" class="filter-select">
+                <option value="">Any fuel</option>
                 <option>Electric</option>
                 <option>Hybrid</option>
                 <option>Petrol</option>
@@ -158,45 +158,43 @@
 
           <div class="filter-grid two-col">
             <div class="filter-group">
-              <label>Mileage</label>
-              <select>
-                <option>Under 20k mi</option>
-                <option>20k–50k mi</option>
-                <option>50k–80k mi</option>
-                <option>80k+ mi</option>
+              <label for="filter-mileage">Max mileage</label>
+              <select id="filter-mileage" class="filter-select">
+                <option value="">Any</option>
+                <option value="20000">Under 20k mi</option>
+                <option value="50000">Under 50k mi</option>
+                <option value="80000">Under 80k mi</option>
               </select>
             </div>
             <div class="filter-group">
-              <label>Transmission</label>
-              <select>
+              <label for="filter-transmission">Transmission</label>
+              <select id="filter-transmission" class="filter-select">
+                <option value="">Any</option>
                 <option>Automatic</option>
                 <option>Manual</option>
-                <option>Electric</option>
               </select>
             </div>
           </div>
 
-          <div class="filter-group">
-            <label>Location</label>
-            <input type="text" placeholder="San Francisco, CA" />
-          </div>
-
-          <div class="filter-toggle">
-            <span>Verified sellers only</span>
-            <button class="toggle-switch" aria-pressed="true"></button>
-          </div>
+          <button type="button" class="button button-accent filter-search-btn" id="apply-filters">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/>
+            </svg>
+            Search
+          </button>
         </aside>
 
+        <!-- ==================== LISTING PANEL ==================== -->
         <div class="listing-panel">
           <div class="listing-topbar">
             <div class="sort-group">
-              <p>Sort by</p>
-              <select>
-                <option>Recommended</option>
-                <option>Price low to high</option>
-                <option>Price high to low</option>
-                <option>Newest listings</option>
-                <option>Mileage lowest first</option>
+              <label for="sort-by">Sort by</label>
+              <select id="sort-by" class="filter-select">
+                <option value="recommended">Recommended</option>
+                <option value="price-asc">Price low to high</option>
+                <option value="price-desc">Price high to low</option>
+                <option value="newest">Newest listings</option>
+                <option value="mileage">Lowest mileage</option>
               </select>
             </div>
             <div class="saved-indicator">
@@ -204,47 +202,41 @@
             </div>
           </div>
 
-          <!-- ✅ THIS IS WHERE REAL LISTINGS LOAD -->
+          <!-- ==================== LISTINGS GRID ==================== -->
           <div class="listings-grid" id="listings-grid">
-            <div style="grid-column:1/-1; text-align:center; padding:60px; color:var(--muted);">
+            <div class="loading-message-modern" style="grid-column:1/-1;">
               Loading cars from database...
             </div>
           </div>
 
-          <div class="pagination">
-            <button class="page-button active">1</button>
-            <button class="page-button">2</button>
-            <button class="page-button">3</button>
-            <button class="page-button">Next</button>
-          </div>
+          <!-- ==================== PAGINATION (rendered by JS) ==================== -->
+          <nav class="pagination" id="pagination" aria-label="Pagination"></nav>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer-links">
-        <a href="#">About</a>
-        <a href="#">Support</a>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Support</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
       </div>
       <div class="footer-meta">
         <div class="social-links">
-          <a href="#">Instagram</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">Twitter</a>
+          <a href="#" aria-label="Instagram (placeholder)">Instagram</a>
+          <a href="#" aria-label="LinkedIn (placeholder)">LinkedIn</a>
+          <a href="#" aria-label="Twitter (placeholder)">Twitter</a>
         </div>
-        <p>© 2026 GameWise. All rights reserved.</p>
+        <p>© 2026 Autex Motors. All rights reserved.</p>
       </div>
     </footer>
   </div>
 
-  <script src="scripts.js"></script>
-
-  <!-- Modals -->
+  <!-- ==================== MODALS ==================== -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="opening-hours-title">Opening Hours</h3>
       <ul class="hours-list">
         <li>Monday: 9:00 AM – 6:00 PM</li>
@@ -260,31 +252,28 @@
 
   <div class="modal" id="get-in-touch" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="get-in-touch-title">Get In Touch</h3>
       <div class="contact-list">
         <p><strong>Phone:</strong> +44 20 7946 0958</p>
         <p><strong>Email:</strong> hello@autex.example</p>
         <p><strong>Address:</strong> 123 Premium Dr, London</p>
         <p><strong>WhatsApp:</strong> +44 7700 900123</p>
-        <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
+        <div style="margin-top:12px;"><a class="button button-accent" href="contact.html">Contact Us</a></div>
       </div>
     </div>
   </div>
 
-  <!-- Login Modal -->
   <div class="modal" id="login-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="login-title">Log In</h3>
       <form id="login-form" class="auth-form" autocomplete="on">
-        <label>Email
-          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username"
-            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="login" data-lpignore="false" />
+        <label for="login-email">Email
+          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
-        <label>Password
-          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password"
-            data-form-type="login" data-lpignore="false" />
+        <label for="login-password">Password
+          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
         </label>
         <div class="actions">
           <button type="submit" class="button">Log in</button>
@@ -294,40 +283,36 @@
     </div>
   </div>
 
-  <!-- Signup Modal -->
   <div class="modal" id="signup-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="signup-title">Sign Up</h3>
       <form id="signup-form" class="auth-form" autocomplete="on">
-        <label>Name
-          <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name"
-            data-form-type="signup" data-lpignore="false" />
+        <label for="signup-name">Name
+          <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name">
         </label>
-        <label>Email
-          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email"
-            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="signup" data-lpignore="false" />
+        <label for="signup-email">Email
+          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
-        <label>Password
-          <input type="password" id="signup-password" required placeholder="Create a password"
-            autocomplete="new-password" data-form-type="signup" data-lpignore="false" />
+        <label for="signup-password">Password
+          <input type="password" id="signup-password" required placeholder="Create a password" autocomplete="new-password" minlength="6">
         </label>
         <div class="actions">
           <button type="submit" class="button">Create account</button>
-          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an
-            account?</button>
+          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an account?</button>
         </div>
       </form>
     </div>
   </div>
 
-
-  <!-- ✅ Module scripts (only ONCE each) -->
-  <script type="module" src="firebase.js"></script>
-  <script type="module" src="admin-link.js"></script>
-  <script type="module" src="browse-listings.js"></script>
-  <script type="module" src="auth-menu.js"></script>
-  <script type="module" src="auth-state.js"></script>
+  <!-- ==================== SCRIPTS ==================== -->
+<script src="scripts.js"></script>
+<script type="module" src="firebase.js"></script>
+<script type="module" src="auth-forms.js"></script>   <!-- ADD THIS -->
+<script type="module" src="auth-state.js"></script>
+<script type="module" src="auth-menu.js"></script>
+<script type="module" src="admin-link.js"></script>
+<script type="module" src="browse-listings.js"></script>
 </body>
 
 </html>

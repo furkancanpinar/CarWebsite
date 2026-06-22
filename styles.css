@@ -1347,45 +1347,32 @@ body[data-theme='light']::before {
 }
 
 .welcome-content {
-  position: relative;
-  width: 100%;
-  padding: 40px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
   align-items: center;
-  z-index: 1;
 }
 
-.welcome-logo-wrapper {
-  position: relative;
-  display: inline-block;
-  border-radius: 16px;
-  overflow: hidden;
+@media (max-width: 760px) {
+  .welcome-content {
+    grid-template-columns: 1fr;        /* stack on mobile */
+    gap: 20px;
+    padding: 24px 20px;
+  }
+  
+  /* Center the logo on mobile */
+  .welcome-logo-wrapper {
+    margin: 0 auto;
+  }
+  
+  /* Center the text on mobile */
+  .welcome-overlay {
+    text-align: center;
+    align-items: center;
+  }
 }
 
-.welcome-logo {
-  max-width: 100%;
-  max-height: 280px;
-  object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  display: block;
-  animation: fadeInUp 0.7s ease-out;
-}
 
-.welcome-logo-wrapper::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  animation: shimmer 3s ease-in-out infinite;
-  z-index: 2;
-  pointer-events: none;
-}
 
 @keyframes shimmer {
   0% { left: -100%; }
@@ -1472,7 +1459,6 @@ body[data-theme='light'] .welcome-title {
 }
 
 .logo-failed { grid-template-columns: 1fr !important; }
-.logo-failed .welcome-logo { display: none; }
 .logo-failed .welcome-overlay { text-align: center; align-items: center; }
 
 /* ====================== QUICK SEARCH (FIXED) ====================== */
@@ -2688,7 +2674,7 @@ body[data-theme='light'] .quick-search-field select:hover {
 }
 
 /* ============================================================
-   WELCOME LOGO - BIGGER ON MOBILE
+   WELCOME LOGO — SINGLE SOURCE OF TRUTH
    ============================================================ */
 
 .welcome-logo-wrapper {
@@ -2696,57 +2682,1226 @@ body[data-theme='light'] .quick-search-field select:hover {
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 100%;
 }
 
 .welcome-logo {
-  /* Desktop sizes */
-  max-width: 100%;
+  display: block;
   width: auto;
   height: auto;
-  max-height: 280px;
+  max-width: 100%;
   object-fit: contain;
-  display: block;
   border-radius: 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
-/* Desktop - keep large */
-@media (min-width: 1200px) {
-  .welcome-logo {
-    max-height: 320px;
-  }
+/* Desktop: cap width so it doesn't dominate */
+@media (min-width: 1024px) {
+  .welcome-logo { max-width: 480px; }
 }
 
 /* Tablet */
-@media (max-width: 900px) {
-  .welcome-logo {
-    max-height: 240px;
-  }
+@media (min-width: 761px) and (max-width: 1023px) {
+  .welcome-logo { max-width: 380px; }
 }
 
-/* Mobile - FULL WIDTH for wide logos */
+/* Mobile - BIG and visible */
 @media (max-width: 760px) {
-  .welcome-logo-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  
   .welcome-logo {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    max-height: 200px !important;
-    object-fit: contain;
+    max-width: min(320px, 90vw);
+    width: 100%;
   }
 }
 
 /* Small phones */
 @media (max-width: 480px) {
   .welcome-logo {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    max-height: 160px !important;
+    max-width: min(280px, 85vw);
   }
 }
+
+/* Tiny phones */
+@media (max-width: 360px) {
+  .welcome-logo {
+    max-width: min(240px, 80vw);
+  }
+}
+/* ============================================================
+   BROWSE PAGE — COMPACT FILTER + SORT STYLING
+   ============================================================ */
+
+/* Mobile-only search bar (above listings on phone) */
+.mobile-search-bar {
+  display: none;
+  margin-bottom: 16px;
+}
+
+.mobile-search-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+
+.mobile-search-input-wrap svg {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.mobile-search-input-wrap input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.mobile-search-bar .button {
+  width: 100%;
+  padding: 14px;
+}
+
+/* Apply Filters button (replaces verified-sellers toggle) */
+.filter-search-btn {
+  width: 100%;
+  padding: 14px !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Match sort dropdown styling to filter dropdowns */
+.sort-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-group label {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+#sort-by.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa2c0' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
+}
+
+body[data-theme='light'] #sort-by.filter-select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7592' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* Make filter selects look identical across all 3 dropdowns */
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa2c0' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding: 12px 36px 12px 14px !important;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+body[data-theme='light'] .filter-select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7592' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+.filter-select:hover { border-color: var(--accent); }
+.filter-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Range slider styling */
+#price-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  outline: none;
+  padding: 0;
+  margin: 8px 0 4px;
+  cursor: pointer;
+}
+
+#price-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(87, 226, 255, 0.4);
+}
+
+#price-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg);
+  cursor: pointer;
+}
+
+/* ============================================================
+   BROWSE — MOBILE COMPACT LAYOUT
+   ============================================================ */
+@media (max-width: 760px) {
+  .browse-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Show mobile search bar */
+  .mobile-search-bar {
+    display: block;
+  }
+
+  /* Hide the bulky desktop filter panel on mobile by default */
+  .filter-panel {
+    position: static;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  /* Compact: hide "panel-header" text on mobile to save space */
+  .filter-panel .panel-header {
+    margin-bottom: 12px;
+  }
+
+  .filter-panel .panel-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .filter-panel .panel-header .eyebrow {
+    margin-bottom: 4px;
+  }
+
+  /* Hide some less-essential labels on mobile */
+  .filter-panel .panel-header p.eyebrow {
+    display: none;
+  }
+
+  /* Make filter groups more compact */
+  .filter-panel .filter-group {
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .filter-panel .filter-group label {
+    font-size: 0.82rem;
+  }
+
+  .filter-panel .filter-grid.two-col {
+    gap: 10px;
+  }
+
+  /* Hide the "Reset" button text on mobile, keep just an icon-style button */
+  .filter-panel #reset-filters {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+  }
+
+  /* Compact range slider on mobile */
+  .filter-panel .range-group {
+    margin: 4px 0;
+  }
+
+  /* Make sort dropdown match mobile form sizing */
+  .listing-topbar {
+    padding: 12px 14px;
+    border-radius: 18px;
+  }
+
+  .sort-group {
+    flex: 1;
+    gap: 8px;
+  }
+
+  .sort-group label {
+    font-size: 0.82rem;
+  }
+
+  .saved-indicator {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  /* Page header on browse should be more compact on mobile */
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 20px;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .page-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .page-header p {
+    font-size: 0.92rem;
+    margin-top: 8px;
+  }
+
+  .header-meta {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .header-meta .stat-card {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px;
+  }
+
+  .header-meta .stat-card span {
+    font-size: 1.4rem;
+  }
+
+  /* Reduce listings grid padding on mobile */
+  .listings-grid {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-panel {
+    padding: 16px;
+  }
+
+  .filter-panel .panel-header h2 {
+    font-size: 1rem;
+  }
+
+  /* Stack filter grids on very small screens */
+  .filter-panel .filter-grid.two-col {
+    grid-template-columns: 1fr;
+  }
+}
+/* ============================================================
+   BROWSE — MOBILE FILTER TRIGGER + SLIDE-UP SHEET
+   ============================================================ */
+
+/* The trigger button - hidden on desktop */
+.mobile-filter-trigger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.mobile-filter-trigger:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.mobile-filter-trigger svg {
+  flex-shrink: 0;
+}
+
+.mobile-filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #030712;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Close button on mobile - hidden on desktop */
+.filter-panel-close {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px 10px;
+}
+
+.filter-panel-close:hover {
+  color: var(--text);
+}
+
+/* ============================================================
+   MOBILE BREAKPOINT - turn sidebar into slide-up sheet
+   ============================================================ */
+@media (max-width: 760px) {
+
+  /* Show the trigger */
+  .mobile-filter-trigger {
+    display: inline-flex;
+  }
+
+  /* Filter panel becomes a slide-up bottom sheet */
+  .filter-panel {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.4);
+    padding: 24px 20px 28px;
+    transform: translateY(100%);
+    transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Open state */
+  .filter-panel.is-open {
+    transform: translateY(0);
+  }
+
+  /* Backdrop */
+  .filter-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1090;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 240ms ease;
+  }
+
+  .filter-backdrop.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Show the close button + drag handle inside panel */
+  .filter-panel-close {
+    display: block;
+  }
+
+  /* Header inside the sheet */
+  .filter-panel .panel-header {
+    align-items: center;
+    margin-bottom: 18px;
+    position: relative;
+    padding-right: 40px;
+  }
+
+  /* Drag handle indicator at top of sheet */
+  .filter-panel::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--border);
+  }
+
+  /* Compact form fields inside the sheet */
+  .filter-panel .filter-group {
+    gap: 8px;
+  }
+
+  .filter-panel .filter-group label {
+    font-size: 0.85rem;
+  }
+
+  .filter-panel .filter-grid.two-col {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Hide the "Refine your search" eyebrow + h2 (they take space) */
+  .filter-panel .panel-header .eyebrow {
+    display: none;
+  }
+
+  .filter-panel .panel-header h2 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  /* Hide Reset on mobile (use close + apply instead) */
+  .filter-panel #reset-filters {
+    display: none;
+  }
+
+  /* Reposition close button absolutely in header corner */
+  .filter-panel-close {
+    position: absolute;
+    top: 8px;
+    right: 0;
+  }
+
+  /* Make search button sticky at bottom of sheet */
+  .filter-search-btn {
+    position: sticky;
+    bottom: 0;
+    margin-top: 8px;
+    padding: 16px !important;
+    background: var(--accent-strong);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Small phones - stack the 2-col filter grids */
+@media (max-width: 480px) {
+  .filter-panel .filter-grid.two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   DESKTOP - restore original sidebar behavior
+   ============================================================ */
+@media (min-width: 761px) {
+  .filter-panel {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    transform: none !important;
+    max-height: none;
+    border-radius: 32px;
+  }
+
+  .mobile-filter-trigger {
+    display: none !important;
+  }
+
+  .filter-panel-close {
+    display: none !important;
+  }
+
+  .filter-panel::before {
+    display: none;
+  }
+
+  .filter-panel .panel-header .eyebrow {
+    display: inline-block;
+  }
+
+  .filter-panel #reset-filters {
+    display: inline-flex;
+  }
+}
+
+/* ============================================================
+   ADMIN — PAGINATION + FILTER STYLING
+   ============================================================ */
+
+/* Make the listing-fuel + listing-transmission selects match */
+#listing-fuel,
+#listing-transmission,
+#user-filter-role,
+#listing-filter-status,
+#sold-filter-year {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa2c0' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding: 12px 36px 12px 14px !important;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+body[data-theme='light'] #listing-fuel,
+body[data-theme='light'] #listing-transmission,
+body[data-theme='light'] #user-filter-role,
+body[data-theme='light'] #listing-filter-status,
+body[data-theme='light'] #sold-filter-year {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7592' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+#listing-fuel:hover,
+#listing-transmission:hover,
+#user-filter-role:hover,
+#listing-filter-status:hover,
+#sold-filter-year:hover {
+  border-color: var(--accent);
+}
+
+#listing-fuel:focus,
+#listing-transmission:focus,
+#user-filter-role:focus,
+#listing-filter-status:focus,
+#sold-filter-year:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Pagination in admin tables sits below the table */
+#users-pagination,
+#listings-pagination {
+  margin-top: 18px;
+}
+/* ============================================================
+   ADMIN PAGE — PHONE OPTIMIZATIONS
+   ============================================================ */
+
+@media (max-width: 1040px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .stat-card-modern {
+    padding: 14px !important;
+    gap: 10px;
+  }
+
+  .stat-card-modern h3 {
+    font-size: 1.4rem !important;
+  }
+
+  .stat-card-modern p {
+    font-size: 0.75rem !important;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-heading h2 {
+    font-size: 1.4rem;
+  }
+
+  .section-heading .eyebrow {
+    font-size: 0.78rem;
+  }
+
+  .admin-filters {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .admin-filters .filter-search,
+  .admin-filters .filter-select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-welcome {
+    padding: 20px 18px;
+    border-radius: 20px;
+  }
+
+  .admin-welcome-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .admin-welcome-logo {
+    max-width: 180px;
+    margin: 0 auto;
+  }
+
+  .admin-welcome-text h1 {
+    font-size: 1.3rem !important;
+  }
+
+  .admin-welcome-text p {
+    font-size: 0.9rem;
+  }
+
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table,
+  .admin-table tbody,
+  .admin-table tr,
+  .admin-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table tbody tr {
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    margin-bottom: 14px;
+    padding: 14px 16px;
+  }
+
+  .admin-table td {
+    padding: 6px 0 !important;
+    border: none !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .admin-table td:last-child {
+    padding-top: 12px !important;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    display: block;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+
+  .admin-table td:last-child::before {
+    display: none;
+  }
+
+  .admin-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .admin-action-btn {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+
+  .admin-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.78rem;
+  }
+
+  .admin-listing-thumb {
+    width: 56px;
+    height: 42px;
+  }
+
+  .admin-user-name {
+    font-size: 0.92rem;
+  }
+
+  .admin-listing-title {
+    font-size: 0.92rem;
+  }
+
+  #create-listing .filter-panel {
+    padding: 20px;
+  }
+
+  #create-listing .filter-grid.two-col {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  #create-listing .auth-form input,
+  #create-listing .auth-form select,
+  #create-listing .auth-form textarea {
+    font-size: 1rem;
+    padding: 14px 16px;
+  }
+
+  #create-listing .actions .button {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem;
+  }
+
+  .pagination {
+    gap: 4px;
+    padding: 18px 0 8px;
+  }
+
+  .page-button {
+    min-width: 44px;
+    height: 44px;
+    font-size: 0.9rem;
+    padding: 0 12px;
+    border-radius: 10px;
+  }
+
+  .page-arrow {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .page-button {
+    min-width: 40px;
+    height: 40px;
+    font-size: 0.85rem;
+  }
+
+  .page-ellipsis {
+    padding: 0 2px;
+  }
+}
+
+/* ============================================================
+   ADMIN — SELECT STYLING (fuel, transmission, role, status, year)
+   ============================================================ */
+
+#listing-fuel,
+#listing-transmission,
+#user-filter-role,
+#listing-filter-status,
+#sold-filter-year {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa2c0' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding: 12px 36px 12px 14px !important;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+body[data-theme='light'] #listing-fuel,
+body[data-theme='light'] #listing-transmission,
+body[data-theme='light'] #user-filter-role,
+body[data-theme='light'] #listing-filter-status,
+body[data-theme='light'] #sold-filter-year {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7592' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+#listing-fuel:hover,
+#listing-transmission:hover,
+#user-filter-role:hover,
+#listing-filter-status:hover,
+#sold-filter-year:hover {
+  border-color: var(--accent);
+}
+
+#listing-fuel:focus,
+#listing-transmission:focus,
+#user-filter-role:focus,
+#listing-filter-status:focus,
+#sold-filter-year:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+#users-pagination,
+#listings-pagination {
+  margin-top: 18px;
+}
+/* ============================================================
+   ADMIN — FIX: pagination not hidden by footer
+   ============================================================ */
+
+.admin-section {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 48px;  /* space before next section + before footer */
+}
+
+#users-pagination,
+#listings-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+  margin: 20px 0 0;
+  background: transparent;
+}
+
+.pagination-users {
+  /* could be styled differently from listings if desired */
+}
+
+.pagination-listings {
+  /* could be styled differently from users if desired */
+}
+
+/* ============================================================
+   PAGE BUTTONS (shared)
+// ============================================================ */
+
+.page-button {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 160ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+
+.page-button:hover:not(:disabled):not(.active) {
+  border-color: var(--accent);
+  background: var(--surface);
+  color: var(--accent);
+}
+
+.page-button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #030712;
+  cursor: default;
+}
+
+.page-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.page-arrow { padding: 0 10px; }
+.page-arrow svg { display: block; }
+
+.page-ellipsis {
+  color: var(--muted);
+  font-weight: 700;
+  padding: 0 4px;
+  user-select: none;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .page-button {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.82rem;
+    padding: 0 8px;
+  }
+}
+/* ============================================================
+   NUCLEAR OVERRIDE — Admin tables on phone (FIX LAST)
+   ============================================================ */
+
+/* Reset admin table for mobile */
+@media (max-width: 760px) {
+  /* Force tables to be cards */
+  .admin-table {
+    display: block !important;
+    width: 100% !important;
+    background: transparent !important;
+  }
+
+  .admin-table thead,
+  .admin-table tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .admin-table tr {
+    display: block !important;
+    width: 100% !important;
+    background: var(--surface-soft) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 18px !important;
+    margin-bottom: 14px !important;
+    padding: 16px !important;
+  }
+
+  .admin-table td {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 8px 0 !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    width: 100% !important;
+    text-align: right;
+  }
+
+  .admin-table td:last-child {
+    border-bottom: none !important;
+    margin-top: 12px !important;
+    padding-top: 14px !important;
+    border-top: 1px solid var(--border) !important;
+    display: block !important;
+    text-align: left;
+  }
+
+  /* Add labels via data-label - JS sets these, but as fallback show column position */
+  .admin-table td:nth-child(1)::before { content: "User / Listing"; }
+  .admin-table td:nth-child(2)::before { content: "Email / Seller"; }
+  .admin-table td:nth-child(3)::before { content: "Role / Price"; }
+  .admin-table td:nth-child(4)::before { content: "Joined / Submitted"; }
+  .admin-table td:nth-child(5)::before { content: "Status / Status"; }
+  .admin-table td:nth-child(6)::before { content: "Actions"; }
+
+  .admin-table td::before {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    flex-shrink: 0;
+    text-align: left;
+    margin-right: auto;
+  }
+
+  .admin-table td:last-child::before {
+    display: none;
+  }
+
+  /* Actions full width grid */
+  .admin-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .admin-action-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 12px 8px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Hide the table on desktop? No, keep it. */
+  /* Fix filter panel wrapping the table */
+  .filter-panel {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Pagination sizing */
+  #users-pagination,
+  #listings-pagination {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    justify-content: center !important;
+    padding: 16px !important;
+    margin: 16px 0 24px !important;
+  }
+
+  .page-button {
+    min-width: 40px !important;
+    height: 40px !important;
+    padding: 0 10px !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--border) !important;
+    background: var(--surface-soft) !important;
+    color: var(--text) !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .page-button.active {
+    background: var(--accent) !important;
+    border-color: var(--accent) !important;
+    color: #030712 !important;
+  }
+
+  .page-button:disabled {
+    opacity: 0.3 !important;
+  }
+
+  /* Stack admin-welcome on mobile */
+  .admin-welcome {
+    padding: 20px 16px !important;
+  }
+
+  .admin-welcome-content {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 14px !important;
+  }
+
+  .admin-welcome-logo {
+    max-width: 180px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Stats grid */
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Sections stack vertically */
+  .section-heading {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .section-heading h2 {
+    font-size: 1.4rem !important;
+  }
+
+  /* Admin filters full width */
+  .admin-filters {
+    width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  .admin-filters .filter-search,
+  .admin-filters .filter-select {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .stat-card-modern {
+    padding: 14px !important;
+  }
+
+  .stat-card-modern h3 {
+    font-size: 1.4rem !important;
+  }
+
+  .page-button {
+    min-width: 36px !important;
+    height: 36px !important;
+    font-size: 0.82rem !important;
+    padding: 0 8px !important;
+  }
+}
+
+/* ============================================================
+   FIX: pagination not hidden under footer
+   ============================================================ */
+
+.admin-section {
+  margin-bottom: 48px !important;
+  padding-bottom: 16px !important;
+}
+
+#users-pagination,
+#listings-pagination {
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* Make sure the body has enough bottom padding so footer doesn't overlap */
+.page-shell {
+  padding-bottom: 80px !important;
+}
+/* Default: hide body until verified */
+body.admin-page { visibility: hidden; }
+

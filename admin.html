@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>GameWise | Admin Dashboard</title>
+  <title>Admin Dashboard | Autex Motors</title>
 
-  <!-- ✅ Theme script FIRST -->
+  <!-- Theme bootstrap -->
   <script src="theme.js"></script>
 
   <link rel="stylesheet" href="styles.css" />
@@ -14,43 +14,38 @@
 
 <body data-theme="dark">
   <div class="page-shell">
-    <div class="top-bar" aria-hidden="false">
+
+    <!-- ==================== TOP BAR ==================== -->
+    <div class="top-bar">
       <div class="top-bar-inner">
-       <div class="social">
-          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email" target="_blank"
-            rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+        <div class="social">
+          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email us" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
             </svg>
             Email
           </a>
-          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok"
-            target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z" />
+          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z"/>
             </svg>
             TikTok
           </a>
           <a href="https://wa.me/447379197842" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"
-              style="vertical-align:middle;margin-right:4px;">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
             </svg>
             WhatsApp
           </a>
         </div>
         <div class="top-actions">
-          <button class="link-button" data-modal-target="opening-hours">Opening Hours</button>
-          <button class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
+          <button type="button" class="link-button" data-modal-target="opening-hours">Opening Hours</button>
+          <button type="button" class="link-button" data-modal-target="get-in-touch">Get In Touch</button>
         </div>
       </div>
     </div>
 
+    <!-- ==================== HEADER ==================== -->
     <header class="site-header">
       <div class="header-left">
         <a class="brand" href="index.html">
@@ -60,35 +55,33 @@
       </div>
 
       <div class="header-actions">
-        <button class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false">
+        <button type="button" class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
       </div>
     </header>
 
-    <!-- Mobile menu -->
-    <div class="mobile-menu" aria-hidden="true">
-      <nav class="mobile-nav">
+    <!-- ==================== MOBILE MENU ==================== -->
+    <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+      <nav class="mobile-nav" aria-label="Mobile navigation">
         <a href="browse.html">Buy Cars</a>
         <a href="previously-sold.html">Previously Sold</a>
-        <a href="#" id="admin-link">Admin</a>
+        <a href="index.html">Home</a>
       </nav>
       <div class="mobile-menu-actions">
-        <button class="button button-secondary" id="mobile-login" data-modal-target="login-modal">Login</button>
-        <button class="button button-secondary" id="mobile-signup" data-modal-target="signup-modal">Sign Up</button>
-        <button class="button" id="mobile-theme-toggle" aria-label="Toggle theme">Toggle theme</button>
+        <button type="button" class="button button-secondary" data-modal-target="login-modal">Login</button>
+        <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
+        <button type="button" class="button" id="mobile-theme-toggle" aria-label="Toggle theme" aria-pressed="false">Toggle theme</button>
       </div>
     </div>
 
     <main>
-      <!-- ✅ Welcome banner like index.html -->
+      <!-- ==================== ADMIN WELCOME ==================== -->
       <section class="admin-welcome">
         <div class="admin-welcome-content">
-          <img src="editables/images/Logo.jpeg" alt="Autex Motors" class="admin-welcome-logo"
-            onerror="this.style.display='none'" />
+          <img src="editables/images/Logo.jpeg" alt="Autex Motors" class="admin-welcome-logo" id="admin-welcome-logo">
           <div class="admin-welcome-text">
             <p class="eyebrow">Admin Control Center</p>
             <h1>Autex Motors Dashboard</h1>
@@ -97,7 +90,7 @@
         </div>
       </section>
 
-      <!-- Dashboard stats -->
+      <!-- ==================== STATS ==================== -->
       <section class="section-block">
         <div class="section-heading">
           <div>
@@ -108,163 +101,66 @@
 
         <div class="admin-stats-grid">
           <div class="stat-card-modern">
-            <div class="stat-icon">👥</div>
-            <div>
-              <h3 id="stat-total-users">0</h3>
-              <p>Total users</p>
-              <span class="stat-trend up">Live</span>
-            </div>
+            <div class="stat-icon" aria-hidden="true">👥</div>
+            <div><h3 id="stat-total-users">0</h3><p>Total users</p><span class="stat-trend up">Live</span></div>
           </div>
           <div class="stat-card-modern">
-            <div class="stat-icon">🚗</div>
-            <div>
-              <h3 id="stat-active-listings">0</h3>
-              <p>Active listings</p>
-              <span class="stat-trend up">Live</span>
-            </div>
+            <div class="stat-icon" aria-hidden="true">🚗</div>
+            <div><h3 id="stat-active-listings">0</h3><p>Active listings</p><span class="stat-trend up">Live</span></div>
           </div>
           <div class="stat-card-modern">
-            <div class="stat-icon">⏳</div>
-            <div>
-              <h3 id="stat-pending">0</h3>
-              <p>Pending approval</p>
-              <span class="stat-trend warn">Review</span>
-            </div>
+            <div class="stat-icon" aria-hidden="true">⏳</div>
+            <div><h3 id="stat-pending">0</h3><p>Pending approval</p><span class="stat-trend warn">Review</span></div>
           </div>
           <div class="stat-card-modern">
-            <div class="stat-icon">💰</div>
-            <div>
-              <h3 id="stat-sold">0</h3>
-              <p>Cars sold</p>
-              <span class="stat-trend up">Archive</span>
-            </div>
+            <div class="stat-icon" aria-hidden="true">💰</div>
+            <div><h3 id="stat-sold">0</h3><p>Cars sold</p><span class="stat-trend up">Archive</span></div>
           </div>
         </div>
       </section>
 
-      <!-- Create New Listing -->
-      <section class="section-block" id="create-listing">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Add</p>
-            <h2>Create New Listing</h2>
-          </div>
-        </div>
-
-        <div class="filter-panel">
-          <form id="create-listing-form" class="auth-form" style="gap:16px;">
-            <div class="filter-grid two-col">
-              <label>Title *
-                <input type="text" id="listing-title" required placeholder="e.g. BMW M4 Competition">
-              </label>
-              <label>Make *
-                <input type="text" id="listing-make" required placeholder="BMW">
-              </label>
-            </div>
-
-            <div class="filter-grid two-col">
-              <label>Model *
-                <input type="text" id="listing-model" required placeholder="M4">
-              </label>
-              <label>Year *
-                <input type="number" id="listing-year" required min="1900" max="2030" placeholder="2023">
-              </label>
-            </div>
-
-            <div class="filter-grid two-col">
-              <label>Price (£) *
-                <input type="number" id="listing-price" required min="0" placeholder="78500">
-              </label>
-              <label>Mileage (mi)
-                <input type="number" id="listing-mileage" min="0" placeholder="8400">
-              </label>
-            </div>
-
-            <div class="filter-grid two-col">
-              <label>Fuel Type
-                <select id="listing-fuel">
-                  <option>Petrol</option>
-                  <option>Diesel</option>
-                  <option>Electric</option>
-                  <option>Hybrid</option>
-                </select>
-              </label>
-              <label>Transmission
-                <select id="listing-transmission">
-                  <option>Automatic</option>
-                  <option>Manual</option>
-                </select>
-              </label>
-            </div>
-
-            <label>Description
-              <textarea id="listing-description" rows="3" placeholder="Optional description..."></textarea>
-            </label>
-
-            <label>Car Image *
-              <input type="file" id="listing-image" required accept="image/*">
-              <div id="upload-preview" style="margin-top:8px; display:none;">
-                <img id="preview-img" style="max-width:200px; border-radius:12px; border:1px solid var(--border);">
-                <p id="upload-status" style="color:var(--muted); margin:8px 0 0; font-size:0.9rem;"></p>
-              </div>
-            </label>
-
-            <p id="listing-form-status" style="color:var(--muted); margin:0;"></p>
-
-            <div class="actions">
-              <button type="submit" class="button">Create Listing</button>
-            </div>
-
-            <input type="hidden" id="cloudinary-cloud-name" value="dpxhcifjq">
-            <input type="hidden" id="cloudinary-upload-preset" value="car_listings">
-          </form>
-        </div>
-      </section>
-
-      <!-- User Management -->
-      <section class="section-block" id="users">
+      <!-- ==================== USER MANAGEMENT (PAGINATION 1) ==================== -->
+      <section class="section-block admin-section" id="users-section">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Users</p>
             <h2>User Management</h2>
           </div>
           <div class="admin-filters">
-            <input id="user-search" class="filter-search" type="search" placeholder="Search users..."
-              aria-label="Search users" />
+            <input id="user-search" class="filter-search" type="search" placeholder="Search users..." aria-label="Search users">
             <select id="user-filter-role" class="filter-select" aria-label="Filter by role">
               <option value="">All roles</option>
-              <option>Admin</option>
-              <option>Seller</option>
-              <option>Buyer</option>
+              <option value="Admin">Admins only</option>
+              <option value="Seller">Sellers only</option>
+              <option value="Buyer">Buyers only</option>
             </select>
           </div>
         </div>
 
-        <div class="filter-panel" style="padding: 0; overflow: hidden; position: static;">
+        <div class="filter-panel" style="padding: 0; overflow: hidden;">
           <table class="admin-table">
             <thead>
               <tr>
-                <th>User</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Joined</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th scope="col">User</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Joined</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody id="users-tbody">
-              <tr id="users-loading-row">
-                <td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">
-                  Loading users from database...
-                </td>
-              </tr>
+              <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">Loading users...</td></tr>
             </tbody>
           </table>
         </div>
+
+        <!-- USER PAGINATION (separate from listings) -->
+        <nav class="pagination pagination-users" id="users-pagination" aria-label="Users pagination"></nav>
       </section>
 
-      <!-- Listing Management with Mark as Sold -->
-      <section class="section-block" id="listings">
+      <!-- ==================== LISTING APPROVALS (PAGINATION 2) ==================== -->
+      <section class="section-block admin-section" id="listings-section">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Listings</p>
@@ -280,52 +176,51 @@
           </div>
         </div>
 
-        <div class="filter-panel" style="padding: 0; overflow: hidden; position: static;">
+        <div class="filter-panel" style="padding: 0; overflow: hidden;">
           <table class="admin-table">
             <thead>
               <tr>
-                <th>Listing</th>
-                <th>Seller</th>
-                <th>Price</th>
-                <th>Submitted</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th scope="col">Listing</th>
+                <th scope="col">Seller</th>
+                <th scope="col">Price</th>
+                <th scope="col">Submitted</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody id="listings-tbody">
-              <tr>
-                <td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">
-                  Loading listings from database...
-                </td>
-              </tr>
+              <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">Loading listings...</td></tr>
             </tbody>
           </table>
         </div>
+
+        <!-- LISTINGS PAGINATION (separate from users) -->
+        <nav class="pagination pagination-listings" id="listings-pagination" aria-label="Listings pagination"></nav>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer-links">
-        <a href="#">About</a>
-        <a href="#">Support</a>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
+        <a href="about.html">About</a>
+        <a href="support.html">Support</a>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
       </div>
       <div class="footer-meta">
         <div class="social-links">
-          <a href="#">Instagram</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">Twitter</a>
+          <a href="#" aria-label="Instagram (placeholder)">Instagram</a>
+          <a href="#" aria-label="LinkedIn (placeholder)">LinkedIn</a>
+          <a href="#" aria-label="Twitter (placeholder)">Twitter</a>
         </div>
-        <p>© 2026 GameWise. All rights reserved.</p>
+        <p>© 2026 Autex Motors. All rights reserved.</p>
       </div>
     </footer>
   </div>
 
-  <!-- Modals -->
+  <!-- ==================== MODALS ==================== -->
   <div class="modal" id="opening-hours" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="opening-hours-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="opening-hours-title">Opening Hours</h3>
       <ul class="hours-list">
         <li>Monday: 9:00 AM – 6:00 PM</li>
@@ -341,31 +236,28 @@
 
   <div class="modal" id="get-in-touch" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="get-in-touch-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="get-in-touch-title">Get In Touch</h3>
       <div class="contact-list">
         <p><strong>Phone:</strong> +44 20 7946 0958</p>
         <p><strong>Email:</strong> hello@autex.example</p>
         <p><strong>Address:</strong> 123 Premium Dr, London</p>
         <p><strong>WhatsApp:</strong> +44 7700 900123</p>
-        <div style="margin-top:12px;"><a class="button button-accent" href="#">Contact Us</a></div>
+        <div style="margin-top:12px;"><a class="button button-accent" href="contact.html">Contact Us</a></div>
       </div>
     </div>
   </div>
 
-  <!-- Login Modal -->
   <div class="modal" id="login-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="login-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="login-title">Log In</h3>
       <form id="login-form" class="auth-form" autocomplete="on">
-        <label>Email
-          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username"
-            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="login" data-lpignore="false" />
+        <label for="login-email">Email
+          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
-        <label>Password
-          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password"
-            data-form-type="login" data-lpignore="false" />
+        <label for="login-password">Password
+          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
         </label>
         <div class="actions">
           <button type="submit" class="button">Log in</button>
@@ -375,38 +267,32 @@
     </div>
   </div>
 
-  <!-- Signup Modal -->
   <div class="modal" id="signup-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="signup-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="signup-title">Sign Up</h3>
       <form id="signup-form" class="auth-form" autocomplete="on">
-        <label>Name
-          <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name"
-            data-form-type="signup" data-lpignore="false" />
+        <label for="signup-name">Name
+          <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name">
         </label>
-        <label>Email
-          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email"
-            inputmode="email" autocapitalize="none" spellcheck="false" data-form-type="signup" data-lpignore="false" />
+        <label for="signup-email">Email
+          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
-        <label>Password
-          <input type="password" id="signup-password" required placeholder="Create a password"
-            autocomplete="new-password" data-form-type="signup" data-lpignore="false" />
+        <label for="signup-password">Password
+          <input type="password" id="signup-password" required placeholder="Create a password" autocomplete="new-password" minlength="6">
         </label>
         <div class="actions">
           <button type="submit" class="button">Create account</button>
-          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an
-            account?</button>
+          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an account?</button>
         </div>
       </form>
     </div>
   </div>
+  <body data-theme="dark" class="admin-page"></body>
 
-
-  <!-- Confirm modal -->
   <div class="modal" id="confirm-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-      <button class="modal-close" aria-label="Close">×</button>
+      <button type="button" class="modal-close" aria-label="Close">×</button>
       <h3 id="confirm-title">Are you sure?</h3>
       <p id="confirm-message" style="color:var(--muted); margin-bottom:20px;"></p>
       <div class="actions">
@@ -416,17 +302,21 @@
     </div>
   </div>
 
-  <!-- ✅ Scripts in correct order -->
+  <!-- ==================== SCRIPTS ==================== -->
   <script src="scripts.js"></script>
   <script type="module" src="firebase.js"></script>
+  <script type="module" src="auth-forms.js"></script>
+  <script type="module" src="auth-state.js"></script>
+  <script type="module" src="auth-menu.js"></script>
   <script type="module" src="admin-link.js"></script>
   <script type="module" src="admin-guard.js"></script>
+  <script type="module" src="admin-stats.js"></script>
   <script type="module" src="admin-users.js"></script>
   <script type="module" src="admin-listings.js"></script>
-  <script type="module" src="auth-menu.js"></script>
-  <script type="module" src="admin-stats.js"></script>
-  <script type="module" src="theme.js"></script>
-  <script type="module" src="auth-state.js"></script>
+
+
+
+  
 </body>
 
 </html>

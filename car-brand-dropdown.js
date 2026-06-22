@@ -1,4 +1,14 @@
-// car-brand-dropdown.js
+// car-brand-dropdown.js — Custom dropdown with car brand logos
+import { getCarLogo } from './car-logos.js';
+
+const CAR_BRANDS = [
+  'BMW', 'Tesla', 'Audi', 'Porsche', 'Mercedes-Benz',
+  'Land Rover', 'Toyota', 'Honda', 'Ford', 'Volkswagen',
+  'Bentley', 'Lamborghini', 'Ferrari', 'Rolls-Royce', 'Maserati',
+  'McLaren', 'Bugatti', 'Aston Martin', 'Jaguar', 'Volvo',
+  'Mazda', 'Nissan', 'Hyundai', 'Kia', 'Subaru', 'Lexus'
+];
+
 export function initCarBrandDropdown(selectId) {
   const oldSelect = document.getElementById(selectId);
   if (!oldSelect) return;
@@ -6,19 +16,18 @@ export function initCarBrandDropdown(selectId) {
   // Create wrapper
   const wrapper = document.createElement('div');
   wrapper.className = 'car-brand-dropdown';
-  wrapper.id = selectId + '-wrapper';
-  wrapper.style.cssText = 'position: relative; z-index: 9999;';
 
   // Create button
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'car-brand-button';
   button.setAttribute('aria-haspopup', 'listbox');
+  button.setAttribute('aria-expanded', 'false');
   button.innerHTML = `
     <span class="car-brand-display">
       <span class="car-brand-display-name">Any make</span>
     </span>
-    <svg class="car-brand-chevron" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+    <svg class="car-brand-chevron" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
       <path d="M7 10l5 5 5-5z"/>
     </svg>
   `;
@@ -27,37 +36,28 @@ export function initCarBrandDropdown(selectId) {
   const menu = document.createElement('div');
   menu.className = 'car-brand-menu';
   menu.setAttribute('role', 'listbox');
-  menu.style.cssText = 'z-index: 99999; position: absolute; top: calc(100% + 6px); left: 0; right: 0;';
-
-  const carBrands = [
-    'BMW', 'Tesla', 'Audi', 'Porsche', 'Mercedes-Benz',
-    'Land Rover', 'Toyota', 'Honda', 'Ford', 'Volkswagen',
-    'Bentley', 'Lamborghini', 'Ferrari', 'Rolls-Royce', 'Maserati'
-  ];
 
   // Add "Any make" option
-  menu.appendChild(createOption('Any make', '', 'Any make'));
+  menu.appendChild(createOption('Any make', '', null));
 
-  // Add all brands
-  carBrands.forEach(brand => {
-    menu.appendChild(createOption(brand, brand, brand));
+  CAR_BRANDS.forEach(brand => {
+    menu.appendChild(createOption(brand, brand, getCarLogo(brand)));
   });
 
-  // Replace select
+  // Insert into DOM
   oldSelect.style.display = 'none';
   oldSelect.parentNode.insertBefore(wrapper, oldSelect);
   wrapper.appendChild(button);
   wrapper.appendChild(menu);
 
-  // Toggle dropdown
+  // Toggle
   button.addEventListener('click', (e) => {
     e.stopPropagation();
-    e.preventDefault();
     const isOpen = menu.classList.toggle('open');
-    button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    button.setAttribute('aria-expanded', String(isOpen));
   });
 
-  // Close on outside click
+  // Close handlers
   document.addEventListener('click', (e) => {
     if (!wrapper.contains(e.target)) {
       menu.classList.remove('open');
@@ -65,7 +65,6 @@ export function initCarBrandDropdown(selectId) {
     }
   });
 
-  // Close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && menu.classList.contains('open')) {
       menu.classList.remove('open');
@@ -81,13 +80,18 @@ export function initCarBrandDropdown(selectId) {
     button.setAttribute('aria-expanded', 'false');
   }
 
-  function createOption(name, value, displayName) {
+  function createOption(name, value, logoUrl) {
     const opt = document.createElement('div');
     opt.className = 'car-brand-option';
     opt.setAttribute('role', 'option');
     opt.dataset.value = value;
-    opt.innerHTML = `<span>${displayName}</span>`;
-    opt.addEventListener('click', () => selectBrand(value, displayName));
+
+    const logoHtml = logoUrl
+      ? `<img src="${logoUrl}" alt="" class="car-brand-option-logo">`
+      : `<span class="car-brand-option-emoji" aria-hidden="true">🚗</span>`;
+
+    opt.innerHTML = `${logoHtml}<span>${name}</span>`;
+    opt.addEventListener('click', () => selectBrand(value, name));
     return opt;
   }
 }
