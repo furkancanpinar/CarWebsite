@@ -4111,3 +4111,97 @@ main {
     padding: 18px !important;
   }
 }
+/* ============================================================
+   ADMIN COLLAPSIBLE SECTIONS (mobile-first, also works on desktop)
+   ============================================================ */
+
+.admin-collapse-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  user-select: none;
+  transition: all 180ms ease;
+}
+
+.admin-collapse-header:hover {
+  border-color: var(--accent);
+  background: var(--surface-soft);
+}
+
+.admin-collapse-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-collapse-icon {
+  font-size: 1.2rem;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  flex-shrink: 0;
+}
+
+.admin-collapse-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  margin: 0;
+}
+
+.admin-collapse-subtitle {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin: 2px 0 0;
+}
+
+.admin-collapse-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 220ms ease;
+}
+
+.admin-collapse-header[aria-expanded="true"] .admin-collapse-chevron {
+  transform: rotate(180deg);
+}
+
+.admin-collapse-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-collapse-body.is-open {
+  /* max-height set via JS dynamically, fallback here */
+  max-height: 5000px;
+}
+
+.admin-collapse-body-inner {
+  padding: 4px 0 16px;
+}
+
+/* Desktop: always show, no chevron animation */
+@media (min-width: 1024px) {
+  .admin-collapse-chevron { display: none; }
+  .admin-collapse-body { max-height: none !important; overflow: visible !important; }
+  .admin-collapse-body-inner { padding-top: 0; }
+}
+
+/* On mobile, reduce the default padding of the add-car form wrapper */
+@media (max-width: 760px) {
+  #add-car-form-wrapper {
+    padding: 18px !important;
+  }
+}
