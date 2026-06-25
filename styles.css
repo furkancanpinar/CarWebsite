@@ -4530,3 +4530,22 @@ main {
 .car-image-upload-controls:hover {
   border-color: var(--accent);
 }
+/* ============================================================
+   iOS PASSWORD AUTOFILL FIX
+   ============================================================ */
+
+.modal[aria-hidden="true"] {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.modal[aria-hidden="false"] {
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Prevent iOS autofill on hidden inputs */
+.modal[aria-hidden="true"] input,
+.modal[aria-hidden="true"] textarea {
+  -webkit-user-modify: read-only;
+}
