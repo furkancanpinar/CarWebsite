@@ -1,4 +1,4 @@
-// auth-menu.js — Update UI based on auth state (with mobile menu fix)
+// auth-menu.js — Update UI based on auth state (mobile-safe)
 import { auth, onAuthStateChanged, signOut } from "./firebase.js";
 
 onAuthStateChanged(auth, (user) => {
@@ -12,7 +12,7 @@ function showLoggedIn(user) {
 
   // ─── DESKTOP: Replace login button with user menu ───
   document.querySelectorAll('[data-modal-target="login-modal"]').forEach(btn => {
-    if (btn.closest('.mobile-menu')) return; // Skip mobile menu versions
+    if (btn.closest('.mobile-menu')) return;
     btn.outerHTML = buildUserMenu(initial, user.email);
   });
 
@@ -21,7 +21,7 @@ function showLoggedIn(user) {
     if (!btn.closest('.mobile-menu')) btn.style.display = 'none';
   });
 
-  // ─── MOBILE: Replace login + signup with user info button + logout ───
+  // ─── MOBILE: Force replace entire mobile menu actions ───
   const mobileMenu = document.getElementById('mobile-menu');
   if (mobileMenu) {
     const mobileActions = mobileMenu.querySelector('.mobile-menu-actions');
