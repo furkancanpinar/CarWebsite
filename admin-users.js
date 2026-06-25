@@ -211,6 +211,7 @@ function buildRow(uid, user) {
     </tr>`;
 }
 
+
 // ─── Pagination ───
 function renderPagination(nav, totalPages) {
   if (totalPages <= 1) { nav.innerHTML = ""; return; }
