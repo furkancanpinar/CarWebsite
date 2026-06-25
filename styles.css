@@ -3903,7 +3903,10 @@ body[data-theme='light'] #sold-filter-year {
   padding-bottom: 80px !important;
 }
 /* Default: hide body until verified */
-body.admin-page { visibility: hidden; }
+/* Default: hide body until verified */
+body.admin-page {
+  /* visibility: hidden; -- DISABLED so content shows even if auth check is slow */
+}
 
 /* ====================== CAR IMAGE UPLOAD ====================== */
 .car-image-upload {
@@ -4013,278 +4016,98 @@ body.admin-page { visibility: hidden; }
   }
 }
 /* ============================================================
-   ADMIN MOBILE — FINAL FIX (Add to bottom of styles.css)
+   SAFETY NET — Make sure admin content always shows
    ============================================================ */
 
-/* Force mobile cards for admin tables */
+/* Force visibility even if parent has issues */
+.admin-welcome,
+.admin-stats-grid,
+#add-car-section,
+#users-section,
+#listings-section,
+.admin-section,
+.section-block,
+.admin-table,
+.filter-panel,
+.pagination {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Make sure main content is always visible */
+main {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+/* Fix for mobile - ensure page-shell is visible */
+.page-shell {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Make sure sections aren't accidentally hidden on mobile */
 @media (max-width: 760px) {
-
-  /* Hide table headers on mobile */
-  .admin-table thead {
-    display: none !important;
+  body {
+    visibility: visible !important;
   }
 
-  .admin-table,
-  .admin-table tbody,
-  .admin-table tr,
-  .admin-table td {
+  .page-shell {
+    padding: 16px 16px 60px !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Don't hide sections on mobile anymore */
+  .admin-section {
     display: block !important;
-    width: 100% !important;
+    visibility: visible !important;
   }
 
-  /* Each row becomes a card */
-  .admin-table tbody tr {
-    background: var(--surface-soft) !important;
-    border: 1px solid var(--border) !important;
+  .section-block {
+    display: block !important;
+    visibility: visible !important;
+    margin-bottom: 32px !important;
+  }
+}
+
+/* ============================================================
+   ADMIN TABLE WRAPPER — keeps filter-panel look but no mobile slide-up
+   ============================================================ */
+
+.admin-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  border-radius: 32px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 26px 60px rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+
+.admin-table-wrapper[style*="padding: 28px"] {
+  padding: 28px !important;
+}
+
+/* On mobile, admin-table-wrapper stays as normal block — NOT fixed/transformed */
+@media (max-width: 760px) {
+  .admin-table-wrapper {
+    position: static !important;
+    transform: none !important;
+    bottom: auto !important;
+    top: auto !important;
     border-radius: 18px !important;
+    padding: 0 !important;
     margin-bottom: 16px !important;
-    padding: 16px !important;
   }
 
-  /* Each cell becomes a row inside the card */
-  .admin-table td {
-    padding: 10px 0 !important;
-    border: none !important;
-    border-bottom: 1px solid var(--border) !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    gap: 12px !important;
-    text-align: right !important;
-  }
-
-  .admin-table td:last-child {
-    border-bottom: none !important;
-    margin-top: 12px !important;
-    padding-top: 14px !important;
-    border-top: 2px solid var(--border) !important;
-    display: block !important;
-    text-align: left !important;
-  }
-
-  /* Add labels using data-label attribute set in JS, or fall back to nth-child */
-  .admin-table td::before {
-    content: attr(data-label);
-    color: var(--muted);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-    text-align: left;
-    margin-right: auto;
-  }
-
-  .admin-table td:last-child::before {
-    display: none;
-  }
-
-  /* Actions become full-width stack */
-  .admin-actions {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    width: 100% !important;
-  }
-
-  .admin-action-btn {
-    width: 100% !important;
-    min-width: 0 !important;
-    padding: 12px 8px !important;
-    font-size: 0.82rem !important;
-    border-radius: 10px !important;
-  }
-
-  /* Single action button gets full width */
-  .admin-actions:has(.admin-action-btn:only-child) {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Pagination - touch-friendly */
-  .pagination {
-    justify-content: center !important;
-    gap: 6px !important;
-    padding: 16px 8px !important;
-    flex-wrap: wrap !important;
-  }
-
-  .page-button {
-    min-width: 44px !important;
-    height: 44px !important;
-    padding: 0 12px !important;
-    font-size: 0.9rem !important;
-    border-radius: 10px !important;
-  }
-
-  /* Stats grid - 2 columns on mobile */
-  .admin-stats-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-  }
-
-  .stat-card-modern {
-    padding: 16px !important;
-    flex-direction: column !important;
-    text-align: center !important;
-    gap: 10px !important;
-    min-height: auto !important;
-  }
-
-  .stat-card-modern h3 {
-    font-size: 1.5rem !important;
-  }
-
-  .stat-card-modern p {
-    font-size: 0.78rem !important;
-  }
-
-  .stat-icon {
-    width: 44px !important;
-    height: 44px !important;
-    font-size: 1.3rem !important;
-    margin: 0 auto !important;
-  }
-
-  /* Section headings stack */
-  .section-heading {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 14px !important;
-    margin-bottom: 20px !important;
-  }
-
-  .section-heading h2 {
-    font-size: 1.4rem !important;
-  }
-
-  .eyebrow {
-    font-size: 0.78rem !important;
-  }
-
-  /* Filters full width on mobile */
-  .admin-filters {
-    width: 100% !important;
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 10px !important;
-  }
-
-  .admin-filters .filter-search,
-  .admin-filters .filter-select {
-    width: 100% !important;
-    min-width: 0 !important;
-  }
-
-  /* Admin welcome banner */
-  .admin-welcome {
-    padding: 20px 16px !important;
-    border-radius: 20px !important;
-  }
-
-  .admin-welcome-content {
-    flex-direction: column !important;
-    text-align: center !important;
-    gap: 14px !important;
-  }
-
-  .admin-welcome-logo {
-    max-width: 180px !important;
-    margin: 0 auto !important;
-  }
-
-  .admin-welcome-text h1 {
-    font-size: 1.3rem !important;
-  }
-
-  .admin-welcome-text p {
-    font-size: 0.9rem !important;
-  }
-
-  /* Add Car form */
-  #add-car-form-wrapper {
+  .admin-table-wrapper[style*="padding: 28px"] {
     padding: 18px !important;
-  }
-
-  #add-car-form .filter-grid.two-col {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-
-  #add-car-form .auth-form input,
-  #add-car-form .auth-form select,
-  #add-car-form .auth-form textarea {
-    font-size: 1rem !important;
-    padding: 14px 16px !important;
-  }
-
-  #add-car-form .actions {
-    flex-direction: column !important;
-    gap: 10px !important;
-  }
-
-  #add-car-form .actions .button {
-    width: 100% !important;
-    padding: 14px !important;
-    font-size: 0.95rem !important;
-  }
-
-  /* Toggle add car button full width */
-  #toggle-add-car-form {
-    width: 100% !important;
-    justify-content: center !important;
-  }
-}
-
-/* Extra small phones */
-@media (max-width: 420px) {
-  .admin-actions {
-    grid-template-columns: 1fr !important;
-  }
-
-  .admin-stats-grid {
-    gap: 10px !important;
-  }
-
-  .stat-card-modern {
-    padding: 14px !important;
-  }
-
-  .stat-card-modern h3 {
-    font-size: 1.3rem !important;
-  }
-
-  .page-button {
-    min-width: 38px !important;
-    height: 38px !important;
-    font-size: 0.82rem !important;
-    padding: 0 8px !important;
-  }
-}
-
-/* Tablet fix - keep tables on tablet, only stack on phone */
-@media (min-width: 761px) and (max-width: 1040px) {
-  .admin-table {
-    font-size: 0.88rem !important;
-  }
-
-  .admin-table th,
-  .admin-table td {
-    padding: 12px 14px !important;
-  }
-
-  .admin-action-btn {
-    min-width: 70px !important;
-    padding: 7px 10px !important;
-    font-size: 0.78rem !important;
-  }
-
-  .admin-avatar {
-    width: 36px !important;
-    height: 36px !important;
-  }
-
-  .admin-listing-thumb {
-    width: 56px !important;
-    height: 42px !important;
   }
 }

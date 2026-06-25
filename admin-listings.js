@@ -5,12 +5,6 @@ import {
 } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// Expose refresh so admin-add-car.js can call it
-window.__refreshListings = async () => {
-  if (typeof loadData === "function") await loadData();
-};
-
-
 // ─── Module-scoped config & state ───
 const SECTION_ID = "listings-section";
 const NAV_ID = "listings-pagination";
@@ -44,20 +38,18 @@ function bindFilters() {
   });
 }
 
-// ─── Section-scoped events (THE KEY FIX) ───
+// ─── Section-scoped events ───
 function bindSectionEvents() {
   const section = document.getElementById(SECTION_ID);
   if (!section) return;
 
   section.addEventListener("click", async (e) => {
-    // Pagination
     const pageBtn = e.target.closest(`#${NAV_ID} [data-nav]`);
     if (pageBtn && !pageBtn.disabled) {
       handlePagination(pageBtn);
       return;
     }
 
-    // Action button
     const actionBtn = e.target.closest("[data-action]");
     if (actionBtn && section.contains(actionBtn)) {
       await handleAction(actionBtn);
@@ -215,70 +207,71 @@ function buildRow(id, listing) {
   </tr>`;
 }
 
-  // ─── Pagination (identical logic, no shared state) ───
-  function renderPagination(nav, totalPages) {
-    if (totalPages <= 1) { nav.innerHTML = ""; return; }
+// ─── Pagination ───
+function renderPagination(nav, totalPages) {
+  if (totalPages <= 1) { nav.innerHTML = ""; return; }
 
-    const pages = buildPageList(state.page, totalPages);
-    const html = [];
+  const pages = buildPageList(state.page, totalPages);
+  const html = [];
 
-    html.push(`<button type="button" class="page-button page-arrow" data-nav="prev" ${state.page === 1 ? "disabled" : ""} aria-label="Previous page">
+  html.push(`<button type="button" class="page-button page-arrow" data-nav="prev" ${state.page === 1 ? "disabled" : ""} aria-label="Previous page">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
   </button>`);
 
-    pages.forEach(p => {
-      if (p === "...") {
-        html.push('<span class="page-ellipsis" aria-hidden="true">…</span>');
-      } else {
-        const active = p === state.page;
-        html.push(`<button type="button" class="page-button ${active ? "active" : ""}" data-nav="num" data-page="${p}" ${active ? 'aria-current="page"' : ""}>${p}</button>`);
-      }
-    });
+  pages.forEach(p => {
+    if (p === "...") {
+      html.push('<span class="page-ellipsis" aria-hidden="true">…</span>');
+    } else {
+      const active = p === state.page;
+      html.push(`<button type="button" class="page-button ${active ? "active" : ""}" data-nav="num" data-page="${p}" ${active ? 'aria-current="page"' : ""}>${p}</button>`);
+    }
+  });
 
-    html.push(`<button type="button" class="page-button page-arrow" data-nav="next" ${state.page === totalPages ? "disabled" : ""} aria-label="Next page">
+  html.push(`<button type="button" class="page-button page-arrow" data-nav="next" ${state.page === totalPages ? "disabled" : ""} aria-label="Next page">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
   </button>`);
 
-    nav.innerHTML = html.join("");
+  nav.innerHTML = html.join("");
+}
+
+function buildPageList(current, total) {
+  if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
+
+  const set = new Set([1, total, current]);
+  if (current - 1 >= 1) set.add(current - 1);
+  if (current + 1 <= total) set.add(current + 1);
+  if (current <= 3) { set.add(2); set.add(3); }
+  if (current >= total - 2) { set.add(total - 1); set.add(total - 2); }
+
+  const sorted = [...set].sort((a, b) => a - b);
+  const out = [];
+  for (let i = 0; i < sorted.length; i++) {
+    if (i > 0 && sorted[i] - sorted[i - 1] > 1) out.push("...");
+    out.push(sorted[i]);
   }
+  return out;
+}
 
-  function buildPageList(current, total) {
-    if (total <= 5) return Array.from({ length: total }, (_, i) => i + 1);
+// ─── Helpers ───
+function formatDate(ts) {
+  if (!ts) return "Recently";
+  try {
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  } catch { return "Recently"; }
+}
 
-    const set = new Set([1, total, current]);
-    if (current - 1 >= 1) set.add(current - 1);
-    if (current + 1 <= total) set.add(current + 1);
-    if (current <= 3) { set.add(2); set.add(3); }
-    if (current >= total - 2) { set.add(total - 1); set.add(total - 2); }
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
-    const sorted = [...set].sort((a, b) => a - b);
-    const out = [];
-    for (let i = 0; i < sorted.length; i++) {
-      if (i > 0 && sorted[i] - sorted[i - 1] > 1) out.push("...");
-      out.push(sorted[i]);
-    }
-    return out;
-  }
+function escapeAttr(s) { return escapeHtml(s); }
 
-  // ─── Helpers ───
-  function formatDate(ts) {
-    if (!ts) return "Recently";
-    try {
-      const d = ts.toDate ? ts.toDate() : new Date(ts);
-      return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
-    } catch { return "Recently"; }
-  }
-
-  function escapeHtml(str) {
-    if (!str) return "";
-    return String(str)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;").replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
-  function escapeAttr(s) { return escapeHtml(s); }
-  // Expose refresh function for admin-add-car.js
-  window.__refreshListings = async () => {
-    await loadData();
-  };
+// Expose refresh function for admin-add-car.js
+window.__refreshListings = async () => {
+  await loadData();
+};

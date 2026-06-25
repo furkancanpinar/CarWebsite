@@ -6,11 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Admin Dashboard | Autex Motors</title>
 
-  <!-- Theme bootstrap -->
-  <script src="theme.js"></script>
+  <!-- Polyfill for older mobile browsers -->
+  <script>
+    if (typeof crypto === 'undefined' || !crypto.randomUUID) {
+      if (!window.crypto) window.crypto = {};
+      window.crypto.randomUUID = function () {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          const r = Math.random() * 16 | 0;
+          const v = c === 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      };
+    }
+  </script>
 
+  <script src="theme.js"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 
 <body data-theme="dark" class="admin-page">
   <div class="page-shell">
@@ -19,21 +32,26 @@
     <div class="top-bar">
       <div class="top-bar-inner">
         <div class="social">
-          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email us" target="_blank" rel="noopener">
+          <a href="mailto:sales@autexmotors.co.uk" class="social-icon" aria-label="Email us" target="_blank"
+            rel="noopener">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
             </svg>
             Email
           </a>
-          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">
+          <a href="https://www.tiktok.com/@autoadz?_r=1&_t=ZN-97Ob1kNCvsE" class="social-icon" aria-label="TikTok"
+            target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z"/>
+              <path
+                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.91a8.16 8.16 0 0 0 4.77 1.52V7a4.85 4.85 0 0 1-1.84-.31z" />
             </svg>
             TikTok
           </a>
           <a href="https://wa.me/447379197842" class="social-icon" aria-label="WhatsApp" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
             </svg>
             WhatsApp
           </a>
@@ -55,9 +73,11 @@
       </div>
 
       <div class="header-actions">
-        <button type="button" class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <button type="button" class="icon-button hamburger-button" aria-label="Open menu" aria-expanded="false"
+          aria-controls="mobile-menu">
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </button>
       </div>
@@ -73,7 +93,8 @@
       <div class="mobile-menu-actions">
         <button type="button" class="button button-secondary" data-modal-target="login-modal">Login</button>
         <button type="button" class="button button-secondary" data-modal-target="signup-modal">Sign Up</button>
-        <button type="button" class="button" id="mobile-theme-toggle" aria-label="Toggle theme" aria-pressed="false">Toggle theme</button>
+        <button type="button" class="button" id="mobile-theme-toggle" aria-label="Toggle theme"
+          aria-pressed="false">Toggle theme</button>
       </div>
     </div>
 
@@ -102,19 +123,31 @@
         <div class="admin-stats-grid">
           <div class="stat-card-modern">
             <div class="stat-icon" aria-hidden="true">👥</div>
-            <div><h3 id="stat-total-users">0</h3><p>Total users</p><span class="stat-trend up">Live</span></div>
+            <div>
+              <h3 id="stat-total-users">0</h3>
+              <p>Total users</p><span class="stat-trend up">Live</span>
+            </div>
           </div>
           <div class="stat-card-modern">
             <div class="stat-icon" aria-hidden="true">🚗</div>
-            <div><h3 id="stat-active-listings">0</h3><p>Active listings</p><span class="stat-trend up">Live</span></div>
+            <div>
+              <h3 id="stat-active-listings">0</h3>
+              <p>Active listings</p><span class="stat-trend up">Live</span>
+            </div>
           </div>
           <div class="stat-card-modern">
             <div class="stat-icon" aria-hidden="true">⏳</div>
-            <div><h3 id="stat-pending">0</h3><p>Pending approval</p><span class="stat-trend warn">Review</span></div>
+            <div>
+              <h3 id="stat-pending">0</h3>
+              <p>Pending approval</p><span class="stat-trend warn">Review</span>
+            </div>
           </div>
           <div class="stat-card-modern">
             <div class="stat-icon" aria-hidden="true">💰</div>
-            <div><h3 id="stat-sold">0</h3><p>Cars sold</p><span class="stat-trend up">Archive</span></div>
+            <div>
+              <h3 id="stat-sold">0</h3>
+              <p>Cars sold</p><span class="stat-trend up">Archive</span>
+            </div>
           </div>
         </div>
       </section>
@@ -133,7 +166,7 @@
           </div>
         </div>
 
-        <div id="add-car-form-wrapper" class="filter-panel" style="display: none; padding: 28px;">
+        <div id="add-car-form-wrapper" class="admin-table-wrapper" style="display: none; padding: 28px;">
           <form id="add-car-form" class="auth-form" autocomplete="off">
             <div class="filter-grid two-col">
               <label>Make
@@ -191,7 +224,8 @@
             </div>
 
             <label>Description
-              <textarea id="car-description" required rows="4" placeholder="Full vehicle description, service history, condition..."></textarea>
+              <textarea id="car-description" required rows="4"
+                placeholder="Full vehicle description, service history, condition..."></textarea>
             </label>
 
             <!-- IMAGE UPLOAD -->
@@ -199,7 +233,8 @@
               <label class="car-image-upload-label" for="car-image-file">
                 <div id="car-image-placeholder" class="car-image-placeholder">
                   <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
-                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                    <path
+                      d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
                   </svg>
                   <p>Click to choose car image</p>
                   <span>JPG, PNG, WEBP — max 5MB</span>
@@ -234,7 +269,8 @@
             <h2>User Management</h2>
           </div>
           <div class="admin-filters">
-            <input id="user-search" class="filter-search" type="search" placeholder="Search users..." aria-label="Search users">
+            <input id="user-search" class="filter-search" type="search" placeholder="Search users..."
+              aria-label="Search users">
             <select id="user-filter-role" class="filter-select" aria-label="Filter by role">
               <option value="">All roles</option>
               <option value="Admin">Admins only</option>
@@ -244,7 +280,7 @@
           </div>
         </div>
 
-        <div class="filter-panel" style="padding: 0; overflow: hidden;">
+        <div class="admin-table-wrapper" style="padding: 0; overflow: hidden;">
           <table class="admin-table">
             <thead>
               <tr>
@@ -257,7 +293,9 @@
               </tr>
             </thead>
             <tbody id="users-tbody">
-              <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">Loading users...</td></tr>
+              <tr>
+                <td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">Loading users...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -282,11 +320,11 @@
           </div>
         </div>
 
-        <div class="filter-panel" style="padding: 0; overflow: hidden;">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th scope="col">Listing</th>
+<div class="admin-table-wrapper" style="padding: 0; overflow: hidden;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th scope="col">Listing</th>
                 <th scope="col">Seller</th>
                 <th scope="col">Price</th>
                 <th scope="col">Submitted</th>
@@ -295,7 +333,9 @@
               </tr>
             </thead>
             <tbody id="listings-tbody">
-              <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">Loading listings...</td></tr>
+              <tr>
+                <td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">Loading listings...</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -359,7 +399,8 @@
       <h3 id="login-title">Log In</h3>
       <form id="login-form" class="auth-form" autocomplete="on">
         <label for="login-email">Email
-          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false">
+          <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="username"
+            inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
         <label for="login-password">Password
           <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
@@ -381,14 +422,17 @@
           <input type="text" id="signup-name" required placeholder="Your name" autocomplete="name">
         </label>
         <label for="signup-email">Email
-          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
+          <input type="email" id="signup-email" required placeholder="you@example.com" autocomplete="email"
+            inputmode="email" autocapitalize="none" spellcheck="false">
         </label>
         <label for="signup-password">Password
-          <input type="password" id="signup-password" required placeholder="Create a password" autocomplete="new-password" minlength="6">
+          <input type="password" id="signup-password" required placeholder="Create a password"
+            autocomplete="new-password" minlength="6">
         </label>
         <div class="actions">
           <button type="submit" class="button">Create account</button>
-          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an account?</button>
+          <button type="button" class="button button-secondary" data-modal-target="login-modal">Have an
+            account?</button>
         </div>
       </form>
     </div>

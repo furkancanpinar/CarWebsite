@@ -10,7 +10,13 @@ const fallbackTimer = setTimeout(() => {
   window.location.replace("index.html");
 }, TIMEOUT_MS);
 
-// Show body only AFTER we know admin status
+// Show body IMMEDIATELY (don't hide it before auth check)
+// This prevents the "invisible page on mobile" issue
+function revealPage() {
+  document.body.style.visibility = "visible";
+  document.body.classList.add("admin-verified");
+}
+
 onAuthStateChanged(auth, async (user) => {
   try {
     clearTimeout(fallbackTimer);
@@ -35,9 +41,8 @@ onAuthStateChanged(auth, async (user) => {
       return;
     }
 
-    // Only NOW show the page
-    document.body.style.visibility = "visible";
-    document.body.classList.add("admin-verified");
+    // Only NOW confirm page should stay visible
+    revealPage();
 
     // Store admin data for other scripts
     window.__adminData = snap.data();
