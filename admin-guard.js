@@ -16,6 +16,14 @@ onAuthStateChanged(auth, async (user) => {
     clearTimeout(fallbackTimer);
 
     if (!user) {
+      // Close any open modals so they don't flash
+      document.querySelectorAll('.modal').forEach(m => {
+        m.classList.remove('open');
+        m.setAttribute('aria-hidden', 'true');
+      });
+      document.body.classList.remove('modal-open');
+      document.documentElement.style.overflow = '';
+
       window.location.replace("index.html");
       return;
     }

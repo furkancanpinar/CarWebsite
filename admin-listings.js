@@ -5,11 +5,17 @@ import {
 } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+// Expose refresh so admin-add-car.js can call it
+window.__refreshListings = async () => {
+  if (typeof loadData === "function") await loadData();
+};
+
+
 // ─── Module-scoped config & state ───
 const SECTION_ID = "listings-section";
-const NAV_ID     = "listings-pagination";
-const BODY_ID    = "listings-tbody";
-const PAGE_SIZE  = 5;
+const NAV_ID = "listings-pagination";
+const BODY_ID = "listings-tbody";
+const PAGE_SIZE = 5;
 
 const state = {
   all: [],
@@ -72,15 +78,15 @@ function handlePagination(btn) {
 
 async function handleAction(btn) {
   const action = btn.dataset.action;
-  const id     = btn.dataset.id;
+  const id = btn.dataset.id;
   if (!id) return;
 
   const messages = {
-    "approve-listing":  "Approve this listing?",
-    "reject-listing":   "Reject this listing?",
-    "mark-as-sold":     "Mark this car as SOLD?",
-    "restore-listing":  "Restore this listing?",
-    "delete-listing":   "Delete this listing permanently?"
+    "approve-listing": "Approve this listing?",
+    "reject-listing": "Reject this listing?",
+    "mark-as-sold": "Mark this car as SOLD?",
+    "restore-listing": "Restore this listing?",
+    "delete-listing": "Delete this listing permanently?"
   };
   if (messages[action] && !confirm(messages[action])) return;
 
@@ -145,7 +151,7 @@ async function loadData() {
 // ─── Render ───
 function renderPage() {
   const tbody = document.getElementById(BODY_ID);
-  const nav   = document.getElementById(NAV_ID);
+  const nav = document.getElementById(NAV_ID);
   if (!tbody || !nav) return;
 
   const filtered = state.status
@@ -156,7 +162,7 @@ function renderPage() {
   if (state.page > totalPages) state.page = totalPages;
   if (state.page < 1) state.page = 1;
 
-  const start     = (state.page - 1) * PAGE_SIZE;
+  const start = (state.page - 1) * PAGE_SIZE;
   const pageItems = filtered.slice(start, start + PAGE_SIZE);
 
   tbody.innerHTML = pageItems.length === 0
@@ -167,8 +173,8 @@ function renderPage() {
 }
 
 function buildRow(id, listing) {
-  const status     = listing.status || "pending";
-  const imageUrl   = listing.imageUrl || "";
+  const status = listing.status || "pending";
+  const imageUrl = listing.imageUrl || "";
   const imageStyle = imageUrl
     ? `background-image:url('${escapeAttr(imageUrl)}'); background-size:cover; background-position:center;`
     : "";
@@ -214,7 +220,7 @@ function renderPagination(nav, totalPages) {
   if (totalPages <= 1) { nav.innerHTML = ""; return; }
 
   const pages = buildPageList(state.page, totalPages);
-  const html  = [];
+  const html = [];
 
   html.push(`<button type="button" class="page-button page-arrow" data-nav="prev" ${state.page === 1 ? "disabled" : ""} aria-label="Previous page">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
@@ -272,3 +278,7 @@ function escapeHtml(str) {
 }
 
 function escapeAttr(s) { return escapeHtml(s); }
+// Expose refresh function for admin-add-car.js
+window.__refreshListings = async () => {
+  await loadData();
+};

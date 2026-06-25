@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body data-theme="dark">
+<body data-theme="dark" class="admin-page">
   <div class="page-shell">
 
     <!-- ==================== TOP BAR ==================== -->
@@ -119,6 +119,113 @@
         </div>
       </section>
 
+      <!-- ==================== ADD CAR ==================== -->
+      <section class="section-block admin-section" id="add-car-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Inventory</p>
+            <h2>Add a Car</h2>
+          </div>
+          <div class="admin-filters">
+            <button type="button" class="button" id="toggle-add-car-form">
+              <span aria-hidden="true">＋</span> Add New Car
+            </button>
+          </div>
+        </div>
+
+        <div id="add-car-form-wrapper" class="filter-panel" style="display: none; padding: 28px;">
+          <form id="add-car-form" class="auth-form" autocomplete="off">
+            <div class="filter-grid two-col">
+              <label>Make
+                <input type="text" id="car-make" required placeholder="e.g. BMW">
+              </label>
+              <label>Model
+                <input type="text" id="car-model" required placeholder="e.g. M4 Competition">
+              </label>
+              <label>Year
+                <input type="number" id="car-year" required min="1900" max="2030" placeholder="2022">
+              </label>
+              <label>Price (£)
+                <input type="number" id="car-price" required min="0" step="1" placeholder="45000">
+              </label>
+              <label>Mileage
+                <input type="number" id="car-mileage" required min="0" placeholder="18500">
+              </label>
+              <label>Fuel Type
+                <select id="car-fuel" required class="filter-select">
+                  <option value="">Select fuel</option>
+                  <option value="Petrol">Petrol</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="Hybrid">Hybrid</option>
+                  <option value="Electric">Electric</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label>Transmission
+                <select id="car-transmission" required class="filter-select">
+                  <option value="">Select transmission</option>
+                  <option value="Automatic">Automatic</option>
+                  <option value="Manual">Manual</option>
+                  <option value="Semi-Auto">Semi-Auto</option>
+                </select>
+              </label>
+              <label>Body Type
+                <select id="car-body" required class="filter-select">
+                  <option value="">Select body</option>
+                  <option value="Saloon">Saloon</option>
+                  <option value="Hatchback">Hatchback</option>
+                  <option value="Estate">Estate</option>
+                  <option value="SUV">SUV</option>
+                  <option value="Coupe">Coupe</option>
+                  <option value="Convertible">Convertible</option>
+                  <option value="MPV">MPV</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label>Colour
+                <input type="text" id="car-colour" required placeholder="e.g. Black Sapphire">
+              </label>
+              <label>Engine Size (L)
+                <input type="number" id="car-engine" step="0.1" min="0" placeholder="3.0">
+              </label>
+            </div>
+
+            <label>Description
+              <textarea id="car-description" required rows="4" placeholder="Full vehicle description, service history, condition..."></textarea>
+            </label>
+
+            <!-- IMAGE UPLOAD -->
+            <div class="car-image-upload">
+              <label class="car-image-upload-label" for="car-image-file">
+                <div id="car-image-placeholder" class="car-image-placeholder">
+                  <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
+                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                  </svg>
+                  <p>Click to choose car image</p>
+                  <span>JPG, PNG, WEBP — max 5MB</span>
+                </div>
+                <input type="file" id="car-image-file" accept="image/*" style="display: none;">
+              </label>
+
+              <div id="car-image-preview" class="car-image-preview" style="display: none;">
+                <img id="car-image-preview-img" alt="Selected car preview">
+                <div class="car-image-preview-info">
+                  <p id="car-image-filename"></p>
+                  <button type="button" class="button button-secondary" id="car-image-remove">Change Image</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="button" id="add-car-submit">Add Car to Inventory</button>
+              <button type="button" class="button button-secondary" id="cancel-add-car">Cancel</button>
+            </div>
+
+            <p id="add-car-status" style="margin: 12px 0 0; color: var(--muted); font-size: 0.9rem;"></p>
+          </form>
+        </div>
+      </section>
+
       <!-- ==================== USER MANAGEMENT (PAGINATION 1) ==================== -->
       <section class="section-block admin-section" id="users-section">
         <div class="section-heading">
@@ -155,7 +262,6 @@
           </table>
         </div>
 
-        <!-- USER PAGINATION (separate from listings) -->
         <nav class="pagination pagination-users" id="users-pagination" aria-label="Users pagination"></nav>
       </section>
 
@@ -194,7 +300,6 @@
           </table>
         </div>
 
-        <!-- LISTINGS PAGINATION (separate from users) -->
         <nav class="pagination pagination-listings" id="listings-pagination" aria-label="Listings pagination"></nav>
       </section>
     </main>
@@ -288,7 +393,6 @@
       </form>
     </div>
   </div>
-  <body data-theme="dark" class="admin-page"></body>
 
   <div class="modal" id="confirm-modal" aria-hidden="true">
     <div class="modal-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
@@ -313,10 +417,8 @@
   <script type="module" src="admin-stats.js"></script>
   <script type="module" src="admin-users.js"></script>
   <script type="module" src="admin-listings.js"></script>
-
-
-
-  
+  <script type="module" src="cloudinary-upload.js"></script>
+  <script type="module" src="admin-add-car.js"></script>
 </body>
 
 </html>
