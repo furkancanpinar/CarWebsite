@@ -150,7 +150,32 @@ function attachDropdownHandlers() {
       mobileToggle.setAttribute('aria-expanded', String(!isOpen));
     });
   }
+
+  // Mobile theme toggle — explicit binding (in case delegation fails)
+  const mobileThemeBtn = document.getElementById('mobile-theme-toggle');
+  if (mobileThemeBtn) {
+    mobileThemeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof window.__themeToggle === 'function') {
+        window.__themeToggle();
+      }
+    });
+  }
+
+  // Desktop theme toggle too (in case it exists on the page)
+  const desktopThemeBtn = document.getElementById('theme-toggle');
+  if (desktopThemeBtn) {
+    desktopThemeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof window.__themeToggle === 'function') {
+        window.__themeToggle();
+      }
+    });
+  }
 }
+
 
 function attachLogoutHandlers() {
   document.querySelectorAll('#logout-btn, #mobile-logout-btn').forEach(btn => {

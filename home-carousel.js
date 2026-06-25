@@ -1,4 +1,4 @@
-// home-carousel.js — Featured cars carousel (random 3 from approved, no index needed)
+// home-carousel.js — Featured cars carousel (redirects to browse.html with car ID)
 import { db, collection, getDocs, query, where } from "./firebase.js";
 
 let currentSlide = 0;
@@ -13,7 +13,7 @@ async function loadFeaturedCarousel() {
   container.innerHTML = '<div class="carousel-loading">Loading featured cars...</div>';
 
   try {
-    // Fetch ALL approved listings (no index needed)
+    // Fetch all approved listings
     const snapshot = await getDocs(
       query(collection(db, "listings"), where("status", "==", "approved"))
     );
@@ -91,7 +91,7 @@ function buildSlide(car, index) {
           </div>
           <p class="carousel-slide-price">${price}</p>
         </div>
-        <button type="button" class="button button-accent carousel-slide-btn view-details-btn" data-car-id="${escapeAttr(car.id)}">View Details →</button>
+        <a href="browse.html?car=${escapeAttr(car.id)}" class="button button-accent carousel-slide-btn">View Details →</a>
       </div>
     </div>
   `;
@@ -155,18 +155,6 @@ function setupControls() {
     const diff = touchStartX - e.changedTouches[0].screenX;
     if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
   }, { passive: true });
-
-  // View Details button → opens modal with full car info
-  carousel.addEventListener('click', (e) => {
-    const btn = e.target.closest('.view-details-btn');
-    if (btn) {
-      const carId = btn.dataset.carId;
-      const car = slides.find(c => c.id === carId);
-      if (car && typeof window.openCarDetailModal === 'function') {
-        window.openCarDetailModal(car);
-      }
-    }
-  });
 }
 
 function escapeHtml(str) {
