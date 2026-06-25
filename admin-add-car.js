@@ -1,4 +1,4 @@
-// admin-add-car.js — Admin-only "Add Car" with Cloudinary image upload
+// admin-add-car.js — Admin-only "Add Car" with multiple Cloudinary uploads
 import {
   auth, db,
   doc, getDoc, setDoc, collection,
@@ -9,7 +9,8 @@ import { uploadToCloudinary } from "./cloudinary-upload.js";
 
 // ─── State ───
 let isAdmin = false;
-let selectedFile = null;
+let selectedFiles = []; // Array of File objects (max 5)
+const MAX_PHOTOS = 5;
 
 // ─── Boot ───
 onAuthStateChanged(auth, async (user) => {
@@ -27,6 +28,7 @@ function bindUI() {
   const cancelBtn = document.getElementById("cancel-add-car");
   const form      = document.getElementById("add-car-form");
   const fileInput = document.getElementById("car-image-file");
+  const pickBtn   = document.getElementById("car-image-pick-btn");
 
   if (!toggleBtn || !wrapper || !form) return;
 
@@ -34,9 +36,6 @@ function bindUI() {
   toggleBtn.addEventListener("click", () => {
     const isOpen = wrapper.style.display !== "none";
     wrapper.style.display = isOpen ? "none" : "block";
-    toggleBtn.innerHTML = isOpen
-      ? '<span aria-hidden="true">＋</span> Add New Car'
-      : '<span aria-hidden="true">×</span> Close Form';
     if (!isOpen) {
       window.scrollTo({ top: wrapper.offsetTop - 100, behavior: "smooth" });
     }
@@ -46,62 +45,114 @@ function bindUI() {
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
       form.reset();
-      clearPreview();
+      clearAllPreviews();
+      selectedFiles = [];
+      if (fileInput) fileInput.value = "";
       wrapper.style.display = "none";
-      toggleBtn.innerHTML = '<span aria-hidden="true">＋</span> Add New Car';
       setStatus("");
     });
   }
 
-  // Image file picker — preview + validate
+  // "Choose Images" button → triggers hidden file input
+  if (pickBtn && fileInput) {
+    pickBtn.addEventListener("click", () => {
+      fileInput.click();
+    });
+  }
+
+  // File input change handler
   if (fileInput) {
     fileInput.addEventListener("change", (e) => {
-      const file = e.target.files?.[0];
-      if (!file) {
-        selectedFile = null;
-        clearPreview();
-        return;
+      const newFiles = Array.from(e.target.files || []);
+
+      // Validate each file
+      const valid = [];
+      for (const file of newFiles) {
+        if (!file.type.startsWith("image/")) {
+          setStatus(`❌ "${file.name}" is not an image.`, "error");
+          continue;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          setStatus(`❌ "${file.name}" is too large (max 10MB).`, "error");
+          continue;
+        }
+        valid.push(file);
       }
 
-      // Validate type
-      if (!file.type.startsWith("image/")) {
-        setStatus("❌ Please choose an image file (JPG, PNG, WEBP).", "error");
-        fileInput.value = "";
-        selectedFile = null;
-        clearPreview();
-        return;
+      // Add to existing selection, enforce max
+      selectedFiles = [...selectedFiles, ...valid].slice(0, MAX_PHOTOS);
+
+      if (selectedFiles.length >= MAX_PHOTOS && valid.length > 0) {
+        setStatus(`ℹ️ Max ${MAX_PHOTOS} photos reached.`, "");
+      } else if (valid.length > 0) {
+        setStatus("");
       }
 
-      // Validate size (max 10MB — Cloudinary free tier limit)
-      const maxMB = 10;
-      if (file.size > maxMB * 1024 * 1024) {
-        setStatus(`❌ Image too large. Max ${maxMB}MB.`, "error");
-        fileInput.value = "";
-        selectedFile = null;
-        clearPreview();
-        return;
-      }
+      // Reset input so user can re-select same file
+      fileInput.value = "";
 
-      selectedFile = file;
-      showPreview(file);
-      setStatus("");
+      renderPreviews();
     });
-
-    // Change Image button — clears current selection
-    const removeBtn = document.getElementById("car-image-remove");
-    if (removeBtn) {
-      removeBtn.addEventListener("click", () => {
-        fileInput.value = "";
-        selectedFile = null;
-        clearPreview();
-      });
-    }
   }
 
   // Submit
   form.addEventListener("submit", handleSubmit);
 }
 
+// ─── Previews ───
+function renderPreviews() {
+  const grid = document.getElementById("car-image-previews-grid");
+  const placeholder = document.getElementById("car-image-placeholder");
+  const counter = document.getElementById("car-image-counter");
+
+  if (!grid) return;
+
+  if (selectedFiles.length === 0) {
+    grid.innerHTML = "";
+    grid.style.display = "none";
+    if (placeholder) placeholder.style.display = "flex";
+    if (counter) counter.textContent = `0 / ${MAX_PHOTOS}`;
+    return;
+  }
+
+  if (placeholder) placeholder.style.display = "none";
+  grid.style.display = "grid";
+  if (counter) counter.textContent = `${selectedFiles.length} / ${MAX_PHOTOS}`;
+
+  grid.innerHTML = selectedFiles.map((file, idx) => {
+    const url = URL.createObjectURL(file);
+    return `
+      <div class="car-thumb-preview">
+        <img src="${url}" alt="Preview ${idx + 1}">
+        <button type="button" class="car-thumb-remove" data-idx="${idx}" aria-label="Remove photo">×</button>
+        ${idx === 0 ? '<span class="car-thumb-badge">Main</span>' : ''}
+      </div>
+    `;
+  }).join("");
+
+  // Wire remove buttons
+  grid.querySelectorAll(".car-thumb-remove").forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx, 10);
+      selectedFiles.splice(idx, 1);
+      renderPreviews();
+    });
+  });
+}
+
+function clearAllPreviews() {
+  const grid = document.getElementById("car-image-previews-grid");
+  const placeholder = document.getElementById("car-image-placeholder");
+  const counter = document.getElementById("car-image-counter");
+  if (grid) {
+    grid.innerHTML = "";
+    grid.style.display = "none";
+  }
+  if (placeholder) placeholder.style.display = "flex";
+  if (counter) counter.textContent = `0 / ${MAX_PHOTOS}`;
+}
+
+// ─── Submit ───
 async function handleSubmit(e) {
   e.preventDefault();
   if (!isAdmin) {
@@ -109,26 +160,36 @@ async function handleSubmit(e) {
     return;
   }
 
-  if (!selectedFile) {
-    setStatus("❌ Please choose an image for the car.", "error");
+  if (selectedFiles.length === 0) {
+    setStatus("❌ Please choose at least 1 image for the car.", "error");
     return;
   }
 
   const submitBtn = document.getElementById("add-car-submit");
   submitBtn.disabled = true;
-  submitBtn.textContent = "Uploading image...";
+  submitBtn.textContent = `Uploading 1 / ${selectedFiles.length}...`;
 
   try {
-    // 1) Upload image to Cloudinary (no CORS issues)
-    const imageUrl = await uploadToCloudinary(selectedFile);
+    // Upload all images sequentially
+    const imageUrls = [];
+    for (let i = 0; i < selectedFiles.length; i++) {
+      submitBtn.textContent = `Uploading ${i + 1} / ${selectedFiles.length}...`;
+      const url = await uploadToCloudinary(selectedFiles[i]);
+      imageUrls.push(url);
+    }
+
     submitBtn.textContent = "Saving listing...";
 
-    // 2) Get admin info
+    // Admin info
     const adminUser = auth.currentUser;
     const adminSnap = await getDoc(doc(db, "admins", adminUser.uid));
     const adminData = adminSnap.data() || {};
 
-    // 3) Build listing
+    // Autotrader link (optional)
+    const autotraderLink = getVal("car-autotrader");
+    const hasAutotrader = autotraderLink && autotraderLink.trim() !== "";
+
+    // Build listing
     const carData = {
       title: `${getVal("car-make")} ${getVal("car-model")}`.trim(),
       make: getVal("car-make"),
@@ -142,7 +203,13 @@ async function handleSubmit(e) {
       colour: getVal("car-colour"),
       engineSize: getVal("car-engine") ? parseFloat(getVal("car-engine")) : null,
       description: getVal("car-description"),
-      imageUrl: imageUrl,
+
+      // Multiple images
+      imageUrl: imageUrls[0],
+      images: imageUrls,
+
+      // Autotrader link (optional)
+      autotraderUrl: hasAutotrader ? autotraderLink.trim() : null,
 
       // Admin-added listings skip approval
       status: "approved",
@@ -157,24 +224,24 @@ async function handleSubmit(e) {
     const docRef = doc(collection(db, "listings"));
     await setDoc(docRef, carData);
 
-    setStatus(`✅ Car added successfully!`, "success");
+    setStatus(`✅ Car added successfully with ${imageUrls.length} photo(s)!`, "success");
 
     // Reset form
     document.getElementById("add-car-form").reset();
-    selectedFile = null;
-    clearPreview();
+    selectedFiles = [];
+    clearAllPreviews();
+    const fileInputEl = document.getElementById("car-image-file");
+    if (fileInputEl) fileInputEl.value = "";
 
     // Refresh listings table
     if (typeof window.__refreshListings === "function") {
       await window.__refreshListings();
     }
 
-    // Close form after 2 seconds
+    // Close form after 2.5 seconds
     setTimeout(() => {
-      const wrapper = document.getElementById("add-car-form-wrapper");
-      const toggleBtn = document.getElementById("toggle-add-car-form");
-      if (wrapper) wrapper.style.display = "none";
-      if (toggleBtn) toggleBtn.innerHTML = '<span aria-hidden="true">＋</span> Add New Car';
+      const wrapperEl = document.getElementById("add-car-form-wrapper");
+      if (wrapperEl) wrapperEl.style.display = "none";
       setStatus("");
     }, 2500);
 
@@ -182,48 +249,13 @@ async function handleSubmit(e) {
     console.error("Add car error:", err);
     setStatus(`❌ Failed: ${err.message}`, "error");
   } finally {
+    // ALWAYS re-enable the button
     submitBtn.disabled = false;
     submitBtn.textContent = "Add Car to Inventory";
   }
 }
 
-// ─── Preview helpers ───
-function showPreview(file) {
-  const previewWrap = document.getElementById("car-image-preview");
-  const previewImg  = document.getElementById("car-image-preview-img");
-  const fileName    = document.getElementById("car-image-filename");
-  const placeholder = document.getElementById("car-image-placeholder");
-
-  if (!previewWrap || !previewImg) return;
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    previewImg.src = e.target.result;
-    previewWrap.style.display = "flex";
-    if (placeholder) placeholder.style.display = "none";
-    if (fileName) fileName.textContent = `${file.name} (${formatSize(file.size)})`;
-  };
-  reader.readAsDataURL(file);
-}
-
-function clearPreview() {
-  const previewWrap = document.getElementById("car-image-preview");
-  const previewImg  = document.getElementById("car-image-preview-img");
-  const fileName    = document.getElementById("car-image-filename");
-  const placeholder = document.getElementById("car-image-placeholder");
-
-  if (previewWrap) previewWrap.style.display = "none";
-  if (previewImg) previewImg.src = "";
-  if (fileName) fileName.textContent = "";
-  if (placeholder) placeholder.style.display = "flex";
-}
-
-function formatSize(bytes) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
-}
-
+// ─── Helpers ───
 function getVal(id) {
   const el = document.getElementById(id);
   return el ? el.value.trim() : "";

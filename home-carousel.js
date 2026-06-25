@@ -1,5 +1,5 @@
-// home-carousel.js — Featured cars carousel
-import { db, collection, getDocs, query, where, limit, orderBy } from "./firebase.js";
+// home-carousel.js — Featured cars carousel (random 3 from approved, no index needed)
+import { db, collection, getDocs, query, where } from "./firebase.js";
 
 let currentSlide = 0;
 let slides = [];
@@ -13,12 +13,9 @@ async function loadFeaturedCarousel() {
   container.innerHTML = '<div class="carousel-loading">Loading featured cars...</div>';
 
   try {
-    // Get the 3 most recent approved listings — deterministic
+    // Fetch ALL approved listings (no index needed)
     const snapshot = await getDocs(
-      query(collection(db, "listings"),
-        where("status", "==", "approved"),
-        orderBy("createdAt", "desc"),
-        limit(3))
+      query(collection(db, "listings"), where("status", "==", "approved"))
     );
 
     if (snapshot.empty) {
@@ -31,8 +28,12 @@ async function loadFeaturedCarousel() {
       return;
     }
 
-    slides = [];
-    snapshot.forEach(doc => slides.push({ id: doc.id, ...doc.data() }));
+    // Collect all approved listings
+    const allApproved = [];
+    snapshot.forEach(doc => allApproved.push({ id: doc.id, ...doc.data() }));
+
+    // Shuffle and pick 3 random cars
+    slides = shuffleArray(allApproved).slice(0, 3);
 
     container.innerHTML = slides.map((car, i) => buildSlide(car, i)).join('');
 
@@ -50,12 +51,23 @@ async function loadFeaturedCarousel() {
     startAutoSlide();
   } catch (err) {
     console.error('Carousel load failed:', err);
-    container.innerHTML = `<div class="carousel-empty" style="color:#f87171;">Error: ${err.message}</div>`;
+    container.innerHTML = `<div class="carousel-empty" style="color:#f87171;">Error: ${escapeHtml(err.message)}</div>`;
   }
 }
 
+// Fisher-Yates shuffle
+function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function buildSlide(car, index) {
-  const imageUrl = car.imageUrl || '';
+  // Use first image from images array, fallback to imageUrl
+  const imageUrl = (car.images && car.images[0]) || car.imageUrl || '';
   const imageStyle = imageUrl
     ? `background-image:url('${escapeAttr(imageUrl)}');`
     : `background: linear-gradient(135deg, #1e293b 0%, #334155 100%);`;
@@ -79,7 +91,7 @@ function buildSlide(car, index) {
           </div>
           <p class="carousel-slide-price">${price}</p>
         </div>
-        <a href="car.html?id=${escapeAttr(car.id)}" class="button button-accent carousel-slide-btn">View Details →</a>
+        <button type="button" class="button button-accent carousel-slide-btn view-details-btn" data-car-id="${escapeAttr(car.id)}">View Details →</button>
       </div>
     </div>
   `;
@@ -133,6 +145,7 @@ function setupControls() {
   carousel.addEventListener('mouseenter', stopAutoSlide);
   carousel.addEventListener('mouseleave', startAutoSlide);
 
+  // Touch/swipe support
   let touchStartX = 0;
   carousel.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
@@ -142,6 +155,18 @@ function setupControls() {
     const diff = touchStartX - e.changedTouches[0].screenX;
     if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
   }, { passive: true });
+
+  // View Details button → opens modal with full car info
+  carousel.addEventListener('click', (e) => {
+    const btn = e.target.closest('.view-details-btn');
+    if (btn) {
+      const carId = btn.dataset.carId;
+      const car = slides.find(c => c.id === carId);
+      if (car && typeof window.openCarDetailModal === 'function') {
+        window.openCarDetailModal(car);
+      }
+    }
+  });
 }
 
 function escapeHtml(str) {
@@ -151,6 +176,7 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
+
 function escapeAttr(str) { return escapeHtml(str); }
 
 window.refreshCarousel = loadFeaturedCarousel;

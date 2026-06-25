@@ -1,4 +1,4 @@
-// browse-listings.js — Load + filter + paginate approved listings
+// browse-listings.js — Load + filter + paginate approved listings + View Details modal
 import { db, collection, getDocs, query, where } from "./firebase.js";
 
 // ============================================================
@@ -25,11 +25,9 @@ async function loadApprovedListings() {
     allListings = [];
     snapshot.forEach(doc => allListings.push({ id: doc.id, ...doc.data() }));
 
-    // Total available count (across all pages)
     const countEl = document.getElementById('listings-count');
     if (countEl) countEl.textContent = allListings.length.toLocaleString();
 
-    // Pre-fill filters from URL params (from quick-search redirect)
     const params = new URLSearchParams(window.location.search);
     const urlMake = (params.get('make') || '').toLowerCase();
     const urlMaxPrice = params.get('maxPrice') || '';
@@ -47,6 +45,7 @@ async function loadApprovedListings() {
 
     bindFilterControls();
     initMobileFilterSheet();
+    bindViewDetailsModal();
     applyFilters();
   } catch (err) {
     console.error('Load listings error:', err);
@@ -73,7 +72,6 @@ function bindFilterControls() {
     if (el) el.addEventListener(evt, applyFilters);
   });
 
-  // Live price label update
   const range = document.getElementById('price-range');
   const rangeLabel = document.getElementById('price-range-value');
   if (range && rangeLabel) {
@@ -83,7 +81,6 @@ function bindFilterControls() {
     });
   }
 
-  // Apply Filters button (also closes mobile sheet)
   document.getElementById('apply-filters')?.addEventListener('click', () => {
     applyFilters();
     if (window.innerWidth <= 760) {
@@ -91,7 +88,6 @@ function bindFilterControls() {
     }
   });
 
-  // Reset button (desktop)
   document.getElementById('reset-filters')?.addEventListener('click', () => {
     ['search-make', 'filter-year', 'filter-fuel', 'filter-mileage',
      'filter-transmission', 'sort-by'].forEach(id => {
@@ -120,7 +116,6 @@ function applyFilters() {
   const transmission  = document.getElementById('filter-transmission')?.value || '';
   const sortBy        = document.getElementById('sort-by')?.value || 'recommended';
 
-  // Filter
   let filtered = allListings.filter(car => {
     const haystack = `${car.make || ''} ${car.model || ''} ${car.title || ''}`.toLowerCase();
     if (search && !haystack.includes(search)) return false;
@@ -140,7 +135,6 @@ function applyFilters() {
     return true;
   });
 
-  // Sort
   switch (sortBy) {
     case 'price-asc':  filtered.sort((a, b) => (a.price || 0) - (b.price || 0)); break;
     case 'price-desc': filtered.sort((a, b) => (b.price || 0) - (a.price || 0)); break;
@@ -148,14 +142,12 @@ function applyFilters() {
     case 'mileage':    filtered.sort((a, b) => (a.mileage || 0) - (b.mileage || 0)); break;
   }
 
-  // If filters changed, reset to page 1
   const filterKey = `${search}|${maxPrice}|${year}|${fuel}|${maxMileage}|${transmission}|${sortBy}`;
   if (filterKey !== lastFilterKey) {
     currentPage = 1;
     lastFilterKey = filterKey;
   }
 
-  // Paginate
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   if (currentPage > totalPages) currentPage = totalPages;
 
@@ -196,7 +188,8 @@ function renderListings(cars) {
 }
 
 function buildCarCard(id, car) {
-  const imageUrl = car.imageUrl || '';
+  // Use first image from `images` array, fallback to imageUrl
+  const imageUrl = (car.images && car.images[0]) || car.imageUrl || '';
   const imageStyle = imageUrl
     ? `background-image:url('${escapeAttr(imageUrl)}'); background-size:cover; background-position:center;`
     : `background: linear-gradient(160deg, #1e293b 0%, #334155 100%);`;
@@ -204,11 +197,16 @@ function buildCarCard(id, car) {
   const title = car.title || `${car.make || ''} ${car.model || ''}`.trim() || 'Featured Car';
   const price = car.price ? `£${car.price.toLocaleString()}` : '—';
 
+  // Multi-photo badge
+  const photoCount = (car.images && car.images.length) || 1;
+  const photoBadge = photoCount > 1 ? `<span class="badge photo-count">📷 ${photoCount}</span>` : '';
+
   return `
     <article class="car-card" data-id="${escapeAttr(id)}">
       <div class="car-image" style="${imageStyle}">
         <button type="button" class="favorite-button" aria-label="Save car">♥</button>
         <span class="badge verified">Available</span>
+        ${photoBadge}
       </div>
       <div class="car-content">
         <div class="car-title">
@@ -220,20 +218,162 @@ function buildCarCard(id, car) {
           <li>${car.year || '—'}</li>
           <li>${escapeHtml(car.fuel || '—')}</li>
         </ul>
-        <a href="car.html?id=${escapeAttr(id)}" class="button button-secondary-outline">View Details</a>
+        <button type="button" class="button button-secondary-outline" data-view-details="${escapeAttr(id)}">View Details</button>
       </div>
     </article>
   `;
 }
 
 // ============================================================
-// PAGINATION (sliding window with arrows + ellipsis)
+// VIEW DETAILS MODAL
+// ============================================================
+let currentDetailCar = null;
+
+function bindViewDetailsModal() {
+  const grid = document.getElementById('listings-grid');
+  if (!grid) return;
+
+  grid.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-view-details]');
+    if (btn) {
+      const id = btn.dataset.viewDetails;
+      const car = allListings.find(c => c.id === id);
+      if (car) openDetailModal(car);
+    }
+  });
+}
+
+function openDetailModal(car) {
+  currentDetailCar = car;
+
+  // Get all images (support both old `imageUrl` and new `images` array)
+  const images = (car.images && car.images.length) ? car.images : (car.imageUrl ? [car.imageUrl] : []);
+
+  const title = car.title || `${car.make || ''} ${car.model || ''}`.trim() || 'Vehicle';
+  const price = car.price ? `£${car.price.toLocaleString()}` : '—';
+  const hasAutotrader = !!car.autotraderUrl;
+
+  const modalHtml = `
+    <div class="modal" id="car-detail-modal" aria-hidden="false">
+      <div class="modal-panel car-detail-panel" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="car-detail-title">
+        <button type="button" class="modal-close" aria-label="Close">×</button>
+
+        <div class="car-detail-header">
+          <h2 id="car-detail-title">${escapeHtml(title)}</h2>
+          <p class="car-detail-price">${price}</p>
+        </div>
+
+        ${images.length > 0 ? `
+          <div class="car-detail-gallery">
+            <div class="car-detail-main-image" id="car-detail-main-image" style="background-image:url('${escapeAttr(images[0])}'); background-size:cover; background-position:center;"></div>
+            ${images.length > 1 ? `
+              <div class="car-detail-thumbs" id="car-detail-thumbs">
+                ${images.map((img, i) => `
+                  <button type="button" class="car-detail-thumb ${i === 0 ? 'active' : ''}" data-img="${escapeAttr(img)}" data-idx="${i}" style="background-image:url('${escapeAttr(img)}'); background-size:cover; background-position:center;" aria-label="View image ${i + 1}"></button>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        ` : ''}
+
+        <div class="car-detail-body">
+          <div class="car-detail-specs">
+            ${car.year ? `<div class="car-detail-spec"><span>Year</span><strong>${car.year}</strong></div>` : ''}
+            ${car.mileage ? `<div class="car-detail-spec"><span>Mileage</span><strong>${car.mileage.toLocaleString()} mi</strong></div>` : ''}
+            ${car.fuel ? `<div class="car-detail-spec"><span>Fuel</span><strong>${escapeHtml(car.fuel)}</strong></div>` : ''}
+            ${car.transmission ? `<div class="car-detail-spec"><span>Transmission</span><strong>${escapeHtml(car.transmission)}</strong></div>` : ''}
+            ${car.bodyType ? `<div class="car-detail-spec"><span>Body</span><strong>${escapeHtml(car.bodyType)}</strong></div>` : ''}
+            ${car.colour ? `<div class="car-detail-spec"><span>Colour</span><strong>${escapeHtml(car.colour)}</strong></div>` : ''}
+            ${car.engineSize ? `<div class="car-detail-spec"><span>Engine</span><strong>${car.engineSize}L</strong></div>` : ''}
+          </div>
+
+          ${car.description ? `
+            <div class="car-detail-description">
+              <h3>Description</h3>
+              <p>${escapeHtml(car.description).replace(/\n/g, '<br>')}</p>
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="car-detail-actions">
+          <button type="button" class="button button-accent car-detail-action-btn" id="car-detail-view-btn" style="flex:1;">
+            View Details
+          </button>
+          ${hasAutotrader ? `
+            <a href="${escapeAttr(car.autotraderUrl)}" target="_blank" rel="noopener" class="button button-secondary car-detail-action-btn" style="flex:1; text-decoration:none; text-align:center;">
+              Autotrader ↗
+            </a>
+          ` : `
+            <button type="button" class="button button-secondary car-detail-action-btn" disabled style="flex:1; opacity:0.5; cursor:not-allowed;">
+              No Autotrader
+            </button>
+          `}
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Remove existing modal if any
+  const existing = document.getElementById('car-detail-modal');
+  if (existing) existing.remove();
+
+  // Append to body
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+  // Wire up gallery thumbnails
+  const newModal = document.getElementById('car-detail-modal');
+  const mainImage = document.getElementById('car-detail-main-image');
+  document.querySelectorAll('.car-detail-thumb').forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const img = thumb.dataset.img;
+      if (mainImage && img) {
+        mainImage.style.backgroundImage = `url('${img}')`;
+        document.querySelectorAll('.car-detail-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      }
+    });
+  });
+
+  // View Details button (scrolls to description or just closes for now)
+  document.getElementById('car-detail-view-btn')?.addEventListener('click', () => {
+    const desc = document.querySelector('.car-detail-description');
+    if (desc) desc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  // Close handlers
+  newModal.querySelector('.modal-close')?.addEventListener('click', () => newModal.remove());
+  newModal.addEventListener('click', (e) => {
+    if (e.target === newModal) newModal.remove();
+  });
+
+  // ESC to close
+  const escHandler = (e) => {
+    if (e.key === 'Escape') {
+      newModal.remove();
+      document.removeEventListener('keydown', escHandler);
+    }
+  };
+  document.addEventListener('keydown', escHandler);
+
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+  // Restore on close
+  const observer = new MutationObserver(() => {
+    if (!document.getElementById('car-detail-modal')) {
+      document.body.style.overflow = '';
+      observer.disconnect();
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+}
+
+// ============================================================
+// PAGINATION
 // ============================================================
 function renderPagination(totalPages) {
   const nav = document.getElementById('pagination');
   if (!nav) return;
 
-  // No pagination needed for 0 or 1 page
   if (totalPages <= 1) {
     nav.innerHTML = '';
     return;
@@ -242,7 +382,6 @@ function renderPagination(totalPages) {
   const pages = buildPageList(currentPage, totalPages);
   const parts = [];
 
-  // Prev arrow
   parts.push(`
     <button type="button" class="page-button page-arrow" data-page="${currentPage - 1}"
       ${currentPage === 1 ? 'disabled' : ''} aria-label="Previous page">
@@ -252,7 +391,6 @@ function renderPagination(totalPages) {
     </button>
   `);
 
-  // Numbered buttons + ellipses
   pages.forEach(p => {
     if (p === '...') {
       parts.push('<span class="page-ellipsis" aria-hidden="true">…</span>');
@@ -265,7 +403,6 @@ function renderPagination(totalPages) {
     }
   });
 
-  // Next arrow
   parts.push(`
     <button type="button" class="page-button page-arrow" data-page="${currentPage + 1}"
       ${currentPage === totalPages ? 'disabled' : ''} aria-label="Next page">
@@ -277,7 +414,6 @@ function renderPagination(totalPages) {
 
   nav.innerHTML = parts.join('');
 
-  // Click handlers
   nav.querySelectorAll('button[data-page]').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = parseInt(btn.dataset.page, 10);
@@ -285,22 +421,11 @@ function renderPagination(totalPages) {
       if (target === currentPage) return;
       currentPage = target;
       applyFilters();
-      // Smooth scroll to top of listings
       document.getElementById('listings-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 }
 
-/**
- * Build a list of page numbers + '...' for a sliding window.
- *
- * Examples (totalPages=10):
- *   current=1  → [1, 2, 3, 4, 5, '...', 10]
- *   current=3  → [1, 2, 3, 4, 5, '...', 10]      (3 in the middle-ish, 4 next)
- *   current=5  → [1, '...', 4, 5, 6, '...', 10]  (5 dead centre, 4 + 6 flanking)
- *   current=8  → [1, '...', 6, 7, 8, 9, 10]
- *   current=10 → [1, '...', 6, 7, 8, 9, 10]
- */
 function buildPageList(current, total) {
   if (total <= 5) {
     return Array.from({ length: total }, (_, i) => i + 1);
@@ -314,13 +439,11 @@ function buildPageList(current, total) {
   if (current - 1 >= 1) pages.add(current - 1);
   if (current + 1 <= total) pages.add(current + 1);
 
-  // Near start: show 2 and 3 too
   if (current <= 3) {
     pages.add(2);
     pages.add(3);
   }
 
-  // Near end: show total-1 and total-2 too
   if (current >= total - 2) {
     pages.add(total - 1);
     pages.add(total - 2);
@@ -336,7 +459,7 @@ function buildPageList(current, total) {
 }
 
 // ============================================================
-// TITLE + FILTER COUNT BADGE
+// TITLE + FILTER COUNT
 // ============================================================
 function updatePageTitle(search, maxPrice) {
   const titleEl = document.getElementById('page-title');
@@ -371,7 +494,7 @@ function updateFilterCount(search, maxPrice, year, fuel, maxMileage, transmissio
 }
 
 // ============================================================
-// MOBILE FILTER SHEET (open/close + backdrop)
+// MOBILE FILTER SHEET
 // ============================================================
 function initMobileFilterSheet() {
   const trigger = document.getElementById('mobile-filter-trigger');
@@ -379,7 +502,6 @@ function initMobileFilterSheet() {
   const closeBtn = document.getElementById('filter-panel-close');
   if (!trigger || !panel) return;
 
-  // Create backdrop once
   let backdrop = document.querySelector('.filter-backdrop');
   if (!backdrop) {
     backdrop = document.createElement('div');
@@ -395,7 +517,6 @@ function initMobileFilterSheet() {
     document.body.style.overflow = 'hidden';
   }
 
-  // exposed for apply-filters button
   window.closeFilterSheet = function() {
     panel.classList.remove('is-open');
     backdrop.classList.remove('is-visible');
@@ -414,7 +535,6 @@ function initMobileFilterSheet() {
     }
   });
 
-  // Swipe down to close
   let touchStartY = 0;
   panel.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
