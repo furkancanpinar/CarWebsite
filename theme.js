@@ -1,9 +1,12 @@
-// theme.js — Bulletproof theme handler with no FOUC + mobile menu support
+// theme.js — Bulletproof theme handler (no FOUC, works everywhere)
 (function () {
+  'use strict';
+
   const THEME_KEY = 'autex-theme';
   const VALID_THEMES = ['light', 'dark'];
   const DEFAULT_THEME = 'dark';
 
+  // ─── 1. Apply theme EARLY (before body renders) ───
   function readStoredTheme() {
     try {
       const stored = localStorage.getItem(THEME_KEY);
@@ -29,7 +32,7 @@
     if (src) img.src = src;
   }
 
-  // Apply theme as early as possible
+  // Apply immediately, or wait for DOM
   if (!applyTheme()) {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', applyTheme, { once: true });
@@ -38,11 +41,13 @@
     }
   }
 
-  // Toggle theme handler
+  // ─── 2. Toggle handler ───
   function toggleTheme() {
     const body = document.body;
     if (!body) return;
-    const next = body.dataset.theme === 'light' ? 'dark' : 'light';
+    const current = body.dataset.theme;
+    const next = current === 'light' ? 'dark' : 'light';
+
     body.dataset.theme = next;
     try { localStorage.setItem(THEME_KEY, next); } catch {}
     swapLogo(next);
@@ -51,6 +56,8 @@
     // Close mobile menu if open
     const header = document.querySelector('.site-header');
     if (header) header.classList.remove('menu-open');
+
+    console.log('[Theme] switched to:', next);
   }
 
   function updateAria(theme) {
@@ -61,19 +68,64 @@
     });
   }
 
-  // Wire up theme toggle using event delegation (works even for dynamically added buttons)
+  // ─── 3. Bind click handler (works on dynamically-added buttons) ───
+  function handleThemeClick(e) {
+    const btn = e.target.closest('#theme-toggle, #mobile-theme-toggle');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    toggleTheme();
+  }
+
+  // Use both delegation AND direct binding for maximum compatibility
   function bindThemeToggle() {
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('#theme-toggle, #mobile-theme-toggle');
-      if (btn) {
+    // Delegated click on document (catches dynamically added buttons)
+    document.addEventListener('click', handleThemeClick, true); // capture phase
+
+    // Direct binding for initial buttons (faster response)
+    document.querySelectorAll('#theme-toggle, #mobile-theme-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         toggleTheme();
-      }
+      });
     });
   }
 
-  // Cross-tab sync
+  // ─── 4. Re-bind when new buttons appear ───
+  function watchForNewToggles() {
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType !== 1) continue;
+          // Check if the added node IS a theme toggle
+          if (node.id === 'theme-toggle' || node.id === 'mobile-theme-toggle') {
+            // Direct bind
+            node.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleTheme();
+            });
+          }
+          // Check if the added node CONTAINS theme toggles
+          if (node.querySelectorAll) {
+            const toggles = node.querySelectorAll('#theme-toggle, #mobile-theme-toggle');
+            toggles.forEach(btn => {
+              btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleTheme();
+              });
+            });
+          }
+        }
+      }
+      updateAria(document.body.dataset.theme);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  // ─── 5. Cross-tab sync ───
   window.addEventListener('storage', (e) => {
     if (e.key === THEME_KEY && e.newValue) {
       document.body.dataset.theme = e.newValue;
@@ -82,19 +134,12 @@
     }
   });
 
-  // Watch for new theme toggle buttons and update their ARIA
-  function watchForNewToggles() {
-    const observer = new MutationObserver(() => {
-      updateAria(document.body.dataset.theme);
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
-
-  // Boot
+  // ─── 6. Boot ───
   function boot() {
     bindThemeToggle();
     updateAria(document.body.dataset.theme);
     watchForNewToggles();
+    console.log('[Theme] initialized. Current theme:', document.body.dataset.theme);
   }
 
   if (document.readyState === 'loading') {
@@ -103,9 +148,7 @@
     boot();
   }
 
-  // Expose for external re-binding if needed
+  // Expose globally for debugging
   window.__themeToggle = toggleTheme;
-  window.__refreshThemeAria = updateAria;
-
   window.getTheme = () => document.body.dataset.theme;
 })();

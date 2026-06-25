@@ -1,4 +1,4 @@
-// auth-menu.js — Update UI based on auth state (mobile-safe)
+// auth-menu.js — Update UI based on auth state (with always-present theme toggle)
 import { auth, onAuthStateChanged, signOut } from "./firebase.js";
 
 onAuthStateChanged(auth, (user) => {
@@ -10,18 +10,17 @@ function showLoggedIn(user) {
   const initial = (user.email || '?').charAt(0).toUpperCase();
   const emailShort = shortenEmail(user.email);
 
-  // ─── DESKTOP: Replace login button with user menu ───
+  // ─── DESKTOP ───
   document.querySelectorAll('[data-modal-target="login-modal"]').forEach(btn => {
     if (btn.closest('.mobile-menu')) return;
     btn.outerHTML = buildUserMenu(initial, user.email);
   });
 
-  // ─── DESKTOP: Hide signup button ───
   document.querySelectorAll('[data-modal-target="signup-modal"]').forEach(btn => {
     if (!btn.closest('.mobile-menu')) btn.style.display = 'none';
   });
 
-  // ─── MOBILE: Force replace entire mobile menu actions ───
+  // ─── MOBILE: Always include theme toggle ───
   const mobileMenu = document.getElementById('mobile-menu');
   if (mobileMenu) {
     const mobileActions = mobileMenu.querySelector('.mobile-menu-actions');
@@ -57,17 +56,14 @@ function showLoggedIn(user) {
 }
 
 function showLoggedOut() {
-  // Restore desktop login buttons
   document.querySelectorAll('.user-menu-wrapper').forEach(el => {
     el.outerHTML = `<button type="button" class="button button-secondary" data-modal-target="login-modal">Login</button>`;
   });
 
-  // Re-show desktop signup
   document.querySelectorAll('[data-modal-target="signup-modal"]').forEach(btn => {
     btn.style.display = '';
   });
 
-  // Restore mobile menu actions
   const mobileMenu = document.getElementById('mobile-menu');
   if (mobileMenu) {
     const mobileActions = mobileMenu.querySelector('.mobile-menu-actions');
@@ -150,32 +146,7 @@ function attachDropdownHandlers() {
       mobileToggle.setAttribute('aria-expanded', String(!isOpen));
     });
   }
-
-  // Mobile theme toggle — explicit binding (in case delegation fails)
-  const mobileThemeBtn = document.getElementById('mobile-theme-toggle');
-  if (mobileThemeBtn) {
-    mobileThemeBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (typeof window.__themeToggle === 'function') {
-        window.__themeToggle();
-      }
-    });
-  }
-
-  // Desktop theme toggle too (in case it exists on the page)
-  const desktopThemeBtn = document.getElementById('theme-toggle');
-  if (desktopThemeBtn) {
-    desktopThemeBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (typeof window.__themeToggle === 'function') {
-        window.__themeToggle();
-      }
-    });
-  }
 }
-
 
 function attachLogoutHandlers() {
   document.querySelectorAll('#logout-btn, #mobile-logout-btn').forEach(btn => {
