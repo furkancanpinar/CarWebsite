@@ -90,23 +90,49 @@ async function handleAction(btn) {
 }
 
 async function relistCar(soldId) {
-  // Get sold data
-  const soldSnap = await getDoc(doc(db, "sold", soldId));
-  if (!soldSnap.exists()) throw new Error("Sold car not found");
-  const data = soldSnap.data();
+  try {
+    // Get sold data
+    const soldSnap = await getDoc(doc(db, "sold", soldId));
+    if (!soldSnap.exists()) throw new Error("Sold car not found");
+    const data = soldSnap.data();
+    console.log('[relist] Sold data keys:', Object.keys(data));
 
-  // Restore as active listing
-  const { soldAt, originalListingId, ...listingData } = data;
-  listingData.status = "approved";
-  listingData.relistedAt = serverTimestamp();
-  listingData.createdAt = data.createdAt || serverTimestamp();
+    // Strip sold-specific fields
+    const cleanData = {
+      title: data.title || '',
+      make: data.make || '',
+      model: data.model || '',
+      year: data.year || 0,
+      price: data.price || 0,
+      mileage: data.mileage || 0,
+      fuel: data.fuel || '',
+      transmission: data.transmission || '',
+      description: data.description || '',
+      imageUrl: data.imageUrl || (data.images && data.images[0]) || '',
+      status: 'approved',
+      sellerId: data.sellerId || '',
+      sellerName: data.sellerName || '',
+      createdAt: serverTimestamp(),  // Use serverTimestamp for new doc
+      relistedAt: serverTimestamp(),
+      relistedFrom: soldId
+    };
 
-  const newListingRef = doc(collection(db, "listings"));
-  await setDoc(newListingRef, listingData);
+    console.log('[relist] Clean data:', cleanData);
 
-  // Delete from sold
-  await deleteDoc(doc(db, "sold", soldId));
+    // Create new listing
+    const newListingRef = doc(collection(db, "listings"));
+    await setDoc(newListingRef, cleanData);
+    console.log('[relist] Listing created:', newListingRef.id);
+
+    // Delete from sold
+    await deleteDoc(doc(db, "sold", soldId));
+    console.log('[relist] Done!');
+  } catch (err) {
+    console.error('[relist] Failed at step:', err.code, err.message);
+    throw err;
+  }
 }
+
 
 // ─── Load ───
 async function loadData() {
