@@ -91,14 +91,6 @@
     });
   }
 
-  // ─── iOS PASSWORD AUTOFILL FIX ───
-  // Mark all closed modals as inert on load (prevents iOS password autofill)
-  function initInertModals() {
-    document.querySelectorAll('.modal[aria-hidden="true"]').forEach(modal => {
-      modal.setAttribute('inert', '');
-    });
-  }
-
   // ─── Modal handling (shared) ───
   let savedScroll = 0;
   let lastFocusedTrigger = null;
@@ -112,19 +104,19 @@
     document.body.classList.add('modal-open');
     modal.setAttribute('aria-hidden', 'false');
     modal.classList.add('open');
-    modal.removeAttribute('inert'); // ← Remove inert when opening
+    // NOTE: removed `inert` manipulation — it breaks inputs on iOS/mobile
 
     const focusable = modal.querySelector(
       'input, select, textarea, button:not(.modal-close), [href], [tabindex]:not([tabindex="-1"])'
     );
-    (focusable || modal.querySelector('.modal-panel'))?.focus();
+    if (focusable) focusable.focus();
+    else modal.querySelector('.modal-panel')?.focus();
   }
 
   function closeModal(modal) {
     if (!modal) return;
     modal.setAttribute('aria-hidden', 'true');
     modal.classList.remove('open');
-    modal.setAttribute('inert', ''); // ← Add inert when closing (iOS autofill fix)
     document.body.classList.remove('modal-open');
     document.documentElement.style.overflow = '';
     window.scrollTo(0, savedScroll);
@@ -195,7 +187,6 @@
     window.addEventListener('resize', adjustHitTargets);
     initMobileMenu();
     initModals();
-    initInertModals(); // ← iOS autofill fix on load
   }
 
   if (document.readyState === 'loading') {
@@ -204,13 +195,6 @@
     init();
   }
 
-  // Mark any newly added modals as inert immediately
-  const observer = new MutationObserver(() => {
-    initInertModals();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-
   // Allow other scripts to re-bind modal handlers after replacing DOM
   window.reInitModals = initModals;
 })();
-  
