@@ -10,7 +10,7 @@ import { uploadToCloudinary } from "./cloudinary-upload.js";
 // ─── State ───
 let isAdmin = false;
 let selectedFiles = []; // Array of File objects (max 5)
-const MAX_PHOTOS = 5;
+const MAX_PHOTOS = 35;
 
 // ─── Boot ───
 onAuthStateChanged(auth, async (user) => {
