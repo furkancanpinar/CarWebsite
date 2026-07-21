@@ -1521,9 +1521,35 @@ body[data-theme='light'] .welcome-title {
   font-size: 0.9rem;
 }
 
-.admin-edit-panel button:disabled {
+..admin-edit-panel button:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+.admin-image-edit-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.admin-image-edit-button {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 10;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(14, 165, 233, 0.92);
+  color: #fff;
+  font-size: 0.78rem;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.admin-image-edit-button:hover {
+  transform: translateY(-1px);
 }
 
 .admin-edit-mode-pill {

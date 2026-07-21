@@ -1,4 +1,4 @@
-// site-content.js — Dynamic site text for homepage with admin edit mode
+// site-content.js — Dynamic site text with admin edit toggle and image support
 import { auth, db, doc, getDoc, setDoc, onAuthStateChanged } from "./firebase.js";
 
 const PAGE_DOC_PREFIX = "site";
@@ -7,8 +7,16 @@ const SAVE_MESSAGE = "Content published";
 const NO_CHANGES_MESSAGE = "No changes to publish";
 const FAILED_MESSAGE = "Publish failed";
 const TOAST_DURATION = 1800;
+const ADMIN_PANEL_ID = 'admin-edit-panel';
+const ADMIN_TOGGLE_ID = 'admin-edit-toggle';
+const ADMIN_STATUS_ID = 'admin-edit-panel-status';
+const ADMIN_PILL_ID = 'admin-edit-pill';
+
 let adminMode = false;
+let editEnabled = false;
 let toastTimeout = null;
+const editableListeners = new WeakMap();
+const imageEditors = new WeakMap();
 
 const pageKey = document.body.dataset.pageKey || derivePageKey();
 const SITE_CONTENT_DOC = doc(db, PAGE_DOC_PREFIX, pageKey);
@@ -25,6 +33,7 @@ function getEditableElements() {
 }
 
 function getElementValue(el) {
+  if (el.dataset.contentType === 'image' && el.tagName === 'IMG') return el.src.trim();
   if ('value' in el && el.value !== undefined) return el.value.trim();
   if (el.dataset.contentType === 'html') return el.innerHTML.trim();
   return el.textContent.trim();
@@ -32,6 +41,10 @@ function getElementValue(el) {
 
 function setElementValue(el, value) {
   if (value === undefined || value === null) return;
+  if (el.dataset.contentType === 'image' && el.tagName === 'IMG') {
+    el.src = value;
+    return;
+  }
   if ('value' in el && el.value !== undefined) {
     el.value = value;
     return;
@@ -64,82 +77,203 @@ async function loadSiteContent() {
   });
 }
 
+function createAdminPanel() {
+  if (document.getElementById(ADMIN_PANEL_ID)) return;
+
+  const panel = document.createElement('div');
+  panel.id = ADMIN_PANEL_ID;
+  panel.className = 'admin-edit-panel';
+
+  const label = document.createElement('span');
+  label.className = 'admin-edit-panel-label';
+  label.textContent = 'Admin content editing';
+
+  const status = document.createElement('span');
+  status.id = ADMIN_STATUS_ID;
+  status.className = 'admin-edit-panel-status';
+  status.textContent = editEnabled ? 'Editing enabled' : 'Editing off';
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.id = ADMIN_TOGGLE_ID;
+  toggle.textContent = editEnabled ? 'Disable editing' : 'Enable editing';
+  toggle.addEventListener('click', () => {
+    setEditingState(!editEnabled);
+  });
+
+  panel.append(label, status, toggle);
+  document.body.appendChild(panel);
+}
+
+function updateAdminPanel() {
+  const status = document.getElementById(ADMIN_STATUS_ID);
+  const toggle = document.getElementById(ADMIN_TOGGLE_ID);
+  if (status) status.textContent = editEnabled ? 'Editing enabled' : 'Editing off';
+  if (toggle) toggle.textContent = editEnabled ? 'Disable editing' : 'Enable editing';
+}
+
+function setEditingState(enabled) {
+  if (!adminMode) return;
+  if (enabled === editEnabled) return;
+
+  editEnabled = enabled;
+  updateAdminPanel();
+
+  if (editEnabled) {
+    createAdminPill();
+    document.body.classList.add('admin-edit-mode');
+    getEditableElements().forEach((el) => {
+      if (el.dataset.contentType === 'image' && el.tagName === 'IMG') {
+        attachImageEditor(el);
+      } else {
+        initializeTextEditable(el);
+      }
+    });
+  } else {
+    document.body.classList.remove('admin-edit-mode');
+    removeAdminPill();
+    getEditableElements().forEach((el) => {
+      if (el.dataset.contentType === 'image' && el.tagName === 'IMG') {
+        removeImageEditor(el);
+      } else {
+        removeTextEditable(el);
+      }
+    });
+  }
+}
+
 function createAdminPill() {
-  if (document.getElementById('admin-edit-pill')) return;
+  if (document.getElementById(ADMIN_PILL_ID)) return;
   const pill = document.createElement('div');
-  pill.id = 'admin-edit-pill';
+  pill.id = ADMIN_PILL_ID;
   pill.className = 'admin-edit-mode-pill';
   pill.textContent = 'Admin edit mode enabled';
   document.body.appendChild(pill);
 }
 
-function createAdminControls(el) {
-  if (el.dataset.adminControlsAttached) return null;
+function removeAdminPill() {
+  const pill = document.getElementById(ADMIN_PILL_ID);
+  if (pill) pill.remove();
+}
 
-  const target = el.closest('a, button') || el;
+function initializeTextEditable(el) {
+  if (el.dataset.adminEditableAttached === 'true') return;
+  el.dataset.adminEditableAttached = 'true';
+  el.dataset.prevContent = getElementValue(el);
+  el.classList.add('admin-editable');
+  el.dataset.editHint = EDIT_HINT;
+  el.setAttribute('contenteditable', 'true');
+  el.setAttribute('spellcheck', 'true');
+  el.setAttribute('aria-label', 'Editable content for admins. Press Enter to save changes.');
+
+  const handlers = {
+    blur: async () => {
+      await saveEditableField(el);
+    },
+    keydown: (event) => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        el.blur();
+      }
+    },
+    mousedown: (event) => {
+      event.stopPropagation();
+    }
+  };
+
+  el.addEventListener('blur', handlers.blur);
+  el.addEventListener('keydown', handlers.keydown);
+  el.addEventListener('mousedown', handlers.mousedown);
+  editableListeners.set(el, handlers);
+}
+
+function removeTextEditable(el) {
+  const handlers = editableListeners.get(el);
+  if (handlers) {
+    el.removeEventListener('blur', handlers.blur);
+    el.removeEventListener('keydown', handlers.keydown);
+    el.removeEventListener('mousedown', handlers.mousedown);
+    editableListeners.delete(el);
+  }
+  el.removeAttribute('contenteditable');
+  el.removeAttribute('spellcheck');
+  el.removeAttribute('aria-label');
+  el.classList.remove('admin-editable');
+  delete el.dataset.adminEditableAttached;
+  delete el.dataset.editHint;
+}
+
+function attachImageEditor(el) {
+  if (imageEditors.has(el)) return;
+
   const wrapper = document.createElement('div');
-  wrapper.className = 'admin-edit-wrapper';
-  target.parentNode.insertBefore(wrapper, target);
-  wrapper.appendChild(target);
+  wrapper.className = 'admin-image-edit-wrapper';
+  wrapper.dataset.adminImageWrapper = 'true';
 
-  const toolbar = document.createElement('div');
-  toolbar.className = 'admin-edit-toolbar';
-
-  const saveBtn = document.createElement('button');
-  saveBtn.type = 'button';
-  saveBtn.className = 'admin-edit-save button button-secondary-outline';
-  saveBtn.textContent = 'Publish';
-
-  const status = document.createElement('span');
-  status.className = 'admin-edit-status';
-  status.textContent = 'Not published';
-
-  toolbar.append(saveBtn, status);
-  wrapper.appendChild(toolbar);
-  el.dataset.adminControlsAttached = 'true';
-
-  saveBtn.addEventListener('click', async (event) => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'admin-image-edit-button';
+  button.textContent = 'Edit image';
+  button.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    const key = el.dataset.contentKey;
-    const value = getElementValue(el);
-    const previous = el.dataset.prevContent || '';
-
-    if (value === previous) {
-      status.textContent = NO_CHANGES_MESSAGE;
-      status.classList.remove('published', 'publish-failed');
-      return;
-    }
-
-    saveBtn.disabled = true;
-    saveBtn.textContent = 'Publishing...';
-
-    try {
-      await setDoc(SITE_CONTENT_DOC, { [key]: value }, { merge: true });
-      el.dataset.prevContent = value;
-      status.textContent = SAVE_MESSAGE;
-      status.classList.remove('publish-failed');
-      status.classList.add('published');
-      showToast(SAVE_MESSAGE);
-    } catch (err) {
-      console.error('Failed to publish editable content', err);
-      status.textContent = FAILED_MESSAGE;
-      status.classList.add('publish-failed');
-      showToast(FAILED_MESSAGE);
-    } finally {
-      saveBtn.disabled = false;
-      saveBtn.textContent = 'Publish';
-    }
+    await editImageUrl(el);
   });
 
-  el.addEventListener('input', () => {
-    const value = getElementValue(el);
-    status.textContent = value !== el.dataset.prevContent ? 'Ready to publish' : SAVE_MESSAGE;
-    status.classList.remove('published', 'publish-failed');
-  });
+  el.parentNode.insertBefore(wrapper, el);
+  wrapper.appendChild(el);
+  wrapper.appendChild(button);
+  imageEditors.set(el, { wrapper, button });
+}
 
-  return { saveBtn, status };
+function removeImageEditor(el) {
+  const state = imageEditors.get(el);
+  if (!state) return;
+
+  const { wrapper, button } = state;
+  button.remove();
+  if (wrapper.parentNode) {
+    wrapper.parentNode.insertBefore(el, wrapper);
+    wrapper.remove();
+  }
+  imageEditors.delete(el);
+}
+
+async function editImageUrl(el) {
+  const currentUrl = el.src || '';
+  const newUrl = window.prompt('Enter image URL', currentUrl);
+  if (!newUrl || newUrl.trim() === '' || newUrl.trim() === currentUrl) return;
+
+  const key = el.dataset.contentKey;
+  const value = newUrl.trim();
+
+  try {
+    await setDoc(SITE_CONTENT_DOC, { [key]: value }, { merge: true });
+    setElementValue(el, value);
+    el.dataset.prevContent = value;
+    showToast(SAVE_MESSAGE);
+  } catch (err) {
+    console.error('Failed to update image content', err);
+    showToast(FAILED_MESSAGE);
+  }
+}
+
+async function saveEditableField(el) {
+  if (!adminMode || !editEnabled) return;
+  const key = el.dataset.contentKey;
+  const value = getElementValue(el);
+  const previous = el.dataset.prevContent || '';
+
+  if (value === previous) return;
+
+  try {
+    await setDoc(SITE_CONTENT_DOC, { [key]: value }, { merge: true });
+    el.dataset.prevContent = value;
+    showToast(SAVE_MESSAGE);
+  } catch (err) {
+    console.error('Failed to publish editable content', err);
+    showToast(FAILED_MESSAGE);
+  }
 }
 
 function createToast() {
@@ -163,57 +297,21 @@ function showToast(message) {
   }, TOAST_DURATION);
 }
 
-function applyAdminEditing() {
-  if (adminMode === false) return;
-  createAdminPill();
-
-  getEditableElements().forEach((el) => {
-    const controls = createAdminControls(el);
-    const isInteractive = ['BUTTON', 'A', 'INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName);
-
-    if (isInteractive) {
-      if (controls) {
-        el.dataset.prevContent = getElementValue(el);
-      }
-      return;
-    }
-
-    el.classList.add('admin-editable');
-    el.dataset.editHint = EDIT_HINT;
-    el.setAttribute('contenteditable', 'true');
-    el.setAttribute('spellcheck', 'true');
-    el.setAttribute('aria-label', 'Editable text for admins. Press Enter to publish changes.');
-
-    el.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        event.currentTarget.blur();
-      }
-    });
-
-    el.addEventListener('focus', () => {
-      el.classList.add('editing');
-    });
-
-    el.addEventListener('mousedown', (event) => {
-      event.stopPropagation();
-    });
-
-    el.addEventListener('click', (event) => {
-      event.stopPropagation();
-      event.preventDefault();
-    });
-  });
-}
-
 function initAdminWatcher() {
   onAuthStateChanged(auth, async (user) => {
-    if (!user) return;
+    if (!user) {
+      adminMode = false;
+      setEditingState(false);
+      const panel = document.getElementById(ADMIN_PANEL_ID);
+      if (panel) panel.remove();
+      return;
+    }
     try {
       const adminSnap = await getDoc(doc(db, 'admins', user.uid));
       if (!adminSnap.exists()) return;
       adminMode = true;
-      applyAdminEditing();
+      createAdminPanel();
+      updateAdminPanel();
     } catch (err) {
       console.error('Admin verification failed', err);
     }
