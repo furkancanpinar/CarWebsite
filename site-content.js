@@ -51,7 +51,11 @@ async function loadSiteContent() {
   try {
     snapshot = await getDoc(SITE_CONTENT_DOC);
   } catch (err) {
-    console.error('Failed to load site content', err);
+    if (err.code === 'permission-denied') {
+      console.warn('Site content is not readable with current Firestore rules. Configure public read access for site/* or admin reads.');
+    } else {
+      console.error('Failed to load site content', err);
+    }
     return;
   }
 
@@ -123,7 +127,11 @@ function createAdminControls(el) {
       status.classList.add('published');
       showToast(SAVE_MESSAGE);
     } catch (err) {
-      console.error('Failed to publish editable content', err);
+      if (err.code === 'permission-denied') {
+        console.warn('Publish blocked by Firestore rules. Only admins should be allowed to write site content.');
+      } else {
+        console.error('Failed to publish editable content', err);
+      }
       status.textContent = FAILED_MESSAGE;
       status.classList.add('publish-failed');
       showToast(FAILED_MESSAGE);
