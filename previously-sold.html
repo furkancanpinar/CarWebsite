@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body data-theme="dark">
+<body data-theme="dark" data-page-key="previously-sold">
   <div class="page-shell">
 
     <!-- ==================== TOP BAR ==================== -->
@@ -86,9 +86,9 @@
             <img src="editables/images/Logo.jpeg" alt="Autex Motors" class="welcome-logo" id="welcome-logo">
           </div>
           <div class="welcome-overlay">
-            <p class="eyebrow welcome-eyebrow">Archive of Excellence</p>
-            <h1 class="welcome-title">Previously Sold Vehicles</h1>
-            <p class="welcome-tagline">Browse our collection of successfully sold premium vehicles.</p>
+            <p class="eyebrow welcome-eyebrow" data-content-key="sold-hero-eyebrow">Archive of Excellence</p>
+            <h1 class="welcome-title" data-content-key="sold-hero-title">Previously Sold Vehicles</h1>
+            <p class="welcome-tagline" data-content-key="sold-hero-tagline">Browse our collection of successfully sold premium vehicles.</p>
             <div class="welcome-stats">
               <div class="welcome-stat">
                 <span id="sold-stat-total">—</span>
@@ -111,8 +111,8 @@
       <section class="section-block">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Archive</p>
-            <h2>Our Sold Collection</h2>
+            <p class="eyebrow" data-content-key="sold-archive-eyebrow">Archive</p>
+            <h2 data-content-key="sold-archive-title">Our Sold Collection</h2>
           </div>
           <div class="admin-filters">
             <input id="sold-search" class="filter-search" type="search" placeholder="Search make, model, year" aria-label="Search sold vehicles" />
@@ -230,6 +230,7 @@
   <script type="module" src="auth-state.js"></script>
   <script type="module" src="auth-menu.js"></script>
   <script type="module" src="admin-link.js"></script>
+  <script type="module" src="site-content.js"></script>
   <script type="module" src="sold-cars.js"></script>
 </body>
 

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body data-theme="dark">
+<body data-theme="dark" data-page-key="browse">
   <div class="page-shell">
 
     <!-- ==================== TOP BAR ==================== -->
@@ -81,8 +81,8 @@
       <!-- ==================== PAGE HEADER ==================== -->
       <section class="page-header">
         <div>
-          <h1 id="page-title">Browse Cars</h1>
-          <p>Find your perfect vehicle from verified listings.</p>
+          <h1 id="page-title" data-content-key="browse-page-title">Browse Cars</h1>
+          <p data-content-key="browse-page-description">Find your perfect vehicle from verified listings.</p>
         </div>
         <div class="header-meta">
           <div class="stat-card">
@@ -112,8 +112,8 @@
         <aside class="filter-panel" id="filter-panel" aria-hidden="false">
           <div class="panel-header">
             <div>
-              <p class="eyebrow">Filters</p>
-              <h2>Refine your search</h2>
+              <p class="eyebrow" data-content-key="browse-filters-eyebrow">Filters</p>
+              <h2 data-content-key="browse-filters-heading">Refine your search</h2>
             </div>
             <button type="button" class="filter-panel-close" id="filter-panel-close" aria-label="Close filters">×</button>
             <button type="button" class="button button-secondary-outline" id="reset-filters">Reset</button>
@@ -308,10 +308,11 @@
   <!-- ==================== SCRIPTS ==================== -->
 <script src="scripts.js"></script>
 <script type="module" src="firebase.js"></script>
-<script type="module" src="auth-forms.js"></script>   <!-- ADD THIS -->
+<script type="module" src="auth-forms.js"></script>
 <script type="module" src="auth-state.js"></script>
 <script type="module" src="auth-menu.js"></script>
 <script type="module" src="admin-link.js"></script>
+<script type="module" src="site-content.js"></script>
 <script type="module" src="browse-listings.js"></script>
 </body>
 
