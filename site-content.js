@@ -4,7 +4,6 @@ import { auth, db, doc, getDoc, setDoc, onAuthStateChanged } from "./firebase.js
 const PAGE_DOC_PREFIX = "site";
 const EDIT_HINT = "Click to edit";
 const SAVE_MESSAGE = "Content published";
-const NO_CHANGES_MESSAGE = "No changes to publish";
 const FAILED_MESSAGE = "Publish failed";
 const TOAST_DURATION = 1800;
 const ADMIN_PANEL_ID = 'admin-edit-panel';
@@ -318,8 +317,8 @@ function initAdminWatcher() {
   });
 }
 
-function init() {
-  loadSiteContent();
+async function init() {
+  await loadSiteContent();
   initAdminWatcher();
 }
 
