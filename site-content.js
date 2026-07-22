@@ -1,5 +1,6 @@
 // site-content.js — Dynamic site text with admin edit toggle and image support
 import { auth, db, doc, getDoc, setDoc, onAuthStateChanged } from "./firebase.js";
+import { uploadToCloudinary } from "./cloudinary-upload.js";
 
 const PAGE_DOC_PREFIX = "site";
 const EDIT_HINT = "Click to edit";
@@ -95,6 +96,7 @@ function createAdminPanel() {
   const toggle = document.createElement('button');
   toggle.type = 'button';
   toggle.id = ADMIN_TOGGLE_ID;
+  toggle.className = 'button button-accent';
   toggle.textContent = editEnabled ? 'Disable editing' : 'Enable editing';
   toggle.addEventListener('click', () => {
     setEditingState(!editEnabled);
@@ -216,7 +218,7 @@ function attachImageEditor(el) {
   button.addEventListener('click', async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    await editImageUrl(el);
+    await openImageUploadPicker(el, button);
   });
 
   el.parentNode.insertBefore(wrapper, el);
@@ -236,6 +238,49 @@ function removeImageEditor(el) {
     wrapper.remove();
   }
   imageEditors.delete(el);
+}
+
+async function openImageUploadPicker(el, button) {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.style.display = 'none';
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files?.[0];
+    if (!file) {
+      fileInput.remove();
+      return;
+    }
+
+    await uploadImageFile(file, el, button);
+    fileInput.remove();
+  });
+
+  document.body.appendChild(fileInput);
+  fileInput.click();
+}
+
+async function uploadImageFile(file, el, button) {
+  const key = el.dataset.contentKey;
+  const previousLabel = button.textContent;
+
+  button.disabled = true;
+  button.textContent = 'Uploading...';
+
+  try {
+    const imageUrl = await uploadToCloudinary(file);
+    await setDoc(SITE_CONTENT_DOC, { [key]: imageUrl }, { merge: true });
+    setElementValue(el, imageUrl);
+    el.dataset.prevContent = imageUrl;
+    showToast(SAVE_MESSAGE);
+  } catch (err) {
+    console.error('Failed to upload image', err);
+    showToast(FAILED_MESSAGE);
+  } finally {
+    button.disabled = false;
+    button.textContent = previousLabel;
+  }
 }
 
 async function editImageUrl(el) {
